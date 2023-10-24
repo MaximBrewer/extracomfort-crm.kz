@@ -1,0 +1,39 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     */
+    public function up(): void
+    {
+        Schema::create('kinesios', function (Blueprint $table) {
+            $table->id();
+
+            $table->unsignedBigInteger('appointment_id');
+
+            $table->string('type')->nullable();
+
+            $table->json('observation')->nullable();
+            $table->text('observationtext')->nullable();
+            
+            $table->json('sensivity')->nullable();
+            
+            $table->json('gmfcs')->nullable();
+
+            $table->timestamps();
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     */
+    public function down(): void
+    {
+        Schema::dropIfExists('kinesios');
+    }
+};

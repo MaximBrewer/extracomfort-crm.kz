@@ -1,0 +1,60 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400;500;700;900&display=swap');
+@import "./Calendar.css";
+@import "./Tooltip.css";
+@import "./ReactDatepicker.css";
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.border-b-dashed {
+    border-bottom-style: dashed;
+}
+
+::-webkit-scrollbar {
+    /*Толщина скролла*/
+    width: 6px;
+    height: 6px;
+    position: relative;
+}
+
+::-webkit-scrollbar-track {
+    background-color: transparent;
+    /*Цвет скролла*/
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 3px;
+    /*Закругление ползунка*/
+    background-color: #ccc;
+    /*Цвет ползунка*/
+}
+
+* {
+    scrollbar-color: #ccc transparent;
+    scrollbar-width: thin;
+}
+
+.small-select [class*=ValueContainer2] {
+    padding: 0 !important;
+}
+
+.small-select [class*=indicatorContainer] {
+    padding: 0px 4px 0px 0px !important;
+}
+
+[class*=MultiValueGeneric2] {
+    white-space: normal !important;
+}
+
+.select2-wapper [class*=indicatorContainer] {
+    padding-left: 0px !important;
+    padding-right: 2px !important;
+}
+
+.select2-wapper [class*=ValueContainer2] {
+    padding: 0px !important;
+    font-size: 12px;
+    min-width: 2.25rem;
+
+}

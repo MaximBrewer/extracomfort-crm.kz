@@ -1,0 +1,1 @@
+import{a as m}from"./app-37294207.js";function c({value:t,className:r="",children:a,size:e="text-sm",color:n="text-gray-700",weight:o="font-medium",...l}){return m("label",{...l,className:`block ${o} ${e} ${o} `+r,children:t||a})}export{c as I};

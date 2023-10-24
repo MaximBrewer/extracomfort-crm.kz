@@ -1,0 +1,22 @@
+{
+    "News": "Новости",
+    "pagination.previous": "prev",
+    "pagination.next": "next",
+    "Faq": "Часто задаваемые вопросы",
+    "Contacts": "Контакты",
+    "Get Feedback": "Получить обратную связь",
+    "Fill out the form, our managers will contact you soon": "Заполните форму, наши менеджеры скоро с вами свяжутся",
+    "By clicking on the “send” button, I consent to the processing of personal data": "Нажимая на кнопку “отправить”, Я даю согласие на обработку персональных данных",
+    "Full name": "Имя Фамилия",
+    "Phone": "Телефон",
+    "Your question": "Ваш вопрос",
+    "Send": "Отправить",
+    "Catalog": "Каталог",
+    "Favorites": "Избранное",
+    "Email": "E-mail",
+    "Password": "Пароль",
+    "Search": "Поиск",
+    "Cabinet": "Личный кабинет",
+    "Forgot your password? No problem. Just let us know your email address and we will email you a password reset link that will allow you to choose a new one.": "Забыли пароль? Без проблем. Просто сообщите нам свой адрес электронной почты, и мы вышлем вам ссылку для сброса пароля, которая позволит вам выбрать новый.",
+    "Email Password Reset Link": "Ссылка для сброса пароля электронной почты"
+}

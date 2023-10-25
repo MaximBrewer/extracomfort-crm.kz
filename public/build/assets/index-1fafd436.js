@@ -1,5 +1,0 @@
-import{r as c,a as l,g as p}from"./app-37294207.js";const v=c.forwardRef(function({bg:f="bg-blue-400 bg-opacity-20",border:s="border-0",rounded:e="rounded-xl",className:n="",isFocused:t=!1,...o},a){const r=a||c.useRef();return c.useEffect(()=>{t&&r.current.focus()},[]),l("div",{className:"flex flex-col items-start",children:l("textarea",{...o,className:`${e} ${f} ${s} ring-0 ${n}`,ref:r})})});var u={exports:{}};/*!
-	Copyright (c) 2018 Jed Watson.
-	Licensed under the MIT License (MIT), see
-	http://jedwatson.github.io/classnames
-*/(function(i){(function(){var f={}.hasOwnProperty;function s(){for(var e=[],n=0;n<arguments.length;n++){var t=arguments[n];if(t){var o=typeof t;if(o==="string"||o==="number")e.push(t);else if(Array.isArray(t)){if(t.length){var a=s.apply(null,t);a&&e.push(a)}}else if(o==="object"){if(t.toString!==Object.prototype.toString&&!t.toString.toString().includes("[native code]")){e.push(t.toString());continue}for(var r in t)f.call(t,r)&&t[r]&&e.push(r)}}}return e.join(" ")}i.exports?(s.default=s,i.exports=s):window.classNames=s})()})(u);var x=u.exports;const d=p(x);export{v as T,d as r};

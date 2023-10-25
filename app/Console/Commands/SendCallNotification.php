@@ -26,7 +26,6 @@ class SendCallNotification extends Command
      */
     public function handle(): void
     {
-        NotificationEvent::broadcast("Звонит 777799998877");
-        // event(new NotificationEvent("Звонит 777799998877"), );
+        event(new NotificationEvent("Звонит 777799998877"));
     }
 }

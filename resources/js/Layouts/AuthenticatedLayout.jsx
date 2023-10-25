@@ -1,14 +1,10 @@
 import { useState } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Calendar from '@/Components/Menu/Calendar';
-import Dropdown from '@/Components/Dropdown';
-import NavLink from '@/Components/NavLink';
-import ResponsiveNavLink from '@/Components/ResponsiveNavLink';
 import { Link, useForm } from '@inertiajs/react';
 import History from '@/Components/Menu/History';
 import Spec from '@/Components/Menu/Spec';
 import Finance from '@/Components/Menu/Finance';
-import Lens from '@/Components/Lens';
 import Bell from '@/Components/Bell';
 import Profile from '@/Components/Menu/Profile';
 import Patients from '@/Components/Menu/Patients';
@@ -24,9 +20,14 @@ import Senior from '@/Components/Menu/Senior';
 import Sale from '@/Components/Menu/Sale';
 import Nurse from '@/Components/Menu/Nurse';
 
+import parse from "html-react-parser"
+
 export default function Authenticated({ auth, children, heading = false, scrollpage = false }) {
 
     const [showNotifications, setShowNotifications] = useState(false)
+    const [callNotification, setCallNotification] = useState(false)
+
+
     const { post } = useForm({});
 
     const { priceFormat } = useLayout()
@@ -272,6 +273,13 @@ export default function Authenticated({ auth, children, heading = false, scrollp
         ],
     }
 
+    if (auth.user) {
+        window.Echo.private(`App.Models.User.${auth.user.id}`)
+            .listen('notification', (e) => {
+                setCallNotification(e.notification)
+            });
+    }
+
     return (
         <>
             <div className={`flex space-x-6 container mx-auto h-screen min-h-[30rem]`}>
@@ -355,6 +363,17 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 </div>
             </div>
             {showNotifications ? <div className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10`} onClick={e => setShowNotifications(false)}></div> : ``}
+
+            {callNotification ? <div className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center`} onClick={e => setCallNotification(false)}>
+
+                <div className="bg-white p-5 rounded-lg shadow relative">
+                    <svg className="w-6 h-6 absolute -right-8 -top-8 text-white cursor-pointer" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={e => setCallNotification(false)}>
+                        <path d="M12.8333 1.2925L11.5408 0L6.41667 5.12417L1.2925 0L0 1.2925L5.12417 6.41667L0 11.5408L1.2925 12.8333L6.41667 7.70917L11.5408 12.8333L12.8333 11.5408L7.70917 6.41667L12.8333 1.2925Z" fill="currentColor" />
+                    </svg>
+                    <div>{parse(callNotification ?? ``)}</div>
+                </div>
+
+            </div> : ``}
         </>
     );
 }

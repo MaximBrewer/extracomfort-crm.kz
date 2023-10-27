@@ -9,7 +9,7 @@ use App\Http\Controllers\Senior;
 use App\Http\Controllers\Nurse;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
-use Illuminate\Http\Client\Request;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
@@ -201,7 +201,7 @@ Route::get('/migrate', function () {
 });
 
 Route::post('ringostat/incoming', function (Request $request) {
-    Log::channel('ringostat')->info($request->all());
+    Log::channel('ringostat')->info(print_r($request->all(), true));
     return true;
 });
 

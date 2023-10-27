@@ -18,6 +18,8 @@ class Painmap extends JsonResource
         $arr['lines'] = json_decode($arr['lines']);
         $arr['sideeffects'] = json_decode($arr['sideeffects']);
         $arr['paindata'] = json_decode($arr['paindata']);
+        $arr['pomed'] = json_decode($arr['pomed']);
+        $arr['ponomed'] = json_decode($arr['ponomed']);
         $arr['repeatpaindata'] = json_decode($arr['repeatpaindata']);
         $arr['dynamicpaindata'] = json_decode($arr['dynamicpaindata']);
         return $arr;

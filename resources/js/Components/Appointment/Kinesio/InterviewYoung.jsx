@@ -26,12 +26,13 @@ const fields = [
                 yesno: true
             },
             {
-                label: `2.3. Какие было общее состояние ребенка после рождения?`,
+                label: `2.3. Какое было общее состояние ребенка после рождения?`,
                 name: `conditionafterbirth`
             },
             {
                 label: `2.4. Какой был вес ребенка при рождении?`,
-                name: `babyweight`
+                name: `babyweight`,
+                className: `h-[3rem]`
             },
             {
                 label: `2.5. Были ли проблемы с дыханием? Если да, то как долго ребенок нуждался в поддержке дыхания?`,
@@ -149,11 +150,13 @@ export default (props) => {
         <div className="font-medium mb-4">I. Интервью - младшие дети</div>
         {fields.map((cat, cdx) => <div key={cdx} className="mb-4">
             <div className="mb-2">{cat.label}</div>
-            {cat.fields.map((item, index) => <Textarea {...item} onChange={e => setData(prev => {
-                const data = { ...prev }
-                data.kinesio.interview[item.name] = e.target.value
-                return data
-            })} value={data.kinesio.interview[item.name]} key={index} />)}
+            {cat.fields.map((item, index) => <Textarea
+                {...item}
+                onChange={e => setData(prev => {
+                    const data = { ...prev }
+                    data.kinesio.interview[item.name] = e.target.value
+                    return data
+                })} value={data.kinesio.interview[item.name]} key={index} />)}
         </div>)}
     </div>
 }

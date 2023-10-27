@@ -16,7 +16,8 @@ const fields = [
         label: `2. Интервью`,
         fields: [
             {
-                label: `2.1. Ребенок родился недоношенным? На какой неделе беременности родился? Какой был вес?`,
+                label: `2.1. Ребенок родился недоношенным?`,
+                afterlabel: `На какой неделе беременности родился? Какой был вес?`,
                 name: `bornpremature`,
                 yesno: true,
                 fields: [
@@ -45,14 +46,16 @@ const fields = [
                 fields: [
                     {
                         label: `Улучшение`,
+                        value: 0,
                         name: `motordevelopmentprogress`,
-                        type: `checkbox`
+                        type: `radio`
 
                     },
                     {
                         label: `Ухудшение`,
-                        name: `motordevelopmentdeterioration`,
-                        type: `checkbox`
+                        value: 1,
+                        name: `motordevelopmentprogress`,
+                        type: `radio`
                     }
                 ]
             },
@@ -70,8 +73,27 @@ const fields = [
                 yesno: true,
             },
             {
-                label: `2.8. Как проходил процесс лечения ребенка до сих пор? (реабилитационное, фармакологическое и хирургическое лечение)?`,
+                label: `2.8. Как проходил процесс лечения ребенка до сих пор?`,
                 name: `treatmentbeenfar`,
+                fields: [
+                    {
+                        label: `реабилитационное`,
+                        name: `reablech`,
+                        type: `checkbox`
+
+                    },
+                    {
+                        label: `фармакологическое`,
+                        name: `farmlech`,
+                        type: `checkbox`
+                    },
+                    {
+                        label: `хирургическое лечение`,
+                        name: `hirurglech`,
+                        type: `checkbox`
+                    }
+                    
+                ],
             },
             {
                 label: `2.9. Лечился ли ребенок ботулотоксином? Когда была последняя инъекция?`,
@@ -111,7 +133,7 @@ const fields = [
     }
 ]
 
-const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fields = [], yesno = false, className = '', type = 'textarea', label = ``, ...props }, ref) {
+const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fields = [], yesno = false, className = '', type = 'textarea', label = ``, afterlabel = ``, ...props }, ref) {
     const input = ref ? ref : useRef();
 
     const [checked, setChecked] = useState(!!value)
@@ -157,9 +179,25 @@ const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fi
                 </label>
             </> : ``}
         </div> : ``}
+        {afterlabel ? <div>{afterlabel}</div> : <></>}
         {fields.length ? <div className="my-2 flex items-center gap-6 text-sm">
             {fields.map((f, fdx) => <div key={fdx} className="my-2 flex items-center gap-2">
-                {f.type == 'checkbox' ? <label htmlFor={f.name} className="flex items-center gap-2">
+                {f.type == 'radio' ? <label className="flex items-center gap-2">
+                    <input
+                        name={f.name}
+                        type={`radio`}
+                        value={f.value}
+                        onChange={e => setData(prev => {
+                            const data = { ...prev }
+                            data.kinesio.interview[f.name] = f.value
+                            return data
+                        })}
+                        defaultChecked={data.kinesio.interview[f.name] == f.value}
+                        className={`border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 `}
+                        ref={input}
+                    />
+                    <span>{f.label}</span>
+                </label> : f.type == 'checkbox' ? <label htmlFor={f.name} className="flex items-center gap-2">
                     <input
                         id={f.name}
                         name={f.name}
@@ -170,7 +208,7 @@ const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fi
                             return data
                         })}
                         defaultChecked={!!data.kinesio.interview[f.name]}
-                        className={`border-0 bg-white rounded ring-0 text-xs py-1.5`}
+                        className={`rounded border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 `}
                         ref={input}
                     />
                     <span>{f.label}</span>

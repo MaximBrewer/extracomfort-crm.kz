@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
 import PrimaryButton from "../PrimaryButton";
 import { useRef } from "react";
-import P1 from "../../../img/card/oda/p1.png"
+import P1 from "../../../img/card/oda/p1.jpg"
 import P2 from "../../../img/card/oda/p2.png"
 import P3 from "../../../img/card/oda/p3.png"
 import P4 from "../../../img/card/oda/p4.png"
@@ -76,10 +76,10 @@ export default (props) => {
                 <thead>
                     <tr>
                         <th rowSpan={2} className="min-w-[200px]"></th>
+                        <Th colSpan={2}>Постура</Th>
                         <Th colSpan={2}>Шаг</Th>
                         <Th colSpan={2}>Патолог. шаг</Th>
                         <Th colSpan={2}>Провокация</Th>
-                        <Th colSpan={2}>Постура</Th>
                     </tr>
                     <tr>
                         <Th>Левая</Th>
@@ -149,7 +149,15 @@ export default (props) => {
             <div className="grid grid-cols-4 gap-8 mb-6">
                 <div className="w-[226px] bg-white rounded overflow-hidden">
                     <div className="h-[304px] relative bg-center bg-cover" style={{ backgroundImage: `url('${P1}')` }}>
-
+                        <input
+                            className="absolute top-2/3 left-2/3 py-1 px-2 w-16"
+                            value={data.oda.rise ?? 0}
+                            onChange={e => setData(prev => {
+                                const data = { ...prev }
+                                data.oda.rise = e.target.value
+                                return data
+                            })}
+                        />
                     </div>
                 </div>
                 <div className="rounded overflow-hidden">

@@ -78,12 +78,26 @@ export default (props) => {
                     {
                         name: `rentgen`,
                         label: `Рентгенография`,
-                        options: []
+                        options: [
+                            'шейный отдел позвоночника',
+                            'грудной отдел позвоночника',
+                            'грудо–поясничный отдел позвоночника',
+                            'пояснично-крестцовый отдел позвоночника',
+                            'крестцово-копчиковой отдел позвоночника'
+                        ].map((el, edx) => ({
+                            value: edx,
+                            label: el
+                        }))
                     },
                     {
                         name: `uzi`,
                         label: `УЗИ`,
-                        options: []
+                        options: [
+                            'шейного отдела', 'поясничного отдела', 'сустава', 'сосудов'
+                        ].map((el, edx) => ({
+                            value: edx,
+                            label: el
+                        }))
                     },
                     {
                         name: `ot`,
@@ -123,9 +137,9 @@ export default (props) => {
                                 <Select
                                     styles={customStyles}
                                     components={{ DropdownIndicator }}
-                                    options={[]}
+                                    options={item.options}
                                     placeholder={`Выбрать из списка`}
-                                    value={null}
+                                    value={item.options.find(el => el.value == data.addon[`${item.name}_opt`])}
                                     isSearchable={false}
                                     isClearable={false}
                                     onChange={value => setData(prev => {

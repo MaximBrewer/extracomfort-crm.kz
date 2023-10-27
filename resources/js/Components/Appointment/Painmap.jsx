@@ -263,19 +263,23 @@ const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide
                 <div className="font-semibold mb-4">Характер боли</div>
                 <div className="flex flex-wrap gap-4 items-center">
                     {characters.map((item, idx) => <label key={idx} htmlFor={`character-${idx}${index > -1 ? `-${index}` : ``}`} className="flex gap-2 items-center">
+                        {console.log(typeof painData.character)}
                         <input
                             type="checkbox"
                             name={`character${index > -1 ? `-${index}` : ``}`}
                             value={1 + idx}
                             onChange={e => {
-                                if (!e.target.checked) return
                                 setPainDatas(prev => {
-                                    const data = [...prev]
-                                    data[index].character = 1 + idx
+                                    const data = [...prev];
+                                    typeof painData.character === 'object' || (data[index].character = []);
+                                    const cdIndex = data[index].character.findIndex(el => el === 1 + idx)
+                                    console.log(cdIndex)
+                                    if (cdIndex > -1) data[index].character.splice(cdIndex, 1)
+                                    else data[index].character.push(1 + idx)
                                     return data
                                 })
                             }}
-                            checked={painData.character ? idx == painData.character - 1 : idx == 0}
+                            checked={typeof painData.character === 'object' && painData.character.findIndex(el => el === 1 + idx) > -1}
                             id={`character-${idx}${index > -1 ? `-${index}` : ``}`}
                             className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                         />
@@ -410,7 +414,7 @@ export default (props) => {
                     className="w-full border-0 rounded grow text-xs h-24"
                 />
             </div>
-            
+
             <ul className="flex flex-col-reverse mb-8">
                 {painDatas.map((item, index) => <Fragment key={index}>
                     {index < painDatas.length - 1 ? <li>
@@ -488,19 +492,22 @@ export default (props) => {
                     {pomed.map((item, idx) => <label key={idx} htmlFor={`pomed-${idx}`} className={`flex gap-2 items-center ${idx == pomed.length - 1 ? `w-full` : ``}`}>
                         <div className="shrink-0 flex gap-2 items-center">
                             <input
-                                type="radio"
+                                type="checkbox"
                                 name={`pomed`}
                                 id={`pomed-${idx}`}
                                 value={1 + idx}
                                 onChange={e => {
-                                    if (!e.target.checked) return
                                     setData(prev => {
-                                        const data = { ...prev }
-                                        data.painmap.pomed = item
+                                        const data = { ...prev };
+                                        data.painmap ?? (data.painmap = {});
+                                        (data.painmap.pomed && typeof data.painmap.pomed === 'object') || (data.painmap.pomed = []);
+                                        const cdIndex = data.painmap.pomed.findIndex(el => el === 1 + idx)
+                                        if (cdIndex > -1) data.painmap.pomed.splice(cdIndex, 1)
+                                        else data.painmap.pomed.push(1 + idx)
                                         return data
                                     })
                                 }}
-                                checked={data.painmap.pomed == item}
+                                checked={data.painmap.pomed && typeof data.painmap.pomed === 'object' && data.painmap.pomed.findIndex(el => el === 1 + idx) > -1}
                                 className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                             />
                             <div>{item}</div>
@@ -522,20 +529,24 @@ export default (props) => {
                 <div className="flex flex-wrap gap-4 items-center mb-8 text-xs whitespace-nowrap">
                     {ponomed.map((item, idx) => <label key={idx} htmlFor={`ponomed-${idx}`} className={`flex gap-2 items-center ${idx == ponomed.length - 1 ? `w-full` : ``}`}>
                         <div className="shrink-0 flex gap-2 items-center">
+                            {console.log(data.painmap.ponomed)}
                             <input
-                                type="radio"
+                                type="checkbox"
                                 name={`ponomed`}
                                 id={`ponomed-${idx}`}
                                 value={1 + idx}
                                 onChange={e => {
-                                    if (!e.target.checked) return
                                     setData(prev => {
-                                        const data = { ...prev }
-                                        data.painmap.ponomed = item
+                                        const data = { ...prev };
+                                        data.painmap ?? (data.painmap = {});
+                                        (data.painmap.ponomed && typeof data.painmap.ponomed === 'object') || (data.painmap.ponomed = []);
+                                        const cdIndex = data.painmap.ponomed.findIndex(el => el === 1 + idx)
+                                        if (cdIndex > -1) data.painmap.ponomed.splice(cdIndex, 1)
+                                        else data.painmap.ponomed.push(1 + idx)
                                         return data
                                     })
                                 }}
-                                checked={data.painmap.ponomed == item}
+                                checked={data.painmap.ponomed && typeof data.painmap.ponomed === 'object' && data.painmap.ponomed.findIndex(el => el === 1 + idx) > -1}
                                 className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                             />
                             <div>{item}</div>

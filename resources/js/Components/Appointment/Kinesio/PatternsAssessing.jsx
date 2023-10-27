@@ -49,5 +49,16 @@ export default (props) => {
                 </svg>
             </button>
         </div>
+
+        <div className="text-sm font-semibold mb-4">Замечания:</div>
+        <textarea
+            className="w-full border-0 rounded grow text-xs h-24"
+            value={data.kinesio.patterntext}
+            onChange={e => setData(prev => {
+                const data = { ...prev }
+                data.kinesio.patterntext = e.lines
+                return data
+            })}
+        />
     </div>
 }

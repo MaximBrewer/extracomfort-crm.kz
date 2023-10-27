@@ -84,5 +84,6 @@ class Oda extends Model
 
         'kraus',
         'webber',
+        'rise'
     ];
 }

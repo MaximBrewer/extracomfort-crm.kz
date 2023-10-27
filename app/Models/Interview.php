@@ -41,5 +41,8 @@ class Interview extends Model
         'intellectualdevelopment',
         'communicationenvironment',
         'extentassistance',
+        'reablech',
+        'farmlech',
+        'hirurglech',
     ];
 }

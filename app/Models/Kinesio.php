@@ -23,7 +23,8 @@ class Kinesio extends Model
         'walking',
         'doptest',
         'forecast',
-        'patterns'
+        'patterns',
+        'patterntext'
     ];
 
     public function interview(): HasOne

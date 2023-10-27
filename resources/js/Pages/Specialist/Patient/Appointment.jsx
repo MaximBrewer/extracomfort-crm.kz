@@ -59,7 +59,7 @@ export default (props) => {
 
     const formRef = useRef(null)
 
-    const [tab, setTab] = useState(menu.data[0])
+    const [tab, setTab] = useState(menu.data[4])
     const tabRef = useRef(tab.code)
 
 
@@ -101,7 +101,7 @@ export default (props) => {
     const intervalRef = useRef(null);
 
     useEffect(() => {
-        intervalRef.current = setInterval(() => submit(), 5000)
+        intervalRef.current = setInterval(() => submit(), 10000)
         return () => clearInterval(intervalRef.current)
     }, [])
 

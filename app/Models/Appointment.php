@@ -36,6 +36,11 @@ class Appointment extends Model
         return $this->hasOne(Oda::class);
     }
 
+    public function podiatry(): HasOne
+    {
+        return $this->hasOne(Podiatry::class);
+    }
+
     public function addon(): HasOne
     {
         return $this->hasOne(Addon::class);

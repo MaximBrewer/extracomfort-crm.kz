@@ -59,7 +59,7 @@ export default (props) => {
 
     const formRef = useRef(null)
 
-    const [tab, setTab] = useState(menu.data[1])
+    const [tab, setTab] = useState(menu.data[0])
     const tabRef = useRef(tab.code)
 
 
@@ -187,6 +187,7 @@ export default (props) => {
                             data={data}
                             setData={setData}
                             errors={errors}
+                            appointment={appointment}
                         /> : ``}
                         {tab.code === `taping` ? <Taping
                             data={data}

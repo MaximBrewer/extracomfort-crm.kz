@@ -69,8 +69,6 @@ export default (props) => {
 
     const { data, setData, errors, nextTab, appointment } = props;
 
-    console.log(appointment)
-
     const { setModal } = useLayout();
 
     return <>

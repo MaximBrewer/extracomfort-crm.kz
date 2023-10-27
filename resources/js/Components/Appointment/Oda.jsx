@@ -49,8 +49,6 @@ export default (props) => {
 
     const { data, setData, errors, nextTab  } = props;
 
-    console.log(data)
-
     const canvaTriggerRef = useRef(null)
 
     useEffect(() => {
@@ -60,7 +58,6 @@ export default (props) => {
             }, 150)
         }
     }, [canvaTriggerRef])
-
 
     const canvaViscerRef = useRef(null)
 

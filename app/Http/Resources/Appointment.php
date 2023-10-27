@@ -38,6 +38,8 @@ class Appointment extends JsonResource
 
             'oda' => new Oda($this->oda),
 
+            'podiatry' => new Podiatry($this->podiatry),
+
             'kinesio' => new Kinesio($this->kinesio),
 
             'painmap' => new Painmap($this->painmap),

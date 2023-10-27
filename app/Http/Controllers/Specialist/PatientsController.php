@@ -41,34 +41,17 @@ class PatientsController extends Controller
     {
         $appointment = $book->appointment()->firstOrCreate([]);
 
-        if (!$appointment->ods) {
-            $appointment->ods()->create([]);
-            $appointment = $book->appointment()->first();
-        }
-        if (!$appointment->painmap) {
-            $book->appointment->painmap()->create([]);
-            $appointment = $book->appointment()->first();
-        }
-        if (!$appointment->oda) {
-            $book->appointment->oda()->create([]);
-            $appointment = $book->appointment()->first();
-        }
-        if (!$appointment->reabilitation) {
-            $book->appointment->reabilitation()->create([]);
-            $appointment = $book->appointment()->first();
-        }
-        if (!$appointment->addon) {
-            $book->appointment->addon()->create([]);
-            $appointment = $book->appointment()->first();
-        }
-        if (!$appointment->kinesio) {
-            $book->appointment->kinesio()->create([]);
-            $appointment = $book->appointment()->first();
-        }
-        if (!$appointment->kinesio->interview) {
-            $book->appointment->kinesio->interview()->create([]);
-            $appointment = $book->appointment()->first();
-        }
+        if (!$appointment->ods)  $appointment->ods()->create([]);
+        if (!$appointment->painmap)   $book->appointment->painmap()->create([]);
+        if (!$appointment->oda)  $book->appointment->oda()->create([]);
+        if (!$appointment->reabilitation)   $book->appointment->reabilitation()->create([]);
+        if (!$appointment->addon)   $book->appointment->addon()->create([]);
+        if (!$appointment->podiatry)   $book->appointment->podiatry()->create([]);
+        if (!$appointment->kinesio)   $book->appointment->kinesio()->create([]);
+        if (!$appointment->kinesio->interview)   $book->appointment->kinesio->interview()->create([]);
+
+        $appointment = $book->appointment()->first();
+
         $data['pagetitle'] = 'Запись №-(Жолжаксинов Арман Тасбулатович)';
         $data['patient'] = new PatientCardSpecialist($book->patient);
         $data['appointment'] = new Appointment($appointment);
@@ -91,7 +74,8 @@ class PatientsController extends Controller
             'files',
             'addon',
             'reabilitation',
-            'oda'
+            'oda',
+            'podiatry'
         ]));
 
         $book->appointment->oda->update($request->oda);
@@ -103,6 +87,21 @@ class PatientsController extends Controller
         $book->appointment->addon->update($request->addon);
 
         $book->appointment->reabilitation->update($request->reabilitation);
+
+        $podiatryData = $request->podiatry;
+
+        if (isset($podiatryData['file']) && is_object($podiatryData['file']) && $podiatryData['file']::class == 'Illuminate\\Http\\UploadedFile') {
+            $file = $podiatryData['file'];
+            $book->appointment->podiatry->file = json_encode([
+                [
+                    "download_link" => $file->store('podiatry/' . $book->appointment->id),
+                    "original_name" => $file->getClientOriginalName()
+                ]
+            ]);
+            $book->appointment->podiatry->saveQuietly();
+        }
+        unset($podiatryData['file']);
+        $book->appointment->podiatry->update($podiatryData);
 
         $book->appointment->kinesio->update($request->kinesio);
 

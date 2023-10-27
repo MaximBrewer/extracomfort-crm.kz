@@ -101,7 +101,23 @@ export default (props) => {
                         {
                             name: `ms`,
                             label: `Массаж лечебный (при необход. - контроль АД)`,
-                            options: [],
+                            options: [
+                                'спина',
+                                'спина+ноги',
+                                'ноги+пояснично-крестцовый отдел',
+                                'лимфодренажный (ноги+пояснично-крестцовый отдел)',
+                                'лимфодренажный (общий)',
+                                'воротниковая зона',
+                                'руки+воротниковая зона',
+                                'общий (спина+руки+ноги+живот+грудная клетка+голова)',
+                                'висцеральный массаж', 'доп.зона - грудная клетка',
+                                'доп.зона - живот', 'доп.зона - руки',
+                                'доп.зона по мобилизационным техникам: грудной',
+                                'грудо-поясничный', 'поясничный'
+                            ].map((el, edx) => ({
+                                value: edx,
+                                label: el
+                            })),
                             txt: true,
                         },
                         {
@@ -112,7 +128,21 @@ export default (props) => {
                         {
                             name: `ft`,
                             label: `Физиотерапия`,
-                            options: [],
+                            options: [
+                                'ДДТ',
+                                'СМТ',
+                                'интерфернцтерапия',
+                                'электрофорез',
+                                'ультразвук',
+                                'магнитотерапия',
+                                'импульсная терапия',
+                                'лимфодренаж',
+                                'мышечная стимуляция',
+                                'электросон'
+                            ].map((el, edx) => ({
+                                value: edx,
+                                label: el
+                            })),
                             txt: true,
                         },
                         {
@@ -263,11 +293,11 @@ export default (props) => {
                                 <Select
                                     styles={customStyles}
                                     components={{ DropdownIndicator }}
-                                    options={[]}
                                     placeholder={`Выбрать из списка`}
-                                    value={null}
                                     isSearchable={false}
                                     isClearable={false}
+                                    options={item.options}
+                                    value={item.options.find(el => el.value == data.reabilitation[`${item.name}_opt`])}
                                     onChange={value => setData(prev => {
                                         const data = { ...prev }
                                         data.reabilitation || (data.reabilitation = {})

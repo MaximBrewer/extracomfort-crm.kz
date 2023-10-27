@@ -404,7 +404,12 @@ export default (props) => {
                 {
                     name: `medical`,
                     label: `Лечебная `,
-                    options: [],
+                    options: [
+                        'нейтральная', 'усиленная', 'тутор', 'AV', 'СД'
+                    ].map((el, edx) => ({
+                        value: edx,
+                        label: el
+                    })),
                     txt: true,
                 },
                 {
@@ -437,11 +442,11 @@ export default (props) => {
                         <Select
                             styles={customStyles}
                             components={{ DropdownIndicator }}
-                            options={[]}
                             placeholder={`Выбрать из списка`}
-                            value={null}
                             isSearchable={false}
                             isClearable={false}
+                            options={item.options}
+                            value={item.options.find(el => el.value == data.podiatry[`${item.name}_opt`])}
                             onChange={value => setData(prev => {
                                 const data = { ...prev }
                                 data.podiatry || (data.podiatry = {})

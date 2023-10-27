@@ -11,11 +11,13 @@ class Reabilitation extends Model
 
     protected $fillable = [
         'ms_txt',
+        'ms_opt',
         'ms_check',
         'mn_check',
         'ft_check',
         'mn_txt',
         'ft_txt',
+        'ft_opt',
         'tp_check',
         'tp_txt',
         'kt_check',

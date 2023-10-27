@@ -93,7 +93,10 @@ export default (props) => {
                         name: `uzi`,
                         label: `УЗИ`,
                         options: [
-                            'шейного отдела', 'поясничного отдела', 'сустава', 'сосудов'
+                            'шейного отдела',
+                            'поясничного отдела',
+                            'сустава',
+                            'сосудов'
                         ].map((el, edx) => ({
                             value: edx,
                             label: el
@@ -139,9 +142,9 @@ export default (props) => {
                                     components={{ DropdownIndicator }}
                                     options={item.options}
                                     placeholder={`Выбрать из списка`}
-                                    value={item.options.find(el => el.value == data.addon[`${item.name}_opt`])}
                                     isSearchable={false}
                                     isClearable={false}
+                                    value={item.options.find(el => el.value == data.addon[`${item.name}_opt`])}
                                     onChange={value => setData(prev => {
                                         const data = { ...prev }
                                         data.addon || (data.addon = {})

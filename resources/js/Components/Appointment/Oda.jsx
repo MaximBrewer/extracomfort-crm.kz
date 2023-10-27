@@ -47,7 +47,7 @@ const Input = forwardRef(function ({ onChange, value, className = '', ...props }
 
 export default (props) => {
 
-    const { data, setData, errors, nextTab  } = props;
+    const { data, setData, errors, nextTab } = props;
 
     const canvaTriggerRef = useRef(null)
 
@@ -563,14 +563,6 @@ export default (props) => {
                     </tbody>
                 </table>
             </div>
-
-
-
-
-
-        </div>
-        <div className={`flex justify-end py-8`}>
-            <PrimaryButton size="sm" onClick={() => nextTab()}>Далее</PrimaryButton>
         </div>
     </>
 }

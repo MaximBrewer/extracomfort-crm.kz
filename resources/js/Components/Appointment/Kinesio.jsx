@@ -14,6 +14,7 @@ import Global from "./Kinesio/Global";
 import Walking from "./Kinesio/Walking";
 import Doptest from "./Kinesio/Doptest";
 import Forecast from "./Kinesio/Forecast";
+import Oda from "./Oda";
 
 const types = [
     {
@@ -54,29 +55,45 @@ export default (props) => {
                 </label>)}
             </div>
         </div>
-        {data.kinesio.type ? (
-            data.kinesio.type === `young` ? <>
-                <InterviewYoung {...props} />
-            </> : (
-                data.kinesio.type === `teen` ? <>
-                    <InterviewTeen {...props} />
-                </> : <>
-                </>
-            )
-        ) : ``}
-        <Observation {...props} />
-        <PatternsAssessing {...props} />
-        <SensivityAssessing {...props} />
-        <Mobility {...props} />
-        <Gmfcs {...props} />
-        <Tonus {...props} />
-        <StaticPelvis {...props} />
+        {data.kinesio.type && data.kinesio.type === `young` ? <>
+            <InterviewYoung {...props} />
 
-        <Local {...props} />
-        <Global {...props} />
-        <Walking {...props} />
-        <Doptest {...props} />
-        <Forecast {...props} />
+            <Observation {...props} />
+            <PatternsAssessing {...props} />
+            <SensivityAssessing {...props} />
+            <Mobility {...props} />
+            <Gmfcs {...props} />
+            <Tonus {...props} />
+            <StaticPelvis {...props} />
+
+            <Local {...props} />
+            <Global {...props} />
+            <Walking {...props} />
+            <Doptest {...props} />
+            <Forecast {...props} />
+        </> : <></>}
+
+        {data.kinesio.type && data.kinesio.type === `teen` ? <>
+            <InterviewTeen {...props} />
+
+            <Observation {...props} />
+            <PatternsAssessing {...props} />
+            <SensivityAssessing {...props} />
+            <Mobility {...props} />
+            <Gmfcs {...props} />
+            <Tonus {...props} />
+            <StaticPelvis {...props} />
+
+            <Local {...props} />
+            <Global {...props} />
+            <Walking {...props} />
+            <Doptest {...props} />
+            <Forecast {...props} />
+        </> : <></>}
+
+        {data.kinesio.type && data.kinesio.type === `adult` ? <>
+            <Oda {...props} />
+        </> : <></>}
 
 
         <div className={`flex justify-end py-8`}>

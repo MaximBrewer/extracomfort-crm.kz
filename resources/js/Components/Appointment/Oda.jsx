@@ -465,7 +465,77 @@ export default (props) => {
                                     ],
                                     rows: 0
                                 }
-                            ]
+                            ],
+                            [
+                                {
+                                    title: `С7`,
+                                    names: [
+                                        'sagc7I',
+                                        'sagc7II',
+                                        'sagc7III',
+                                    ],
+                                    sign: <span><b>Сагиттальная плоскость</b><br /> СИ (сагиттальный индекс)</span>,
+                                    rows: 2
+                                }
+                            ],
+                            [
+                                {
+                                    title: `Th4`,
+                                    names: [
+                                        'sagth4I',
+                                        'sagth4II',
+                                        'sagth4III',
+                                    ],
+                                    rows: 0
+                                }
+                            ],
+                            [
+                                {
+                                    title: `Th12`,
+                                    names: [
+                                        'sagth12I',
+                                        'sagth12II',
+                                        'sagth12III',
+                                    ],
+                                    sign: <span><b>Горизонтальная плоскость</b><br /> степень ротации позвонков<br />(по Раймонди,)<br />I ст. - от 2 до 10°,<br />II ст. — от 12 до 20°,<br />III ст. — от 22 до 30°<br />IV ст. — свыше 30°.<br />Или т. Адамса (наличие рёберн. горба или мышечн.валика)<br /></span>,
+                                    rows: 2
+                                }
+                            ],
+                            [
+                                {
+                                    title: `L3`,
+                                    names: [
+                                        'sagl3I',
+                                        'sagl3II',
+                                        'sagl3III',
+                                    ],
+                                    rows: 0
+                                }
+                            ],
+                            [
+                                {
+                                    title: `S1`,
+                                    names: [
+                                        'sags1I',
+                                        'sags1II',
+                                        'sags1III',
+                                    ],
+                                    sign: <span>Ядра окостенения (по Риссеру,  Садофьевой)</span>,
+                                    rows: 1
+                                }
+                            ],
+                            [
+                                {
+                                    title: <span> ˂60 – киф-я,<br /> ˃100 – декиф-ия<br />(Th4-Th12)  -наименьшее вычесть из всех показателей,<br />C7+ L3=СИ</span>,
+                                    names: [
+                                        'sagcomI',
+                                        'sagcomII',
+                                        'sagcomIII',
+                                    ],
+                                    sign: <span><b>Вероятность прогрессирования деформации:<br />маловероятно</b><span> – изменения в сагиттальной плоскости<br /></span><b>вероятно</b><span> – изменения в сагит. и фронт. пл. с отклонением оси позвоночника<br /></span><b>большая вероятность</b><span> – изменения в трех плоскостях</span></span>,
+                                    rows: 1
+                                }
+                            ],
                         ].map((cat, cdx) => <tr key={cdx}>
                             {cat.map((ct, ctdx) => <Fragment key={`${cdx}${ctdx}`}>
                                 <Td className={`px-2 py-1`}>{ct.title}</Td>
@@ -484,75 +554,6 @@ export default (props) => {
                 </table>
             </div>
 
-
-
-            <div className="w-[1079px] h-[660px] relative">
-                <div className="w-[1079px] h-[660px] left-0 top-0 absolute bg-white" />
-                <div className="w-[1078px] h-[660px] left-0 top-0 absolute">
-                    <div className="w-[136px] h-[659px] left-0 top-0 absolute">
-                        <div className="w-[123px] h-[29px] left-[13px] top-[136px] absolute text-black text-base font-normal font-['Rubik'] leading-tight">С3</div>
-                        <div className="w-[123px] h-[29px] left-[13px] top-[195px] absolute text-black text-base font-normal font-['Rubik'] leading-tight">С7</div>
-                        <div className="w-[123px] h-[29px] left-[13px] top-[258px] absolute text-black text-base font-normal font-['Rubik'] leading-tight">Th4</div>
-                        <div className="w-[123px] h-[29px] left-[13px] top-[322px] absolute text-black text-base font-normal font-['Rubik'] leading-tight">Th12</div>
-                        <div className="w-[123px] h-[29px] left-[13px] top-[427px] absolute text-black text-base font-normal font-['Rubik'] leading-tight">L3</div>
-                        <div className="w-[123px] h-[29px] left-[10px] top-[493px] absolute text-black text-base font-normal font-['Rubik'] leading-tight">S1</div>
-                        <div className="w-[110px] h-[29px] left-[13px] top-[77px] absolute text-black text-base font-normal font-['Rubik'] leading-tight">Голова</div>
-                        <div className="w-[659px] h-[0px] left-0 top-0 absolute origin-top-left rotate-90 border border-black"></div>
-                    </div>
-                    <div className="w-[1078px] h-[660px] left-0 top-0 absolute">
-                        <div className="w-[660px] h-[0px] left-[1078px] top-0 absolute origin-top-left rotate-90 border border-black"></div>
-                        <div className="w-[1078px] h-[0px] left-[1078px] top-0 absolute origin-top-left rotate-180 border border-black"></div>
-                        <div className="w-[72px] h-[29px] left-[365px] top-[16px] absolute text-center text-black text-base font-normal font-['Rubik'] leading-tight">II</div>
-                        <div className="w-[169px] h-[29px] left-[13px] top-[26px] absolute"><span className="text-black text-base font-semibold font-['Rubik'] leading-tight">Сагиттальный
-                            <br /> индекс</span><span className="text-black text-base font-normal font-['Rubik'] leading-tight"> (СИ)
-                                <br /> N 80
-                                <br /></span></div>
-                        <div className="w-[66px] h-[29px] left-[285px] top-[16px] absolute text-center text-black text-base font-normal font-['Rubik'] leading-tight">I</div>
-                        <div className="w-[241px] h-[105px] left-[13px] top-[548px] absolute text-black text-base font-normal font-['Rubik'] leading-tight"> ˂60 – киф-я,
-                            <br /> ˃100 – декиф-ия
-                            <br />(Th4-Th12)  -наименьшее вычесть из всех показателей,
-                            <br />C7+ L3=СИ
-                        </div>
-                        <div className="w-[501px] h-[183px] left-[551px] top-[305px] absolute"><span className="text-black text-base font-bold font-['Rubik'] leading-tight">Горизонтальная плоскость</span><span className="text-black text-base font-normal font-['Rubik'] leading-tight">
-                            <br /> степень ротации позвонков
-                            <br />(по Раймонди,)
-                            <br />I ст. - от 2 до 10°,
-                            <br />II ст. — от 12 до 20°,
-                            <br />III ст. — от 22 до 30°
-                            <br />IV ст. — свыше 30°.
-                            <br />Или т. Адамса (наличие рёберн. горба или мышечн.валика)
-                            <br /></span></div>
-                        <div className="w-[75px] h-[29px] left-[445px] top-[16px] absolute text-center text-black text-base font-normal font-['Rubik'] leading-tight">III</div>
-                        <div className="w-[501px] h-[29px] left-[551px] top-[116px] absolute"><span className="text-black text-base font-bold font-['Rubik'] leading-tight">Фронтальная плоскость
-                            <br /></span><span className="text-black text-base font-normal font-['Rubik'] leading-tight"> угол искривления (по Коббу)
-                                <br /></span><span className="text-black text-base font-bold font-['Rubik'] leading-tight">отклонение оси позвоночника
-                                <br /></span></div>
-                        <div className="w-[484px] h-[29px] left-[547px] top-[493px] absolute text-black text-base font-normal font-['Rubik'] leading-tight">Ядра окостенения (по Риссеру,  Садофьевой)</div>
-                        <div className="w-[501px] h-[103px] left-[547px] top-[544px] absolute"><span className="text-black text-base font-bold font-['Rubik'] leading-tight">Вероятность прогрессирования деформации:
-                            <br />маловероятно</span><span className="text-black text-base font-normal font-['Rubik'] leading-tight"> – изменения в сагиттальной плоскости
-                                <br /></span><span className="text-black text-base font-bold font-['Rubik'] leading-tight">вероятно</span><span className="text-black text-base font-normal font-['Rubik'] leading-tight"> – изменения в сагит. и фронт. пл. с отклонением оси позвоночника
-                                <br /></span><span className="text-black text-base font-bold font-['Rubik'] leading-tight">большая вероятность</span><span className="text-black text-base font-normal font-['Rubik'] leading-tight"> – изменения в трех плоскостях
-                            </span></div>
-                        <div className="w-[501px] h-[29px] left-[551px] top-[16px] absolute text-black text-base font-bold font-['Rubik'] leading-tight">Вероятность прогрессирования деформации позвоночника (детский и подростковый возраст):</div>
-                        <div className="w-[412px] h-[29px] left-[547px] top-[236px] absolute"><span className="text-black text-base font-bold font-['Rubik'] leading-tight">Сагиттальная плоскость
-                            <br /> </span><span className="text-black text-base font-normal font-['Rubik'] leading-tight">СИ (сагиттальный индекс)
-                                <br /></span></div>
-                        <div className="w-[659px] h-[0px] left-[275px] top-0 absolute origin-top-left rotate-90 border border-black"></div>
-                        <div className="w-[659px] h-[0px] left-[358px] top-0 absolute origin-top-left rotate-90 border border-black"></div>
-                        <div className="w-[1078px] h-[0px] left-[1078px] top-[60px] absolute origin-top-left rotate-180 border border-black"></div>
-                        <div className="w-[524px] h-[0px] left-[524px] top-[120px] absolute origin-top-left rotate-180 border border-black"></div>
-                        <div className="w-[1078px] h-[0px] left-[1078px] top-[180px] absolute origin-top-left rotate-180 border border-black"></div>
-                        <div className="w-[524px] h-[0px] left-[524px] top-[240px] absolute origin-top-left rotate-180 border border-black"></div>
-                        <div className="w-[1078px] h-[0px] left-[1078px] top-[300px] absolute origin-top-left rotate-180 border border-black"></div>
-                        <div className="w-[524px] h-[0px] left-[524px] top-[397px] absolute origin-top-left rotate-180 border border-black"></div>
-                        <div className="w-[1078px] h-[0px] left-[1078px] top-[479px] absolute origin-top-left rotate-180 border border-black"></div>
-                        <div className="w-[1078px] h-[0px] left-[1078px] top-[539px] absolute origin-top-left rotate-180 border border-black"></div>
-                        <div className="w-[1078px] h-[0px] left-[1078px] top-[659px] absolute origin-top-left rotate-180 border border-black"></div>
-                        <div className="w-[659px] h-[0px] left-[441px] top-0 absolute origin-top-left rotate-90 border border-black"></div>
-                        <div className="w-[659px] h-[0px] left-[524px] top-0 absolute origin-top-left rotate-90 border border-black"></div>
-                    </div>
-                </div>
-            </div>
 
 
 

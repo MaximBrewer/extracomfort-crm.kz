@@ -77,13 +77,38 @@ class Oda extends Model
         'addons10I',
         'addons10II',
         'addons10III',
-        
+
         'mobilisation',
         'stabilization',
         'strengthening',
 
         'kraus',
         'webber',
-        'rise'
+        'rise',
+
+        'sagc3I',
+        'sagc3II',
+        'sagc3III',
+        'sagc7I',
+        'sagc7II',
+        'sagc7III',
+        'sagcomI',
+        'sagcomII',
+        'sagcomIII',
+        'sagheadI',
+        'sagheadII',
+        'sagheadIII',
+        'sagl3I',
+        'sagl3II',
+        'sagl3III',
+        'sags1I',
+        'sags1II',
+        'sags1III',
+        'sagth4I',
+        'sagth4II',
+        'sagth4III',
+        'sagth12I',
+        'sagth12II',
+        'sagth12III',
     ];
 }

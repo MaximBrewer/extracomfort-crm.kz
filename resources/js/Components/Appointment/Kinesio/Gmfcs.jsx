@@ -68,12 +68,12 @@ const fields1 = [
 ]
 
 const fields2 = [
-    { label: `По лестнице с помощью (расстояние)`, name: `stairswith` },
-    { label: `Бег (расстояние)`, name: `run` },
-    { label: `Походка с помощью (расстояние)`, name: `gaitwith` },
-    { label: `Походка без помощи (расстояние)`, name: `gait` },
-    { label: `По лестнице без помощи (расстояние)`, name: `stairs` },
-    { label: `Прыжки`, name: `jumping` },
+    { label: `По лестнице с помощью (расстояние)`, name: `stairswith`, field: true },
+    { label: `Бег (расстояние)`, name: `run`, field: true },
+    { label: `Походка с помощью (расстояние)`, name: `gaitwith`, field: true },
+    { label: `Походка без помощи (расстояние)`, name: `gait`, field: true },
+    { label: `По лестнице без помощи (расстояние)`, name: `stairs`, field: true },
+    { label: `Прыжки`, name: `jumping`, field: false },
 ]
 
 export default (props) => {
@@ -166,7 +166,18 @@ export default (props) => {
                                 />
                             </td>
                             <td className="py-1 px-1">
-                                <label htmlFor={`gmfcs-${field.name}`} className="leading-none">{field.label}</label>
+                                <label
+                                    htmlFor={`gmfcs-${field.name}`} className="leading-none"
+                                    onClick={e => setData(prev => {
+                                        const data = { ...prev }
+                                        const kinesio = data.kinesio
+                                        if (!kinesio.gmfcs) kinesio.gmfcs = {}
+                                        kinesio.gmfcs.dominate = field.name
+                                        return data
+                                    })}
+                                >
+                                    <span className={`${data.kinesio && data.kinesio.gmfcs && field.name === data.kinesio.gmfcs.dominate ? `underline` : ``}`}>{field.label}</span>
+                                </label>
                             </td>
                         </tr>)}
                     </tbody>
@@ -179,9 +190,19 @@ export default (props) => {
                         <tbody>
                             {fields2.map((field, fdx) => <tr key={fdx} style={{ verticalAlign: `middle` }}>
                                 <td className="py-1 px-1">
-                                    <label htmlFor={`gmfcs-${field.name}`} className="leading-none">{field.label}</label>
+                                    <label htmlFor={`gmfcs-${field.name}`} className="leading-none"
+                                        onClick={e => setData(prev => {
+                                            const data = { ...prev }
+                                            const kinesio = data.kinesio
+                                            if (!kinesio.gmfcs) kinesio.gmfcs = {}
+                                            kinesio.gmfcs.dominate = field.name
+                                            return data
+                                        })}
+                                    >
+                                        <span className={`${data.kinesio && data.kinesio.gmfcs && field.name === data.kinesio.gmfcs.dominate ? `underline` : ``}`}>{field.label}</span>
+                                    </label>
                                 </td>
-                                <td className="py-1 px-1">
+                                {field.field ? <td className="py-1 px-1">
                                     <input
                                         name={`gmfcs-${field.name}-text`}
                                         value={data.kinesio.gmfcs && data.kinesio.gmfcs[`${field.name}text`] ? data.kinesio.gmfcs[`${field.name}text`] : ``}
@@ -194,7 +215,7 @@ export default (props) => {
                                         })}
                                         className="ounded text-sm w-[81px] rounded-md border border-purple-900 py-0.5 leading-none"
                                     />
-                                </td>
+                                </td> : <td></td>}
                                 <td className="py-1 px-1">
                                     <input
                                         type="checkbox"

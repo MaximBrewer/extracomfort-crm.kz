@@ -19,7 +19,7 @@ class Ods extends JsonResource
 
         foreach ($arr as $k => $v)
             if (strstr($k, '_option') || strstr($k, '_dyn'))
-                $arr[$k] = json_decode($v);
+                !strstr($k, 'test_flexion_') && !strstr($k, 'test_extensional_') && $arr[$k] = json_decode($v);
 
         return $arr;
     }

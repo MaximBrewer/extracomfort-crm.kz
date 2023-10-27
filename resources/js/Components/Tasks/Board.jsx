@@ -32,7 +32,6 @@ export default (props) => {
             status_id: status_id
         })
     }
-    console.log(auth.user.role.name);
 
     useEffect(() => {
         if (data.item && data.status_id) {

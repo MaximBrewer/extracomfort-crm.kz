@@ -24,6 +24,7 @@ class Appointment extends Model
         'conclusion',
         'recommendations',
         'other',
+        'current',
     ];
 
     public function ods(): HasOne

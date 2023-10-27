@@ -32,11 +32,10 @@ const FieldItem = ({ data, setData, fields, rounded, field, setZIndex }) => {
         </div>
         {opened ? <ul className="absolute top-full -translate-x-1/2 left-1/2 lex flex-col -translate-y-[2px] bg-white rounded z-20">
             {['__', 'Го', 'Гр', '+', '0'].map((el, edx) => <li key={edx} onClick={e => setData(prev => {
-                const data = { ...prev }
-                const kinesio = data.kinesio
-                if (!kinesio.tonus) kinesio.tonus = {}
-                kinesio.tonus[field.name] = edx
-                console.log(data)
+                const data = { ...prev };
+                const kinesio = data.kinesio;
+                if (!kinesio.tonus) kinesio.tonus = {};
+                kinesio.tonus[field.name] = edx;
                 return data
             })} className="px-4 text-center py-1 hover:bg-gray-50">{el}</li>)}
         </ul> : <></>}

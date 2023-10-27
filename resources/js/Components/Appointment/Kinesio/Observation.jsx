@@ -6,9 +6,9 @@ import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 import { useEffect } from "react";
 import moment from "moment";
-console.log(ru)
-setDefaultLocale(ru)
-registerLocale('ru', ru)
+
+setDefaultLocale(ru);
+registerLocale('ru', ru);
 
 const fields = [
     `Пропорции тела`,

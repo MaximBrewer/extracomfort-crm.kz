@@ -300,8 +300,7 @@ export default (props) => {
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
                                 data.podiatry || (data.podiatry = {})
-                                data.podiatry.file = e.target.files.length ? e.target.files[0] : null
-                                console.log(data)
+                                data.podiatry.file = e.target.files.length ? e.target.files[0] : null;
                                 return data
                             })}
                         />

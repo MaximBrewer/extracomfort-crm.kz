@@ -57,9 +57,11 @@ export default (props) => {
 
     const { pagetitle, appointment } = props
 
+    console.log(appointment)
+
     const formRef = useRef(null)
 
-    const [tab, setTab] = useState(menu.data[4])
+    const [tab, setTab] = useState(appointment.data.current ? menu.data.find(el => el.code === appointment.data.current) : menu.data[0])
     const tabRef = useRef(tab.code)
 
 
@@ -74,12 +76,13 @@ export default (props) => {
     transform(() => {
         return ({
             ...dataRef.current,
-            tab: tab.code
+            current: tabRef.current
         })
     })
 
     const submit = (e) => {
         e && e.preventDefault()
+        console.log(dataRef.current.current)
         post(route('specialist.appointment.update', {
             book: appointment.data.book_id
         }), {
@@ -89,13 +92,14 @@ export default (props) => {
     };
 
     useEffect(() => {
-        tab.code == tabRef.current || submit()
-        tabRef.current = tab.code
+        let submit = false;
+        tab.code == tabRef.current || (submit = false);
+        tabRef.current = tab.code;
+        submit && submit();
     }, [tab])
 
     useEffect(() => {
-        console.log(data)
-        dataRef.current = data
+        dataRef.current = data;
     }, [data])
 
     const intervalRef = useRef(null);
@@ -174,11 +178,6 @@ export default (props) => {
                             errors={errors}
                         /> : ``}
                         {tab.code === `reabilitation` ? <Reabilitation
-                            data={data}
-                            setData={setData}
-                            errors={errors}
-                        /> : ``}
-                        {tab.code === `oda` ? <Oda
                             data={data}
                             setData={setData}
                             errors={errors}

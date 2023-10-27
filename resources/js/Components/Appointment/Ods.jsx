@@ -375,9 +375,9 @@ export default (props) => {
 
     const canvaRef = useRef(null)
 
-    const [common, setCommon] = useState(false)
+    const [common, setCommon] = useState(true)
     const [tonus, setTonus] = useState(false)
-    const [chest, setChest] = useState(true)
+    const [chest, setChest] = useState(false)
     const [tests, setTests] = useState(false)
     const [notes, setNotes] = useState(false)
 
@@ -1150,10 +1150,10 @@ export default (props) => {
                                                             className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                                                             name={`${row.name}_${formitem.name}_option`}
                                                             value={subitem.value}
-                                                            defaultChecked={data.ods[`${row.name}_${formitem.name}_option`] == subitem.value}
+                                                            defaultChecked={data.ods[`${row.name}_${formitem.name}_option`] == sdx}
                                                             onChange={e => setData(prev => {
                                                                 const data = { ...prev }
-                                                                data.ods[`${row.name}_${formitem.name}_option`] = e.target.value
+                                                                data.ods[`${row.name}_${formitem.name}_option`] = sdx
                                                                 return data
                                                             })}
                                                         />
@@ -1167,16 +1167,115 @@ export default (props) => {
                             )
                         )}
                     </Td>
-                    <Td padding={false}>
-                        <textarea
-                            value={data.ods[`${row.name}_${formitem.name}_dyn`] ?? ``}
-                            onChange={e => setData(prev => {
-                                const data = { ...prev }
-                                data.ods[`${row.name}_${formitem.name}_dyn`] = e.target.value
-                                return data
-                            })}
-                            className="w-full block border-0 bg-transparent h-[2.5rem] focus:outline-none"
-                        />
+                    <Td className="text-sm small-select">
+                        {formitem.type === 'select' ? <div className="grid grid-cols-2 gap-2">
+                            <div className="grid grid-cols-2 gap-2">
+                                <div>{formitem.title}</div>
+                                <Select
+                                    styles={customStylesII}
+                                    components={{ DropdownIndicator: DropdownIndicatorII }}
+                                    isSearchable={false}
+                                    isClearable={false}
+                                    placeholder="-"
+                                    defaultValue={data.ods[`${row.name}_${formitem.name}_dyn`] ? {
+                                        value: data.ods[`${row.name}_${formitem.name}_dyn`],
+                                        label: data.ods[`${row.name}_${formitem.name}_dyn`]
+                                    } : {
+                                        value: '-',
+                                        label: '-'
+                                    }}
+                                    options={formitem.options.map(el => ({
+                                        value: el,
+                                        label: el
+                                    }))}
+                                    onChange={(value) => setData(prev => {
+                                        const data = { ...prev }
+                                        data.ods[`${row.name}_${formitem.name}_dyn`] = value ? value.value : ``
+                                        return data
+                                    })}
+                                />
+                            </div>
+                        </div> : (
+                            formitem.type === 'selects' ? <div>
+                                {formitem.title ? <div className="font-bold">{formitem.title}</div> : ``}
+                                <div className="grid grid-cols-2 gap-2">
+                                    {formitem.subitems.map((subitem, sdx) => <div key={sdx} className="grid grid-cols-2 gap-2">
+                                        <div>{subitem.title}</div>
+                                        <Select
+                                            styles={customStylesII}
+                                            components={{ DropdownIndicator: DropdownIndicatorII }}
+                                            isSearchable={false}
+                                            isClearable={false}
+                                            placeholder="-"
+                                            defaultValue={data.ods[`${row.name}_${formitem.name}_${subitem.name}`] ? {
+                                                value: data.ods[`${row.name}_${formitem.name}_${subitem.name}`],
+                                                label: data.ods[`${row.name}_${formitem.name}_${subitem.name}`]
+                                            } : {
+                                                value: '-',
+                                                label: '-'
+                                            }}
+                                            options={subitem.options.map(el => ({
+                                                value: el,
+                                                label: el
+                                            }))}
+                                            onChange={(value) => setData(prev => {
+                                                const data = { ...prev }
+                                                data.ods[`${row.name}_${formitem.name}_${subitem.name}`] = value ? value.value : ``
+                                                return data
+                                            })}
+                                        />
+                                    </div>)}
+                                </div>
+                            </div> : (
+                                formitem.type === 'boolean' ? <label className="flex items-center gap-2">
+                                    <div className="flex items-center">
+                                        <Checkbox
+                                            name={`${formitem.name}_dyn`}
+                                            value={1}
+                                            defaultChecked={!!(1 * data.ods[`${row.name}_${formitem.name}_dyn`])}
+                                            onChange={e => setData(prev => {
+                                                const data = { ...prev }
+                                                data.ods[`${row.name}_${formitem.name}_dyn`] = e.target.checked
+                                                return data
+                                            })}
+                                        />
+                                    </div>
+                                    <div className="col-span-3">{formitem.title}</div>
+                                </label> : (
+                                    formitem.type === 'textarea' ? <div className="-mx-2"><textarea
+                                        value={data.ods[`${row.name}_${formitem.name}_dyn`] ?? ``}
+                                        onChange={e => setData(prev => {
+                                            const data = { ...prev }
+                                            data.ods[`${row.name}_${formitem.name}_dyn`] = e.target.value;
+                                            return data
+                                        })}
+                                        className=" w-full block border-0 bg-transparent h-[2.5rem] focus:outline-none"
+                                    />
+                                    </div> : (
+                                        formitem.type === 'radios' ? <div>
+                                            <div className="grid grid-cols-2 gap-2">
+                                                {formitem.subitems.map((subitem, sdx) => <label key={sdx} className="flex items-center gap-2">
+                                                    <div className="flex items-center">
+                                                        <input type="radio"
+                                                            className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
+                                                            name={`${row.name}_${formitem.name}_dyn`}
+                                                            value={sdx}
+                                                            checked={data.ods[`${row.name}_${formitem.name}_dyn`] == sdx}
+                                                            onChange={e => setData(prev => {
+                                                                const data = { ...prev }
+                                                                data.ods[`${row.name}_${formitem.name}_dyn`] = sdx
+                                                                return data
+                                                            })}
+                                                        />
+                                                    </div>
+                                                    <div className="col-span-3">{subitem.title}</div>
+                                                </label>)}
+                                            </div>
+                                        </div> : ``
+                                    )
+                                )
+                            )
+                        )}
                     </Td>
                     <Td padding={false}>
                         <textarea

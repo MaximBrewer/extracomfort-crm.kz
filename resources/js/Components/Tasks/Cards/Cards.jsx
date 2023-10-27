@@ -103,7 +103,6 @@ export default (props) => {
       // props.moveCard(lastX, lastY, nextX, nextY);
     },
     hover(props, monitor, component) {
-      // console.log(props, monitor, component)
       // defines where placeholder is rendered
       // const placeholderIndex = getPlaceholderIndex(
       //   monitor.getClientOffset().y,

@@ -44,7 +44,7 @@ export default (props) => {
                                                 // `value` if `unmask=false`,
                                                 // `unmaskedValue` if `unmask=true`,
                                                 // `typedValue` if `unmask='typed'`
-                                                (value, mask) => console.log(value)
+                                                (value, mask) => {}
                                             }
                                             // ...and more mask props in a guide
 

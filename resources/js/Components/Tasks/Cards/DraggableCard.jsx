@@ -63,7 +63,6 @@ export default (props) => {
       // // if (item && dropResult) {
       // //   alert(`You dropped ${item.name} into ${dropResult.name}!`)
       // // }
-      // console.log(item, monitor, dropResult)
       // // const lastX = monitor.getItem().x;
       // // const lastY = monitor.getItem().y;
       // // const nextX = props.x;

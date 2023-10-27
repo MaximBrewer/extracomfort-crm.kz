@@ -263,7 +263,6 @@ const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide
                 <div className="font-semibold mb-4">Характер боли</div>
                 <div className="flex flex-wrap gap-4 items-center">
                     {characters.map((item, idx) => <label key={idx} htmlFor={`character-${idx}${index > -1 ? `-${index}` : ``}`} className="flex gap-2 items-center">
-                        {console.log(typeof painData.character)}
                         <input
                             type="checkbox"
                             name={`character${index > -1 ? `-${index}` : ``}`}
@@ -273,7 +272,6 @@ const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide
                                     const data = [...prev];
                                     typeof painData.character === 'object' || (data[index].character = []);
                                     const cdIndex = data[index].character.findIndex(el => el === 1 + idx)
-                                    console.log(cdIndex)
                                     if (cdIndex > -1) data[index].character.splice(cdIndex, 1)
                                     else data[index].character.push(1 + idx)
                                     return data
@@ -332,7 +330,6 @@ export default (props) => {
     }, [canvaRef])
 
     // painData => setPainDatas(prev => {
-    //     console.log(prev)
     //     const painDatas = [...prev];
     //     painDatas[index] = painData;
     //     return painData;
@@ -529,7 +526,6 @@ export default (props) => {
                 <div className="flex flex-wrap gap-4 items-center mb-8 text-xs whitespace-nowrap">
                     {ponomed.map((item, idx) => <label key={idx} htmlFor={`ponomed-${idx}`} className={`flex gap-2 items-center ${idx == ponomed.length - 1 ? `w-full` : ``}`}>
                         <div className="shrink-0 flex gap-2 items-center">
-                            {console.log(data.painmap.ponomed)}
                             <input
                                 type="checkbox"
                                 name={`ponomed`}
@@ -577,7 +573,6 @@ export default (props) => {
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
                                 const sideeffects = data.painmap.sideeffects ? [...data.painmap.sideeffects] : []
-                                console.log(sideeffects)
                                 const sdIndex = sideeffects.findIndex(el => el == item)
                                 if (sdIndex > -1) sideeffects.splice(sdIndex, 1)
                                 else sideeffects.push(item)

@@ -427,51 +427,6 @@ export default (props) => {
                 </table>
             </div>
 
-            <div className="mb-12">
-                <div className="font-medium mb-2">Заключение</div>
-                <div className="mb-2">
-                    <div className="mb-2">Мобилизация</div>
-                    <textarea
-                        placeholder="Введите текст"
-                        value={data.oda.mobilisation ?? ``}
-                        onChange={e => setData(prev => {
-                            const data = { ...prev }
-                            data.oda.mobilisation = e.target.value
-                            return data
-                        })}
-                        className="w-full border-0 rounded grow text-xs h-24 "
-                    />
-                </div>
-                <div className="mb-2">
-                    <div className="mb-2">Стабилизация</div>
-                    <textarea
-                        placeholder="Введите текст"
-                        value={data.oda.stabilization ?? ``}
-                        onChange={e => setData(prev => {
-                            const data = { ...prev }
-                            data.oda.stabilization = e.target.value
-                            return data
-                        })}
-                        className="w-full border-0 rounded grow text-xs h-24 "
-                    />
-                </div>
-                <div className="mb-2">
-                    <div className="mb-2">Укрепление</div>
-                    <textarea
-                        placeholder="Введите текст"
-                        value={data.oda.strengthening ?? ``}
-                        onChange={e => setData(prev => {
-                            const data = { ...prev }
-                            data.oda.strengthening = e.target.value
-                            return data
-                        })}
-                        className="w-full border-0 rounded grow text-xs h-24 "
-                    />
-                </div>
-            </div>
-
-
-
 
 
 
@@ -571,6 +526,54 @@ export default (props) => {
                     </tbody>
                 </table>
             </div>
+
+
+
+
+            <div className="mb-12">
+                <div className="font-medium mb-2">Заключение</div>
+                <div className="mb-2">
+                    <div className="mb-2">Мобилизация</div>
+                    <textarea
+                        placeholder="Введите текст"
+                        value={data.oda.mobilisation ?? ``}
+                        onChange={e => setData(prev => {
+                            const data = { ...prev }
+                            data.oda.mobilisation = e.target.value
+                            return data
+                        })}
+                        className="w-full border-0 rounded grow text-xs h-24 "
+                    />
+                </div>
+                <div className="mb-2">
+                    <div className="mb-2">Стабилизация</div>
+                    <textarea
+                        placeholder="Введите текст"
+                        value={data.oda.stabilization ?? ``}
+                        onChange={e => setData(prev => {
+                            const data = { ...prev }
+                            data.oda.stabilization = e.target.value
+                            return data
+                        })}
+                        className="w-full border-0 rounded grow text-xs h-24 "
+                    />
+                </div>
+                <div className="mb-2">
+                    <div className="mb-2">Укрепление</div>
+                    <textarea
+                        placeholder="Введите текст"
+                        value={data.oda.strengthening ?? ``}
+                        onChange={e => setData(prev => {
+                            const data = { ...prev }
+                            data.oda.strengthening = e.target.value
+                            return data
+                        })}
+                        className="w-full border-0 rounded grow text-xs h-24 "
+                    />
+                </div>
+            </div>
+
+
         </div>
     </>
 }

@@ -48,8 +48,8 @@ const fields = [
         ]
     },
     {
-        name: 'psng',
-        label: 'Постучание ногой',
+        name: 'pn1n',
+        label: 'Прыжки на 2 ногах',
         fields: [
             {
                 name: 'c',
@@ -69,6 +69,16 @@ const fields = [
                 name: 'p',
                 label: 'П'
             },
+        ]
+    },
+    {
+        name: 'psng',
+        label: 'Постучание ногой',
+        fields: [
+            {
+                name: 'c',
+                label: <span>&nbsp;</span>
+            }
         ]
     },
     {

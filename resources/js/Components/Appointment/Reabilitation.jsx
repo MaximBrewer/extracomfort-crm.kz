@@ -107,7 +107,6 @@ export default (props) => {
                         {
                             name: `mn`,
                             label: `Мануальная терапия`,
-                            options: [],
                             txt: true,
                         },
                         {
@@ -119,12 +118,11 @@ export default (props) => {
                         {
                             name: `tp`,
                             label: `Тейпирование`,
-                            options: [],
                             txt: true,
                         },
                         {
                             name: `kt`,
-                            label: `Другие исследования`,
+                            label: `Кинезотерапия`,
                             txt: true,
                         },
                         {

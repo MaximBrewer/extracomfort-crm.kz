@@ -140,9 +140,24 @@ export default (props) => {
         <div className="flex gap-12">
             <div className="w-2/5">
                 <div className="font-medium mb-4">Дополнительные черты:</div>
-                <div className="mb-4">Чрезмерные движения тул. и верхних кон.</div>
                 <table className="table-auto w-full">
                     <tbody>
+                        <tr>
+                            <td className="pr-2 py-1">Чрезмерные движения тул. и верхних кон.</td>
+                            <td className="py-1">
+                                <div className="flex items-center gap-2 justify-end">
+                                    <span>&nbsp;</span>
+                                    <Checkbox
+                                        className={`relative`}
+                                        data={data}
+                                        setData={setData}
+                                        name={`chdtvk`}
+                                    />
+                                </div>
+                            </td>
+                            <td className="py-1">
+                            </td>
+                        </tr>
                         <tr>
                             <td className="pr-2 py-1">Опускание таза</td>
                             <td className="py-1">

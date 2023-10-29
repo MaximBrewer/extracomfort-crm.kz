@@ -11,6 +11,7 @@ use App\Models\Appointment as ModelsAppointment;
 use App\Models\Book;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class PatientsController extends Controller
@@ -51,6 +52,10 @@ class PatientsController extends Controller
         if (!$appointment->kinesio->interview)   $book->appointment->kinesio->interview()->create([]);
 
         $appointment = $book->appointment()->first();
+        $spr = DB::table('settings')->where('key', 'site.spravkababy')->first();
+        $data['spravkababy'] = $spr ? $spr->value : "";
+        $spr = DB::table('settings')->where('key', 'site.spravkayoung')->first();
+        $data['spravkayoung'] = $spr ? $spr->value : "";
 
         $data['pagetitle'] = 'Запись №-(Жолжаксинов Арман Тасбулатович)';
         $data['patient'] = new PatientCardSpecialist($book->patient);

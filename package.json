@@ -22,6 +22,7 @@
     },
     "dependencies": {
         "@babel/plugin-proposal-decorators": "^7.23.2",
+        "@tailwindcss/typography": "^0.5.10",
         "date-fns": "^2.30.0",
         "faker": "^5.5.3",
         "html-react-parser": "^4.2.9",

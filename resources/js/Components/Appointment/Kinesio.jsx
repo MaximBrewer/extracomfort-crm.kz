@@ -16,6 +16,9 @@ import Doptest from "./Kinesio/Doptest";
 import Forecast from "./Kinesio/Forecast";
 import Oda from "./Oda";
 
+import parse from "html-react-parser"
+import { usePage } from "@inertiajs/react";
+
 const types = [
     {
         value: `adult`,
@@ -35,6 +38,8 @@ const types = [
 export default (props) => {
 
     const { data, setData, errors, nextTab } = props;
+
+    const { spravkababy, spravkayoung } = usePage().props
 
     return <>
         <div className={`p-5`}>
@@ -71,6 +76,9 @@ export default (props) => {
             <Walking {...props} />
             <Doptest {...props} />
             <Forecast {...props} />
+            <div className="prose lg:prose-xl my-12">
+                {parse(spravkababy ?? ``)}
+            </div>
         </> : <></>}
 
         {data.kinesio.type && data.kinesio.type === `teen` ? <>
@@ -89,6 +97,9 @@ export default (props) => {
             <Walking {...props} />
             <Doptest {...props} />
             <Forecast {...props} />
+            <div className="prose lg:prose-xl my-12">
+                {parse(spravkayoung ?? ``)}
+            </div>
         </> : <></>}
 
         {data.kinesio.type && data.kinesio.type === `adult` ? <>

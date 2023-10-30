@@ -163,6 +163,98 @@ export default (props) => {
                 <div className="rounded overflow-hidden">
                     <div className="h-[304px] w-[226px] bg-white relative bg-center bg-cover" style={{ backgroundImage: `url('${P2}')` }}>
 
+                        <div className="absolute w-5 top-48 left-10 bg-purple-900 rounded-sm flex flex-col items-center">
+                            <div
+                                className="h-5 w-full shrink-0 text-white font-bold leading-none flex items-center justify-center cursor-pointer"
+                                onClick={e => setData(prev => {
+                                    const data = { ...prev }
+                                    data.podiatry || (data.podiatry = {})
+                                    data.podiatry.extensions || (data.podiatry.extensions = [])
+                                    data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
+                                    data.podiatry.extensions[edx].left = data.podiatry.extensions[edx].left ? ++data.podiatry.extensions[edx].left : 1
+                                    return data
+                                })}
+                            ><span>+</span></div>
+                            <div className="w-5 h-5 shrink-0">
+                                <input
+                                    type="number"
+                                    max="99"
+                                    onChange={e => setData(prev => {
+                                        const data = { ...prev }
+                                        data.podiatry || (data.podiatry = {})
+                                        data.podiatry.extensions || (data.podiatry.extensions = [])
+                                        data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
+                                        data.podiatry.extensions[edx].left = e.target.value
+                                        return data
+                                    })}
+                                    value={
+                                        data.podiatry
+                                            && data.podiatry.extensions
+                                            && data.podiatry.extensions[edx]
+                                            ? data.podiatry.extensions[edx].left : 0
+                                    }
+                                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-5 p-0 bg-white h-5 text-xs font-medium text-center focus:outline-none"
+                                />
+                            </div>
+                            <div
+                                className="h-5 w-full shrink-0 text-white font-bold leading-none flex items-center justify-center cursor-pointer"
+                                onClick={e => setData(prev => {
+                                    const data = { ...prev }
+                                    data.podiatry || (data.podiatry = {})
+                                    data.podiatry.extensions || (data.podiatry.extensions = [])
+                                    data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
+                                    data.podiatry.extensions[edx].left = data.podiatry.extensions[edx].left ? --data.podiatry.extensions[edx].left : 0
+                                    return data
+                                })}
+                            ><span>-</span></div>
+                        </div>
+
+                        <div className="absolute w-5 top-48 right-10 bg-purple-900 rounded-sm flex flex-col items-center">
+                            <div
+                                className="h-5 w-full shrink-0 text-white font-bold leading-none flex items-center justify-center cursor-pointer"
+                                onClick={e => setData(prev => {
+                                    const data = { ...prev }
+                                    data.podiatry || (data.podiatry = {})
+                                    data.podiatry.extensions || (data.podiatry.extensions = [])
+                                    data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
+                                    data.podiatry.extensions[edx].left = data.podiatry.extensions[edx].left ? ++data.podiatry.extensions[edx].left : 1
+                                    return data
+                                })}
+                            ><span>+</span></div>
+                            <div className="w-5 h-5 shrink-0">
+                                <input
+                                    type="number"
+                                    max="99"
+                                    onChange={e => setData(prev => {
+                                        const data = { ...prev }
+                                        data.podiatry || (data.podiatry = {})
+                                        data.podiatry.extensions || (data.podiatry.extensions = [])
+                                        data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
+                                        data.podiatry.extensions[edx].left = e.target.value
+                                        return data
+                                    })}
+                                    value={
+                                        data.podiatry
+                                            && data.podiatry.extensions
+                                            && data.podiatry.extensions[edx]
+                                            ? data.podiatry.extensions[edx].left : 0
+                                    }
+                                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-5 p-0 bg-white h-5 text-xs font-medium text-center focus:outline-none"
+                                />
+                            </div>
+                            <div
+                                className="h-5 w-full shrink-0 text-white font-bold leading-none flex items-center justify-center cursor-pointer"
+                                onClick={e => setData(prev => {
+                                    const data = { ...prev }
+                                    data.podiatry || (data.podiatry = {})
+                                    data.podiatry.extensions || (data.podiatry.extensions = [])
+                                    data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
+                                    data.podiatry.extensions[edx].left = data.podiatry.extensions[edx].left ? --data.podiatry.extensions[edx].left : 0
+                                    return data
+                                })}
+                            ><span>-</span></div>
+                        </div>
+
                     </div>
                 </div>
                 <div className="rounded overflow-hidden">
@@ -371,7 +463,7 @@ export default (props) => {
                                     ]
                                 },
                                 {
-                                    title: `т. Томаса`, names: [
+                                    title: `т. Томаса`, tomas: true, names: [
                                         'addons6I',
                                         'addons6II',
                                         'addons6III',
@@ -412,7 +504,37 @@ export default (props) => {
                             ],
                         ].map((cat, cdx) => <tr key={cdx}>
                             {cat.map((ct, ctdx) => <Fragment key={`${cdx}${ctdx}`}>
-                                <Th className={`text-left`}>{ct.title}</Th>
+                                <Th className={`text-left`}>
+                                    <div>{ct.title}</div>
+                                    {ct.tomas ? <>
+                                        <div className="flex items-center gap-2">
+                                            <span className="font-normal text-xs block w-16">справа</span>
+                                            <label className="flex items-center gap-2">
+                                                <input type="radio" name="tomasr" value={0}
+                                                    className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '} />
+                                                <span>+</span>
+                                            </label>
+                                            <label className="flex items-center gap-2">
+                                                <input type="radio" name="tomasr" value={1}
+                                                    className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '} />
+                                                <span>-</span>
+                                            </label>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className="font-normal text-xs block w-16">слева</span>
+                                            <label className="flex items-center gap-2">
+                                                <input type="radio" name="tomasl" value={0}
+                                                    className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '} />
+                                                <span>+</span>
+                                            </label>
+                                            <label className="flex items-center gap-2">
+                                                <input type="radio" name="tomasl" value={1}
+                                                    className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '} />
+                                                <span>-</span>
+                                            </label>
+                                        </div>
+                                    </> : <></>}
+                                </Th>
                                 {ct.names.map(name => <Td key={name}>
                                     <Input name={name} value={data.oda[name]}
                                         onChange={e => setData(prev => {

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Support\Carbon;
 
 class Book extends Model
@@ -16,6 +17,13 @@ class Book extends Model
     use HasFactory;
     protected $fillable = ['date', 'status', 'time', 'service_id', 'branch_id', 'patient_id', 'specialist_id', 'recieption_id', 'duration', 'start'];
 
+    /**
+     * Get the parent imageable model (user or post).
+     */
+    public function bookable(): MorphTo
+    {
+        return $this->morphTo();
+    }
     /**
      * Default sort by created_at desc.
      *

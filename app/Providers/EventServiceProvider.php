@@ -20,10 +20,12 @@ use App\Listeners\SendSupervisorCreatedNotification;
 use App\Models\CallIn;
 use App\Models\Notification;
 use App\Models\Payment;
+use App\Models\Task;
 use App\Models\TopUp;
 use App\Observers\CallIn as ObserversCallIn;
 use App\Observers\Notification as ObserversNotification;
 use App\Observers\Payment as ObserversPayment;
+use App\Observers\Task as ObserversTask;
 use App\Observers\TopUp as ObserversTopUp;
 use App\Observers\User as ObserversUser;
 use Illuminate\Auth\Events\Registered;
@@ -67,6 +69,7 @@ class EventServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Task::observe(ObserversTask::class);
         TopUp::observe(ObserversTopUp::class);
         User::observe(ObserversUser::class);
         Payment::observe(ObserversPayment::class);

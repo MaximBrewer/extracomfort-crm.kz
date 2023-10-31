@@ -9,11 +9,16 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Task extends Model
 {
     use HasFactory;
-    protected $fillable = ['title', 'desc', 'range', 'start', 'deadline'];
+    protected $fillable = ['title', 'desc', 'range', 'start', 'deadline', 'entity_type', 'entity_id', 'data'];
+
+    protected $casts = [
+        'data' => 'array',
+    ];
 
     /**
      * Default sort by created_at desc.
@@ -46,5 +51,13 @@ class Task extends Model
     public function comments(): HasMany
     {
         return $this->hasMany(Comment::class);
+    }
+
+    /**
+     * Get the post's image.
+     */
+    public function book(): MorphOne
+    {
+        return $this->morphOne(Book::class, 'bookable');
     }
 }

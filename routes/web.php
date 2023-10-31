@@ -135,6 +135,8 @@ Route::group(['prefix' => 'specialist', 'as' => 'specialist.', 'middleware' => [
     Route::get('appointment/{book}', [Specialist\PatientsController::class, 'appointment'])->name('appointment');
     Route::post('appointment/{book}', [Specialist\PatientsController::class, 'appointmentUpdate'])->name('appointment.update');
     Route::post('appointment/{book}/file', [Specialist\PatientsController::class, 'appointmentFile'])->name('appointment.file');
+    Route::patch('appointment/{book}/toshop', [Specialist\PatientsController::class, 'toShop'])->name('appointment.toshop');
+    Route::patch('appointment/{book}/torecieption', [Specialist\PatientsController::class, 'toRecieption'])->name('appointment.torecieption');
 
     Route::get('patients', Specialist\PatientsController::class)->name('patients');
     Route::get('specialists', Specialist\SpecialistsController::class)->name('specialists');
@@ -147,6 +149,8 @@ Route::group(['prefix' => 'specialist', 'as' => 'specialist.', 'middleware' => [
             Route::resource('comments', Specialist\CommentsController::class);
         });
     });
+
+
 
     Route::delete('file/{file}', [Specialist\FilesController::class, 'destroy'])->name('file.delete');
 });

@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import PrimaryButton from "../PrimaryButton";
 import Select, { components } from 'react-select';
-import { Link, usePage } from "@inertiajs/react";
+import { Link, router, usePage } from "@inertiajs/react";
 
 import Img1 from "../../../img/card/podiatry/i1.jpg"
 import Img2 from "../../../img/card/podiatry/i2.jpg"
@@ -13,6 +13,8 @@ import { useEffect } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { useState } from "react";
 import File from "@/Icons/File";
+import { useLayout } from "@/Contexts/LayoutContext";
+import Info from "../Modals/Info";
 
 const customStyles = {
     control: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -146,7 +148,9 @@ const Element = (props) => {
 
 export default (props) => {
 
-    const { disabled = false } = usePage().props
+    const { successshop = false, disabled = false } = usePage().props
+
+    const { setModal } = useLayout();
 
     const { data, setData, errors, nextTab, appointment } = props;
 
@@ -170,6 +174,9 @@ export default (props) => {
         }
     }, [canvaViscerRef])
 
+    useEffect(() => {
+        successshop && setModal(<Info status={`success`} message={`Отправлено в магазин`} />)
+    }, [successshop])
 
     return <>
         <div className={`bg-violet-200 rounded-lg px-5 py-4 mb-4`}>
@@ -392,7 +399,7 @@ export default (props) => {
                             })}
                         />
                     </div>
-                    {disabled ? <></> : <div className="flex justify-center gap-12 py-2 items-center">
+                    {disabled ? <></> : <div className="flex justify-center gap-12 py-2 items-center mb-12">
                         <button onClick={e => canvaTriggerRef.current.undo()}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -403,6 +410,14 @@ export default (props) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </button>
+                    </div>}
+
+
+                    {disabled ? <></> : <div className="flex justify-end whitespace-nowrap pb-4">
+                        <Link method="PATCH" className="inline-flex items-center bg-violet-500 border border-transparent text-white transition ease-in-out duration-150 px-4 py-2.5 rounded-lg font-bold text-sm px-4 py-3 rounded-xl font-semibold text-lg undefined " size="sm" href={route(`specialist.appointment.toshop`, {
+                            book: data.book_id,
+                            type: 0
+                        })}>Отправить в магазин</Link>
                     </div>}
                 </div>
             </div>
@@ -1042,7 +1057,10 @@ export default (props) => {
                     />
                 </div>
                 {disabled ? <></> : <div className="flex justify-end whitespace-nowrap pb-4">
-                    <PrimaryButton size="sm" onClick={() => { }}>Отправить в магазин</PrimaryButton>
+                    <Link method="PATCH" className="inline-flex items-center bg-violet-500 border border-transparent text-white transition ease-in-out duration-150 px-4 py-2.5 rounded-lg font-bold text-sm px-4 py-3 rounded-xl font-semibold text-lg undefined " size="sm" href={route(`specialist.appointment.toshop`, {
+                        book: data.book_id,
+                        type: 1
+                    })}>Отправить в магазин</Link>
                 </div>}
             </div>
         </div >

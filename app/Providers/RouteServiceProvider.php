@@ -20,7 +20,7 @@ class RouteServiceProvider extends ServiceProvider
 
     public const HOME = '/';
     public const HOME_NURSE = '/nurse/patients';
-    public const HOME_SALE = '/sale/patients';
+    public const HOME_SALE = '/sale/tasks';
     public const HOME_MANGER = '/manager/patients';
     public const HOME_SUPERVISOR = '/supervisor/patients';
     public const HOME_SENIOR = '/senior/patients';

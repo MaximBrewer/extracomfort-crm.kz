@@ -10,6 +10,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { useState } from "react";
+import Info from "../Modals/Info";
 
 const customStyles = {
     control: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -76,7 +77,9 @@ export default (props) => {
 
     const canvaRef1 = useRef(null)
 
-    const { disabled = false } = usePage().props
+    const { successrecieption = false, disabled = false } = usePage().props
+
+    const { setModal } = useLayout();
 
     useEffect(() => {
         if (canvaRef1.current && data.reabilitation.lines1) {
@@ -95,6 +98,10 @@ export default (props) => {
             }, 150)
         }
     }, [canvaRef2])
+
+    useEffect(() => {
+        successrecieption && setModal(<Info status={`success`} message={`Отправлено на ресепшн`} />)
+    }, [successrecieption])
 
     const [brush2, setbBrush2] = useState(2)
 
@@ -464,8 +471,11 @@ export default (props) => {
                             </div>
                         </div>}
                     </div>
-                    {disabled ? <></> : <div className="flex justify-end">
-                        <PrimaryButton size="sm" onClick={() => { }}>Отправить на ресепшн</PrimaryButton>
+                    {disabled ? <></> : <div className="flex justify-end whitespace-nowrap pb-4">
+                        <Link method="PATCH" className="inline-flex items-center bg-violet-500 border border-transparent text-white transition ease-in-out duration-150 px-4 py-2.5 rounded-lg font-bold text-sm px-4 py-3 rounded-xl font-semibold text-lg undefined " size="sm" href={route(`specialist.appointment.torecieption`, {
+                            book: data.book_id,
+                            type: 0
+                        })}>Отправить на ресепшн</Link>
                     </div>}
                 </div>
             </div>

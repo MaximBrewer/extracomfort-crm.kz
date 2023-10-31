@@ -9,9 +9,13 @@ use App\Http\Resources\Appointment;
 use App\Http\Resources\PatientCardSpecialist;
 use App\Models\Appointment as ModelsAppointment;
 use App\Models\Book;
+use App\Models\Task;
 use App\Models\User;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class PatientsController extends Controller
@@ -61,6 +65,10 @@ class PatientsController extends Controller
         $data['patient'] = new PatientCardSpecialist($book->patient);
         $data['appointment'] = new Appointment($appointment);
         $data['scrollpage'] = true;
+
+        $data['successshop'] = !!Session::get('successshop');
+        $data['successrecieption'] = !!Session::get('successrecieption');
+        
         return Inertia::render('Specialist/Patient/Appointment', $data);
     }
 
@@ -132,5 +140,53 @@ class PatientsController extends Controller
         return redirect()->route('specialist.appointment', [
             'book' => $book->id
         ]);
+    }
+
+    public function toShop(Request $request, Book $book)
+    {
+        $task = Auth::user()->tasks()->create([
+            'title' => $request->type == 0 ? 'Изготовление обуви' : 'Изготовление стелеек',
+            'user_id' => Auth::id(),
+            'entity_type' => Book::class,
+            'entity_id' => $book->id,
+            'start' => now(),
+            'deadline' => now()->addDay(),
+            'data' => [
+                'link' => [
+                    'route' => 'appointment',
+                    'params' => [
+                        'book' => $book->id
+                    ]
+                ]
+            ]
+        ]);
+        $task->users()->attach(User::whereHas('role', function (Builder $query) {
+            $query->where('name', 'sale');
+        })->where('branch_id', Auth::user()->branch_id)->pluck('id'));
+        return redirect()->back()->with('successshop', true);
+    }
+
+    public function toRecieption(Request $request, Book $book)
+    {
+        $task = Auth::user()->tasks()->create([
+            'title' => 'План реабилитации',
+            'user_id' => Auth::id(),
+            'entity_type' => Book::class,
+            'entity_id' => $book->id,
+            'start' => now(),
+            'deadline' => now()->addDay(),
+            'data' => [
+                'link' => [
+                    'route' => 'appointment',
+                    'params' => [
+                        'book' => $book->id
+                    ]
+                ]
+            ]
+        ]);
+        $task->users()->attach(User::whereHas('role', function (Builder $query) {
+            $query->where('name', 'recieption');
+        })->where('branch_id', Auth::user()->branch_id)->pluck('id'));
+        return redirect()->back()->with('successrecieption', true);
     }
 }

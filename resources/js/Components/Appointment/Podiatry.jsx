@@ -330,7 +330,7 @@ export default (props) => {
                                         data.podiatry
                                             && data.podiatry.fpi
                                             && data.podiatry.fpi[fpiitem]
-                                            && data.podiatry.fpi[fpiitem][`l`]
+                                            && data.podiatry.fpi[fpiitem][side] !== undefined
                                             ? fpiptions.find(el => el.value == data.podiatry.fpi[fpiitem][side])
                                             : null
                                     }
@@ -818,7 +818,7 @@ export default (props) => {
                                                 data.podiatry || (data.podiatry = {})
                                                 data.podiatry.ledges || (data.podiatry.ledges = [])
                                                 data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                data.podiatry.ledges[edx].left = data.podiatry.ledges[edx].left ? --data.podiatry.ledges[edx].left : 0
+                                                data.podiatry.ledges[edx].lt = data.podiatry.ledges[edx].lt ? --data.podiatry.ledges[edx].lt : 0
                                                 return data
                                             })}
                                         ><span>-</span></div>
@@ -831,14 +831,14 @@ export default (props) => {
                                                     data.podiatry || (data.podiatry = {})
                                                     data.podiatry.ledges || (data.podiatry.ledges = [])
                                                     data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                    data.podiatry.ledges[edx].left = e.target.value
+                                                    data.podiatry.ledges[edx].lt = e.target.value
                                                     return data
                                                 })}
                                                 value={
                                                     data.podiatry
                                                         && data.podiatry.ledges
                                                         && data.podiatry.ledges[edx]
-                                                        ? data.podiatry.ledges[edx].left : 0
+                                                        ? data.podiatry.ledges[edx].lt : 0
                                                 }
                                                 className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-5 p-0 bg-white h-5 text-xs font-medium text-center focus:outline-none"
                                             />
@@ -850,7 +850,7 @@ export default (props) => {
                                                 data.podiatry || (data.podiatry = {})
                                                 data.podiatry.ledges || (data.podiatry.ledges = [])
                                                 data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                data.podiatry.ledges[edx].left = data.podiatry.ledges[edx].left ? ++data.podiatry.ledges[edx].left : 1
+                                                data.podiatry.ledges[edx].lt = data.podiatry.ledges[edx].lt ? ++data.podiatry.ledges[edx].lt : 1
                                                 return data
                                             })}
                                         ><span>+</span></div>
@@ -864,7 +864,7 @@ export default (props) => {
                                                 data.podiatry || (data.podiatry = {})
                                                 data.podiatry.ledges || (data.podiatry.ledges = [])
                                                 data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                data.podiatry.ledges[edx].right = data.podiatry.ledges[edx].right ? --data.podiatry.ledges[edx].right : 0
+                                                data.podiatry.ledges[edx].lb = data.podiatry.ledges[edx].lb ? --data.podiatry.ledges[edx].lb : 0
                                                 return data
                                             })}
                                         ><span>-</span></div>
@@ -877,14 +877,14 @@ export default (props) => {
                                                     data.podiatry || (data.podiatry = {})
                                                     data.podiatry.ledges || (data.podiatry.ledges = [])
                                                     data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                    data.podiatry.ledges[edx].right = e.target.value
+                                                    data.podiatry.ledges[edx].lb = e.target.value
                                                     return data
                                                 })}
                                                 value={
                                                     data.podiatry
                                                         && data.podiatry.ledges
                                                         && data.podiatry.ledges[edx]
-                                                        ? data.podiatry.ledges[edx].right : 0
+                                                        ? data.podiatry.ledges[edx].lb : 0
                                                 }
                                                 className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-5 p-0 bg-white h-5 text-xs font-medium text-center focus:outline-none"
                                             />
@@ -896,7 +896,7 @@ export default (props) => {
                                                 data.podiatry || (data.podiatry = {})
                                                 data.podiatry.ledges || (data.podiatry.ledges = [])
                                                 data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                data.podiatry.ledges[edx].right = data.podiatry.ledges[edx].right ? ++data.podiatry.ledges[edx].right : 1
+                                                data.podiatry.ledges[edx].lb = data.podiatry.ledges[edx].lb ? ++data.podiatry.ledges[edx].lb : 1
                                                 return data
                                             })}
                                         ><span>+</span></div>
@@ -913,7 +913,7 @@ export default (props) => {
                                                 data.podiatry || (data.podiatry = {})
                                                 data.podiatry.ledges || (data.podiatry.ledges = [])
                                                 data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                data.podiatry.ledges[edx].left = data.podiatry.ledges[edx].left ? --data.podiatry.ledges[edx].left : 0
+                                                data.podiatry.ledges[edx].rt = data.podiatry.ledges[edx].rt ? --data.podiatry.ledges[edx].rt : 0
                                                 return data
                                             })}
                                         ><span>-</span></div>
@@ -926,14 +926,14 @@ export default (props) => {
                                                     data.podiatry || (data.podiatry = {})
                                                     data.podiatry.ledges || (data.podiatry.ledges = [])
                                                     data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                    data.podiatry.ledges[edx].left = e.target.value
+                                                    data.podiatry.ledges[edx].rt = e.target.value
                                                     return data
                                                 })}
                                                 value={
                                                     data.podiatry
                                                         && data.podiatry.ledges
                                                         && data.podiatry.ledges[edx]
-                                                        ? data.podiatry.ledges[edx].left : 0
+                                                        ? data.podiatry.ledges[edx].rt : 0
                                                 }
                                                 className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-5 p-0 bg-white h-5 text-xs font-medium text-center focus:outline-none"
                                             />
@@ -945,7 +945,7 @@ export default (props) => {
                                                 data.podiatry || (data.podiatry = {})
                                                 data.podiatry.ledges || (data.podiatry.ledges = [])
                                                 data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                data.podiatry.ledges[edx].left = data.podiatry.ledges[edx].left ? ++data.podiatry.ledges[edx].left : 1
+                                                data.podiatry.ledges[edx].rt = data.podiatry.ledges[edx].rt ? ++data.podiatry.ledges[edx].rt : 1
                                                 return data
                                             })}
                                         ><span>+</span></div>
@@ -959,7 +959,7 @@ export default (props) => {
                                                 data.podiatry || (data.podiatry = {})
                                                 data.podiatry.ledges || (data.podiatry.ledges = [])
                                                 data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                data.podiatry.ledges[edx].right = data.podiatry.ledges[edx].right ? --data.podiatry.ledges[edx].right : 0
+                                                data.podiatry.ledges[edx].rb = data.podiatry.ledges[edx].rb ? --data.podiatry.ledges[edx].rb : 0
                                                 return data
                                             })}
                                         ><span>-</span></div>
@@ -972,14 +972,14 @@ export default (props) => {
                                                     data.podiatry || (data.podiatry = {})
                                                     data.podiatry.ledges || (data.podiatry.ledges = [])
                                                     data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                    data.podiatry.ledges[edx].right = e.target.value
+                                                    data.podiatry.ledges[edx].rb = e.target.value
                                                     return data
                                                 })}
                                                 value={
                                                     data.podiatry
                                                         && data.podiatry.ledges
                                                         && data.podiatry.ledges[edx]
-                                                        ? data.podiatry.ledges[edx].right : 0
+                                                        ? data.podiatry.ledges[edx].rb : 0
                                                 }
                                                 className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-5 p-0 bg-white h-5 text-xs font-medium text-center focus:outline-none"
                                             />
@@ -991,7 +991,7 @@ export default (props) => {
                                                 data.podiatry || (data.podiatry = {})
                                                 data.podiatry.ledges || (data.podiatry.ledges = [])
                                                 data.podiatry.ledges[edx] || (data.podiatry.ledges[edx] = {})
-                                                data.podiatry.ledges[edx].right = data.podiatry.ledges[edx].right ? ++data.podiatry.ledges[edx].right : 1
+                                                data.podiatry.ledges[edx].rb = data.podiatry.ledges[edx].rb ? ++data.podiatry.ledges[edx].rb : 1
                                                 return data
                                             })}
                                         ><span>+</span></div>
@@ -1003,11 +1003,6 @@ export default (props) => {
                 </div>)}
                 <div className="max-w-[20rem] grow"></div>
             </div>
-
-
-
-
-
             <div className="text-sm font-semibold mb-4">Примечание:</div>
             <div className="mb-8 flex items-end gap-16">
                 <div className="grow max-w-[3xl]">

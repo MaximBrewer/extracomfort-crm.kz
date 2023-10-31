@@ -9,6 +9,7 @@ import Img2 from "../../../img/card/reabilitation/i2.jpg"
 import { useRef } from "react";
 import { useEffect } from "react";
 import CanvasDraw from "react-canvas-draw";
+import { useState } from "react";
 
 const customStyles = {
     control: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -93,6 +94,8 @@ export default (props) => {
         }
     }, [canvaRef2])
 
+    const [brush2, setbBrush2] = useState(2)
+
     return <>
         <div className={`bg-violet-200 rounded-lg`}>
             <div className="flex">
@@ -110,10 +113,13 @@ export default (props) => {
                                 'воротниковая зона',
                                 'руки+воротниковая зона',
                                 'общий (спина+руки+ноги+живот+грудная клетка+голова)',
-                                'висцеральный массаж', 'доп.зона - грудная клетка',
-                                'доп.зона - живот', 'доп.зона - руки',
+                                'висцеральный массаж',
+                                'доп.зона: грудная клетка',
+                                'доп.зона: живот',
+                                'доп.зона: руки',
                                 'доп.зона по мобилизационным техникам: грудной',
-                                'грудо-поясничный', 'поясничный'
+                                'доп.зона по мобилизационным техникам: грудо-поясничный',
+                                'доп.зона по мобилизационным техникам: поясничный'
                             ].map((el, edx) => ({
                                 value: edx,
                                 label: el
@@ -416,7 +422,7 @@ export default (props) => {
                             lazyRadius={3}
                             hideGrid={true}
                             hideInterface={false}
-                            brushRadius={2}
+                            brushRadius={brush2}
                             brushColor="#56326E"
                             canvasWidth={276}
                             canvasHeight={288}
@@ -427,7 +433,7 @@ export default (props) => {
                                 return data
                             })}
                         />
-                        <div className="flex justify-center gap-12 py-2 items-center">
+                        <div className="flex justify-center gap-12 pt-2 items-center">
                             <button onClick={e => canvaRef2.current.undo()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -438,6 +444,14 @@ export default (props) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </button>
+                        </div>
+                        <div className="flex justify-center gap-4 py-2 items-center">
+                            <div className={`w-10 h-6 flex justify-center items-center cursor-pointer border-b-2 ${brush2 === 2 ? `border-violet-500` : `border-transparent`}`} onClick={e => setbBrush2(2)}>
+                                <div className="rounded-full h-1 w-1 bg-violet-500" />
+                            </div>
+                            <div className={`w-10 h-6 flex justify-center items-center cursor-pointer border-b-2 ${brush2 === 6 ? `border-violet-500` : `border-transparent`}`} onClick={e => setbBrush2(6)}>
+                                <div className="rounded-full h-2 w-2 bg-violet-500" />
+                            </div>
                         </div>
                     </div>
                     <div className="flex justify-end">

@@ -1,9 +1,12 @@
 import Person2 from "@/../img/card/kinesio/i3.png"
 import Person1 from "@/../img/card/kinesio/i4.png"
+import { usePage } from "@inertiajs/react"
 
 const Checkbox = (props) => {
 
-    const { data = {}, setData = () => { }, name = false, defaultChecked = false, disabled = false, onChange = () => { } } = props
+    const { data = {}, setData = () => { }, name = false, defaultChecked = false, onChange = () => { } } = props
+
+    const { disabled = false } = usePage().props
 
     return <label className={props.className}>
         <input
@@ -33,6 +36,8 @@ const Checkbox = (props) => {
 export default (props) => {
 
     const { data, setData, errors } = props;
+
+    const { disabled = false } = usePage().props
 
     return <div className={`bg-blue-80 rounded-lg p-5 mb-8`}>
         <div className="font-medium mb-6">XI. Ходьба</div>
@@ -213,6 +218,7 @@ export default (props) => {
             <div className="w-3/5">
                 <div className="font-medium mb-4">Замечания</div>
                 <textarea
+                    disabled={disabled}
                     className="min-h-[10rem] bg-white rounded-md w-full"
                     placeholder="Введите текст"
                     onChange={e => setData(prev => {

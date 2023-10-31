@@ -20,6 +20,7 @@ import I6 from "../../../img/card/oda/I6.png"
 import { useEffect } from "react";
 import CanvasDraw from "react-canvas-draw";
 import { Fragment } from "react";
+import { usePage } from "@inertiajs/react";
 
 const Th = ({ children, className, ...props }) => {
     return <th className={`border bg-white border-black font-medium px-2 py-1 ${className}`} {...props}> {children}</th>
@@ -49,12 +50,14 @@ export default (props) => {
 
     const { data, setData, errors, nextTab } = props;
 
+    const { disabled = false } = usePage().props
+
     const i2Ref = useRef(null)
 
     useEffect(() => {
         if (i2Ref.current && data.oda.i2lines) {
             setTimeout(() => {
-                i2Ref.current.simulateDrawingLines({ lines: data.oda.i2lines, immediate: true })
+                i2Ref.current.simulateDrawingLines({ lines: JSON.parse(JSON.stringify(data.oda.i2lines)), immediate: true })
             }, 150)
         }
     }, [i2Ref])
@@ -64,7 +67,7 @@ export default (props) => {
     useEffect(() => {
         if (i3Ref.current && data.oda.i3lines) {
             setTimeout(() => {
-                i3Ref.current.simulateDrawingLines({ lines: data.oda.i3lines, immediate: true })
+                i3Ref.current.simulateDrawingLines({ lines: JSON.parse(JSON.stringify(data.oda.i3lines)), immediate: true })
             }, 150)
         }
     }, [i3Ref])
@@ -74,7 +77,7 @@ export default (props) => {
     useEffect(() => {
         if (i4Ref.current && data.oda.i4lines) {
             setTimeout(() => {
-                i4Ref.current.simulateDrawingLines({ lines: data.oda.i4lines, immediate: true })
+                i4Ref.current.simulateDrawingLines({ lines: JSON.parse(JSON.stringify(data.oda.i4lines)), immediate: true })
             }, 150)
         }
     }, [i4Ref])
@@ -84,7 +87,7 @@ export default (props) => {
     useEffect(() => {
         if (canvaTriggerRef.current && data.oda.triggers) {
             setTimeout(() => {
-                canvaTriggerRef.current.simulateDrawingLines({ lines: data.oda.triggers, immediate: true })
+                canvaTriggerRef.current.simulateDrawingLines({ lines: JSON.parse(JSON.stringify(data.oda.triggers)), immediate: true })
             }, 150)
         }
     }, [canvaTriggerRef])
@@ -94,7 +97,7 @@ export default (props) => {
     useEffect(() => {
         if (canvaViscerRef.current && data.oda.viscers) {
             setTimeout(() => {
-                canvaViscerRef.current.simulateDrawingLines({ lines: data.oda.viscers, immediate: true })
+                canvaViscerRef.current.simulateDrawingLines({ lines: JSON.parse(JSON.stringify(data.oda.viscers)), immediate: true })
             }, 150)
         }
     }, [canvaViscerRef])
@@ -166,6 +169,7 @@ export default (props) => {
                         <Th className="text-left">{cat.title}</Th>
                         {cat.names.map(name => <Td key={name}>
                             <Input name={name} value={data.oda[name]}
+                                disabled={disabled}
                                 onChange={e => setData(prev => {
                                     const data = { ...prev }
                                     data.oda[name] = e.target.value
@@ -180,6 +184,7 @@ export default (props) => {
                 <div className="w-[226px] bg-white rounded overflow-hidden">
                     <div className="h-[304px] relative bg-center bg-cover" style={{ backgroundImage: `url('${P1}')` }}>
                         <input
+                            disabled={disabled}
                             className="absolute top-2/3 left-2/3 py-1 px-2 w-16"
                             value={data.oda.rise ?? 0}
                             onChange={e => setData(prev => {
@@ -194,6 +199,7 @@ export default (props) => {
                     <div className="h-[304px] w-[226px] bg-white relative bg-center bg-cover">
                         <div className="">
                             <CanvasDraw
+                                disabled={disabled}
                                 ref={i2Ref}
                                 lazyRadius={6}
                                 hideGrid={true}
@@ -210,7 +216,7 @@ export default (props) => {
                                 })}
                             />
                         </div>
-                        <div className="flex justify-center gap-4 py-2 items-center absolute bottom-0 w-full">
+                        {disabled ? <></> : <div className="flex justify-center gap-4 py-2 items-center absolute bottom-0 w-full">
                             <button onClick={e => i2Ref.current.undo()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -221,13 +227,14 @@ export default (props) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </button>
-                        </div>
+                        </div>}
 
                         <div className="absolute top-44 left-4 flex flex-col">
                             <label
                                 className="w-full shrink-0 font-bold leading-none flex items-center justify-center"
                             >
                                 <input
+                                    disabled={disabled}
                                     type="radio"
                                     defaultChecked={!!data.oda.i2l}
                                     name="pdi2l"
@@ -245,6 +252,7 @@ export default (props) => {
                                 className="w-full shrink-0 font-bold leading-none flex items-center justify-center"
                             >
                                 <input
+                                    disabled={disabled}
                                     type="radio"
                                     defaultChecked={!data.oda.i2l}
                                     name="pdi2l"
@@ -266,6 +274,7 @@ export default (props) => {
                                 className="block w-5 shrink-0 font-bold leading-none flex items-center justify-center"
                             >
                                 <input
+                                    disabled={disabled}
                                     type="radio"
                                     defaultChecked={!!data.oda.i2to}
                                     name="pdi2to"
@@ -283,6 +292,7 @@ export default (props) => {
                                 className="block w-5 shrink-0 font-bold leading-none flex items-center justify-center"
                             >
                                 <input
+                                    disabled={disabled}
                                     type="radio"
                                     defaultChecked={!data.oda.i2to}
                                     name="pdi2to"
@@ -304,6 +314,7 @@ export default (props) => {
                                 className="w-full shrink-0 font-bold leading-none flex items-center justify-center"
                             >
                                 <input
+                                    disabled={disabled}
                                     type="radio"
                                     defaultChecked={!!data.oda.i2r}
                                     name="pdi2r"
@@ -321,6 +332,7 @@ export default (props) => {
                                 className="w-full shrink-0 font-bold leading-none flex items-center justify-center"
                             >
                                 <input
+                                    disabled={disabled}
                                     type="radio"
                                     defaultChecked={!data.oda.i2r}
                                     name="pdi2r"
@@ -342,6 +354,7 @@ export default (props) => {
                     <div className="h-[304px] w-[226px] bg-white relative bg-center bg-cover">
                         <div className="">
                             <CanvasDraw
+                                disabled={disabled}
                                 ref={i3Ref}
                                 lazyRadius={6}
                                 hideGrid={true}
@@ -358,7 +371,7 @@ export default (props) => {
                                 })}
                             />
                         </div>
-                        <div className="flex justify-center gap-4 py-2 items-center absolute bottom-0 w-full">
+                        {disabled ? <></> : <div className="flex justify-center gap-4 py-2 items-center absolute bottom-0 w-full">
                             <button onClick={e => i3Ref.current.undo()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -369,13 +382,14 @@ export default (props) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </button>
-                        </div>
+                        </div>}
                     </div>
                 </div>
                 <div className="rounded overflow-hidden">
                     <div className="h-[304px] w-[226px] bg-white relative bg-center bg-cover">
                         <div className="">
                             <CanvasDraw
+                                disabled={disabled}
                                 ref={i4Ref}
                                 lazyRadius={6}
                                 hideGrid={true}
@@ -392,7 +406,7 @@ export default (props) => {
                                 })}
                             />
                         </div>
-                        <div className="flex justify-center gap-4 py-2 items-center absolute bottom-0 w-full">
+                        {disabled ? <></> : <div className="flex justify-center gap-4 py-2 items-center absolute bottom-0 w-full">
                             <button onClick={e => i4Ref.current.undo()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -403,12 +417,13 @@ export default (props) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </button>
-                        </div>
+                        </div>}
                     </div>
                 </div>
                 <div className="rounded overflow-hidden">
                     <div className="h-[226px] w-[226px] bg-white relative bg-center bg-cover" style={{ backgroundImage: `url('${P5}')` }}>
                         <input
+                            disabled={disabled}
                             className="absolute top-24 text-center left-8 py-0.5 px-1 w-10 text-sm"
                             value={data.oda.i5e1 ?? 0}
                             onChange={e => setData(prev => {
@@ -418,6 +433,7 @@ export default (props) => {
                             })}
                         />
                         <input
+                            disabled={disabled}
                             className="absolute top-8 text-center left-16 py-0.5 px-1 w-10 text-sm"
                             value={data.oda.i5e2 ?? 0}
                             onChange={e => setData(prev => {
@@ -427,6 +443,7 @@ export default (props) => {
                             })}
                         />
                         <input
+                            disabled={disabled}
                             className="absolute top-8 text-center right-16 py-0.5 px-1 w-10 text-sm"
                             value={data.oda.i5e3 ?? 0}
                             onChange={e => setData(prev => {
@@ -436,6 +453,7 @@ export default (props) => {
                             })}
                         />
                         <input
+                            disabled={disabled}
                             className="absolute top-24 text-center right-8 py-0.5 px-1 w-10 text-sm"
                             value={data.oda.i5e4 ?? 0}
                             onChange={e => setData(prev => {
@@ -450,6 +468,7 @@ export default (props) => {
                 <div className="rounded overflow-hidden">
                     <div className="h-[226px] w-[226px] bg-white relative bg-center bg-cover" style={{ backgroundImage: `url('${P5}')` }}>
                         <input
+                            disabled={disabled}
                             className="absolute top-24 text-center left-8 py-0.5 px-1 w-10 text-sm"
                             value={data.oda.s5e1 ?? 0}
                             onChange={e => setData(prev => {
@@ -459,6 +478,7 @@ export default (props) => {
                             })}
                         />
                         <input
+                            disabled={disabled}
                             className="absolute top-8 text-center left-16 py-0.5 px-1 w-10 text-sm"
                             value={data.oda.s5e2 ?? 0}
                             onChange={e => setData(prev => {
@@ -468,6 +488,7 @@ export default (props) => {
                             })}
                         />
                         <input
+                            disabled={disabled}
                             className="absolute top-8 text-center right-16 py-0.5 px-1 w-10 text-sm"
                             value={data.oda.s5e3 ?? 0}
                             onChange={e => setData(prev => {
@@ -477,6 +498,7 @@ export default (props) => {
                             })}
                         />
                         <input
+                            disabled={disabled}
                             className="absolute top-24 text-center right-8 py-0.5 px-1 w-10 text-sm"
                             value={data.oda.s5e4 ?? 0}
                             onChange={e => setData(prev => {
@@ -495,6 +517,7 @@ export default (props) => {
             <div className="mb-8">
                 <div className="text-sm font-medium mb-2">Неврологические симптомы</div>
                 <textarea
+                    disabled={disabled}
                     placeholder="Введите текст"
                     value={data.oda.nevrology ?? ``}
                     onChange={e => setData(prev => {
@@ -529,6 +552,7 @@ export default (props) => {
                         ].map((cat, cdx) => <tr key={cdx}>
                             {cat.map(name => <Td key={name}>
                                 <Input name={name} value={data.oda[name]}
+                                    disabled={disabled}
                                     onChange={e => setData(prev => {
                                         const data = { ...prev }
                                         data.oda[name] = e.target.value
@@ -544,6 +568,7 @@ export default (props) => {
                     <div className="font-medium mb-2">Триггерные точки:</div>
                     <div className="">
                         <CanvasDraw
+                            disabled={disabled}
                             ref={canvaTriggerRef}
                             lazyRadius={0}
                             hideGrid={true}
@@ -560,7 +585,7 @@ export default (props) => {
                             })}
                         />
                     </div>
-                    <div className="flex justify-center gap-12 py-2 items-center">
+                    {disabled ? <></> : <div className="flex justify-center gap-12 py-2 items-center">
                         <button onClick={e => canvaTriggerRef.current.undo()}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -571,7 +596,7 @@ export default (props) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </button>
-                    </div>
+                    </div>}
                 </div>
                 <div className="shrink-0 w-[150px]">
                     <div className="font-medium mb-2 text-right whitespace-nowrap flex justify-end">
@@ -579,6 +604,7 @@ export default (props) => {
                     </div>
                     <div className="">
                         <CanvasDraw
+                            disabled={disabled}
                             ref={canvaViscerRef}
                             lazyRadius={0}
                             hideGrid={true}
@@ -595,7 +621,7 @@ export default (props) => {
                             })}
                         />
                     </div>
-                    <div className="flex justify-center gap-12 py-2 items-center w-[150px]">
+                    {disabled ? <></> : <div className="flex justify-center gap-12 py-2 items-center w-[150px]">
                         <button onClick={e => canvaViscerRef.current.undo()}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -606,7 +632,7 @@ export default (props) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </button>
-                    </div>
+                    </div>}
                 </div>
             </div>
 
@@ -617,6 +643,7 @@ export default (props) => {
                 <div className="font-medium mb-2">Дополнения</div>
 
                 <textarea
+                    disabled={disabled}
                     placeholder="Введите текст"
                     value={data.oda.adds ?? ``}
                     onChange={e => setData(prev => {
@@ -731,12 +758,16 @@ export default (props) => {
                                         <div className="flex items-center gap-2">
                                             <span className="font-normal text-xs block w-16">справа</span>
                                             <label className="flex items-center gap-2">
-                                                <input type="radio" name="tomasr" value={0}
+                                                <input
+                                                    disabled={disabled}
+                                                    type="radio" name="tomasr" value={0}
                                                     className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '} />
                                                 <span>+</span>
                                             </label>
                                             <label className="flex items-center gap-2">
-                                                <input type="radio" name="tomasr" value={1}
+                                                <input
+                                                    disabled={disabled}
+                                                    type="radio" name="tomasr" value={1}
                                                     className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '} />
                                                 <span>-</span>
                                             </label>
@@ -744,12 +775,16 @@ export default (props) => {
                                         <div className="flex items-center gap-2">
                                             <span className="font-normal text-xs block w-16">слева</span>
                                             <label className="flex items-center gap-2">
-                                                <input type="radio" name="tomasl" value={0}
+                                                <input
+                                                    disabled={disabled}
+                                                    type="radio" name="tomasl" value={0}
                                                     className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '} />
                                                 <span>+</span>
                                             </label>
                                             <label className="flex items-center gap-2">
-                                                <input type="radio" name="tomasl" value={1}
+                                                <input
+                                                    disabled={disabled}
+                                                    type="radio" name="tomasl" value={1}
                                                     className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '} />
                                                 <span>-</span>
                                             </label>
@@ -758,6 +793,7 @@ export default (props) => {
                                 </Th>
                                 {ct.names.map(name => <Td key={name}>
                                     <Input name={name} value={data.oda[name]}
+                                        disabled={disabled}
                                         onChange={e => setData(prev => {
                                             const data = { ...prev }
                                             data.oda[name] = e.target.value
@@ -884,6 +920,7 @@ export default (props) => {
                                 <Td className={`px-2 py-1`}>{ct.title}</Td>
                                 {ct.names.map(name => <Td key={name}>
                                     <Input name={name} value={data.oda[name]}
+                                        disabled={disabled}
                                         onChange={e => setData(prev => {
                                             const data = { ...prev }
                                             data.oda[name] = e.target.value
@@ -941,6 +978,7 @@ export default (props) => {
                         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13].map(i => <tr key={`c${i}`}>
                             {[0, 1, 2, 3, 4, 5].map(j => <Td key={`cc${i}${j}`}>
                                 <Input name={`kraus[${i}][${j}]`} value={data.oda.kraus && data.oda.kraus[j] ? data.oda.kraus[j][i] : ``}
+                                    disabled={disabled}
                                     onChange={e => setData(prev => {
                                         const data = { ...prev }
                                         if (!data.oda.kraus[j]) data.oda.kraus[j] = [];
@@ -983,6 +1021,7 @@ export default (props) => {
                         {[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(i => <tr key={`c${i}`}>
                             {[0, 1, 2, 3, 4, 5, 6].map(j => <Td key={`cc${i}${j}`}>
                                 {j ? <Input name={`webber[${i}][${j - 1}]`} value={data.oda.webber && data.oda.webber[j - 1] ? data.oda.webber[j - 1][i] : ``}
+                                    disabled={disabled}
                                     onChange={e => setData(prev => {
                                         const data = { ...prev }
                                         if (!data.oda.webber[j - 1]) data.oda.webber[j - 1] = [];
@@ -1003,6 +1042,7 @@ export default (props) => {
                 <div className="mb-2">
                     <div className="mb-2">Мобилизация</div>
                     <textarea
+                        disabled={disabled}
                         placeholder="Введите текст"
                         value={data.oda.mobilisation ?? ``}
                         onChange={e => setData(prev => {
@@ -1016,6 +1056,7 @@ export default (props) => {
                 <div className="mb-2">
                     <div className="mb-2">Стабилизация</div>
                     <textarea
+                        disabled={disabled}
                         placeholder="Введите текст"
                         value={data.oda.stabilization ?? ``}
                         onChange={e => setData(prev => {
@@ -1029,6 +1070,7 @@ export default (props) => {
                 <div className="mb-2">
                     <div className="mb-2">Укрепление</div>
                     <textarea
+                        disabled={disabled}
                         placeholder="Введите текст"
                         value={data.oda.strengthening ?? ``}
                         onChange={e => setData(prev => {

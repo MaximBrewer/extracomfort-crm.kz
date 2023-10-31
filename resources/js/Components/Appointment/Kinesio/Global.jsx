@@ -1,3 +1,5 @@
+import { usePage } from "@inertiajs/react";
+
 const fields = [
     {
         name: 'sppv',
@@ -99,6 +101,8 @@ export default (props) => {
 
     const { data, setData, errors } = props;
 
+    const { disabled = false } = usePage().props
+
     return <div className={`bg-blue-80 rounded-lg p-5 mb-8`}>
         <div className="font-medium mb-6">X. Глобальная оценка мышечной функции</div>
         {fields.map((field, fdx) => <div key={fdx} className="mb-4 flex">
@@ -110,6 +114,7 @@ export default (props) => {
                             <div className="w-[2rem]">{f.label}</div>
                             <label className="flex gap-2 items-center">
                                 <input type="radio" name={`${field.name}-${f.name}`} value={0}
+                                    disabled={disabled}
                                     className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                                     defaultChecked={data.kinesio.global && data.kinesio.global[field.name] && data.kinesio.global[field.name][f.name] == 0}
                                     onChange={e => setData(prev => {
@@ -125,6 +130,7 @@ export default (props) => {
                             </label>
                             <label className="flex gap-2 items-center">
                                 <input type="radio" name={`${field.name}-${f.name}`} value={0.5}
+                                    disabled={disabled}
                                     className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                                     defaultChecked={data.kinesio.global && data.kinesio.global[field.name] && data.kinesio.global[field.name][f.name] == 0.5}
                                     onChange={e => setData(prev => {
@@ -140,6 +146,7 @@ export default (props) => {
                             </label>
                             <label className="flex gap-2 items-center">
                                 <input type="radio" name={`${field.name}-${f.name}`} value={1}
+                                    disabled={disabled}
                                     className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                                     defaultChecked={data.kinesio.global && data.kinesio.global[field.name] && data.kinesio.global[field.name][f.name] == 1}
                                     onChange={e => setData(prev => {
@@ -158,6 +165,7 @@ export default (props) => {
                     <div className="w-1/2 border-b">
                         <input
                             type="text"
+                            disabled={disabled}
                             name=""
                             className="w-full py-1  bg-transparent border-transparent focus:outline-transparent focus:shadow-none"
                             value={data.kinesio.global && data.kinesio.global[field.name] && data.kinesio.global[field.name].txt ? data.kinesio.global[field.name].txt : ``}

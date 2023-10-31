@@ -1,3 +1,4 @@
+import { usePage } from "@inertiajs/react";
 import { Fragment } from "react";
 import { useState } from "react";
 import { useRef } from "react";
@@ -92,7 +93,7 @@ const fields = [
                         name: `hirurglech`,
                         type: `checkbox`
                     }
-                    
+
                 ],
             },
             {
@@ -138,6 +139,8 @@ const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fi
 
     const [checked, setChecked] = useState(!!value)
 
+    const { disabled = false } = usePage().props
+
     return <>
 
         {label ? <div className="flex items-center gap-4 mb-2">
@@ -145,6 +148,7 @@ const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fi
             {yesno ? <>
                 <label htmlFor={`yes-${name}`} className="flex items-center gap-2 text-sm">
                     <input type="radio"
+                        disabled={disabled}
                         className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                         name={`${name}checked`}
                         checked={checked}
@@ -160,6 +164,7 @@ const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fi
                 </label>
                 <label htmlFor={`no-${name}`} className="flex items-center gap-2 text-sm">
                     <input type="radio"
+                        disabled={disabled}
                         className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                         name={`${name}checked`}
                         id={`no-${name}`}
@@ -184,6 +189,7 @@ const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fi
             {fields.map((f, fdx) => <div key={fdx} className="my-2 flex items-center gap-2">
                 {f.type == 'radio' ? <label className="flex items-center gap-2">
                     <input
+                        disabled={disabled}
                         name={f.name}
                         type={`radio`}
                         value={f.value}
@@ -199,6 +205,7 @@ const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fi
                     <span>{f.label}</span>
                 </label> : f.type == 'checkbox' ? <label htmlFor={f.name} className="flex items-center gap-2">
                     <input
+                        disabled={disabled}
                         id={f.name}
                         name={f.name}
                         type={`checkbox`}
@@ -215,6 +222,7 @@ const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fi
                 </label> : <>
                     <label>{f.label}</label>
                     <input
+                        disabled={disabled}
                         name={f.name}
                         onChange={e => setData(prev => {
                             const data = { ...prev }
@@ -229,6 +237,7 @@ const Textarea = forwardRef(function ({ data, setData, onChange, value, name, fi
         </div> : ``}
         <textarea
             {...props}
+            disabled={disabled}
             name={name}
             onChange={e => {
                 setChecked(true)

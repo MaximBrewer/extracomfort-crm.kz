@@ -1,15 +1,11 @@
 import Addon from '@/Components/Appointment/Addon';
 import Consult from '@/Components/Appointment/Consult';
 import Kinesio from '@/Components/Appointment/Kinesio';
-import Manual from '@/Components/Appointment/Manual';
-import Oda from '@/Components/Appointment/Oda';
 import Ods from '@/Components/Appointment/Ods';
 import Other from '@/Components/Appointment/Other';
 import Painmap from '@/Components/Appointment/Painmap';
 import Podiatry from '@/Components/Appointment/Podiatry';
 import Reabilitation from '@/Components/Appointment/Reabilitation';
-import Taping from '@/Components/Appointment/Taping';
-import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, useForm } from '@inertiajs/react';
 import { useEffect } from 'react';
@@ -57,8 +53,6 @@ export default (props) => {
 
     const { pagetitle, appointment } = props
 
-    console.log(appointment)
-
     const formRef = useRef(null)
 
     const [tab, setTab] = useState(appointment.data.current ? menu.data.find(el => el.code === appointment.data.current) : menu.data[0])
@@ -82,7 +76,6 @@ export default (props) => {
 
     const submit = (e) => {
         e && e.preventDefault()
-        console.log(dataRef.current.current)
         post(route('specialist.appointment.update', {
             book: appointment.data.book_id
         }), {
@@ -167,28 +160,18 @@ export default (props) => {
                             errors={errors}
                             nextTab={nextTab}
                         /> : ``}
-                        {tab.code === `manual` ? <Manual
-                            data={data}
-                            setData={setData}
-                            errors={errors}
-                        /> : ``}
-                        {tab.code === `other` ? <Other
-                            data={data}
-                            setData={setData}
-                            errors={errors}
-                        /> : ``}
-                        {tab.code === `reabilitation` ? <Reabilitation
-                            data={data}
-                            setData={setData}
-                            errors={errors}
-                        /> : ``}
                         {tab.code === `podiatry` ? <Podiatry
                             data={data}
                             setData={setData}
                             errors={errors}
                             appointment={appointment}
                         /> : ``}
-                        {tab.code === `taping` ? <Taping
+                        {tab.code === `reabilitation` ? <Reabilitation
+                            data={data}
+                            setData={setData}
+                            errors={errors}
+                        /> : ``}
+                        {tab.code === `other` ? <Other
                             data={data}
                             setData={setData}
                             errors={errors}

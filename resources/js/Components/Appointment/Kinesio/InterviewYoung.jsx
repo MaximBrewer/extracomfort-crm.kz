@@ -1,3 +1,4 @@
+import { usePage } from "@inertiajs/react";
 import { Fragment } from "react";
 import { useState } from "react";
 import { useRef } from "react";
@@ -86,6 +87,8 @@ const Textarea = forwardRef(function ({ onChange, value, name, yesno = false, cl
 
     const [checked, setChecked] = useState(!!value)
 
+    const { disabled = false } = usePage().props
+
     return <>
 
         {label ? <div className="flex items-center gap-4 mb-2">
@@ -93,6 +96,7 @@ const Textarea = forwardRef(function ({ onChange, value, name, yesno = false, cl
             {yesno ? <>
                 <label htmlFor={`yes-${name}`} className="flex items-center gap-4">
                     <input type="radio"
+                        disabled={disabled}
                         className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                         name={`${name}checked`}
                         checked={checked}
@@ -108,6 +112,7 @@ const Textarea = forwardRef(function ({ onChange, value, name, yesno = false, cl
                 </label>
                 <label htmlFor={`no-${name}`} className="flex items-center gap-4">
                     <input type="radio"
+                        disabled={disabled}
                         className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                         name={`${name}checked`}
                         id={`no-${name}`}
@@ -129,6 +134,7 @@ const Textarea = forwardRef(function ({ onChange, value, name, yesno = false, cl
         </div> : ``}
         <textarea
             {...props}
+            disabled={disabled}
             name={name}
             onChange={e => {
                 setChecked(true)

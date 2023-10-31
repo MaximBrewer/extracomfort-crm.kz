@@ -1,3 +1,4 @@
+import { usePage } from '@inertiajs/react';
 import Select, { components } from 'react-select';
 
 const customStyles = {
@@ -80,6 +81,8 @@ export default (props) => {
 
     const { data, setData, errors } = props;
 
+    const { disabled = false } = usePage().props
+
     return <div className={`bg-blue-80 rounded-lg p-5 mb-8`}>
 
         <div className="font-medium mb-4">VI. GMFCS</div>
@@ -87,6 +90,7 @@ export default (props) => {
             <div className="flex items-center gap-2">
                 <div className="">В точке F</div>
                 <Select
+                    isDisabled={disabled}
                     styles={customStyles}
                     components={{ DropdownIndicator }}
                     isSearchable={false}
@@ -112,6 +116,7 @@ export default (props) => {
             <div className="flex items-center gap-2">
                 <div className="">Текущий</div>
                 <Select
+                    isDisabled={disabled}
                     styles={customStyles}
                     components={{ DropdownIndicator }}
                     isSearchable={false}
@@ -153,6 +158,7 @@ export default (props) => {
                             <td className="py-1 px-1">
                                 <input
                                     type="checkbox"
+                                    disabled={disabled}
                                     id={`gmfcs-${field.name}`}
                                     onChange={e => setData(prev => {
                                         const data = { ...prev }
@@ -204,6 +210,7 @@ export default (props) => {
                                 </td>
                                 {field.field ? <td className="py-1 px-1">
                                     <input
+                                        disabled={disabled}
                                         name={`gmfcs-${field.name}-text`}
                                         value={data.kinesio.gmfcs && data.kinesio.gmfcs[`${field.name}text`] ? data.kinesio.gmfcs[`${field.name}text`] : ``}
                                         onChange={e => setData(prev => {
@@ -218,6 +225,7 @@ export default (props) => {
                                 </td> : <td></td>}
                                 <td className="py-1 px-1">
                                     <input
+                                        disabled={disabled}
                                         type="checkbox"
                                         id={`gmfcs-${field.name}`}
                                         onChange={e => setData(prev => {

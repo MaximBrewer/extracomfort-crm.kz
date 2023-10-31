@@ -412,4 +412,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Task::class, 'user_id');
     }
+
+    /**
+     * The users that belong to the role.
+     */
+    public function notifications(): HasMany
+    {
+        return $this->hasMany(Notification::class, 'user_id');
+    }
 }

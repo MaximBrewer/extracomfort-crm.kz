@@ -12,6 +12,7 @@ import Select, { components } from 'react-select';
 import { useState } from "react";
 import PrimaryButton from "../PrimaryButton";
 import { Fragment } from "react";
+import { usePage } from "@inertiajs/react";
 
 const pf = [
     `постоянная`,
@@ -176,11 +177,14 @@ const painnumlevels = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(i => (
 
 const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide = false, prefix = false }) => {
 
+    const { disabled } = usePage().props
+
     return <div className="grow">
         <div className="flex gap-4 items-center mb-8">
             <div className="font-semibold shrink-0">Уровень боли</div>
             <div className={`grid grid-cols-3 gap-4 text-sm ${index < 0 ? `grow` : ``}`}>
                 <Select
+                    isDisabled={disabled}
                     key={`${prefix ? `${prefix}-` : ``}department${index < 0 ? `` : `-${index}`}-${painData.department}`}
                     styles={customStyles}
                     components={{ DropdownIndicator }}
@@ -195,6 +199,7 @@ const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide
                     }}
                 />
                 <Select
+                    isDisabled={disabled}
                     styles={customStyles}
                     key={`${prefix ? `${prefix}-` : ``}painlevel${index < 0 ? `` : `-${index}`}-${painData.painlevel}`}
                     components={{ DropdownIndicator }}
@@ -210,6 +215,7 @@ const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide
                     placeholder="Выбрать из списка"
                 />
                 <Select
+                    isDisabled={disabled}
                     styles={customStyles}
                     key={`${prefix ? `${prefix}-` : ``}painnumlevel${index < 0 ? `` : `-${index}`}-${painData.painnumlevel}`}
                     components={{ DropdownIndicator }}
@@ -225,7 +231,7 @@ const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide
                     placeholder="Выберите от 0 до 10"
                 />
             </div>
-            {index == painDatas.length - 1 ? <div className="w-4 h-4 shrink-0 cursor-pointer flex items-center justify-center bg-violet-900 rounded-sm text-white leading-none font-medium" onClick={e => {
+            {!disabled ? (index == painDatas.length - 1 ? <div className="w-4 h-4 shrink-0 cursor-pointer flex items-center justify-center bg-violet-900 rounded-sm text-white leading-none font-medium" onClick={e => {
                 setPainDatas(prev => [...prev, { ...painData }])
             }}><div>+</div></div> : <div className="w-4 h-4 shrink-0 cursor-pointer flex items-center justify-center bg-violet-900 rounded-sm text-white leading-none font-medium" onClick={e => {
                 setPainDatas(prev => {
@@ -233,13 +239,14 @@ const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide
                     data.splice(index, 1)
                     return data
                 })
-            }}><div>-</div></div>}
+            }}><div>-</div></div>) : <></>}
         </div>
         <div className="flex grow mb-8 -mx-3">
             {[`боли нет`, `боль незначительная`, `боль умеренная`, `боль терпимая`, `боль выраженная`, `боль невыносимая`]
                 .map((label, ldx) => <label key={ldx} htmlFor={`${prefix ? `${prefix}-` : ``}painlevel-${1 + ldx}${index > -1 ? `-${index}` : ``}`} className="w-1/6 px-3 flex flex-col gap-4 shrink-0 items-center">
                     <img src={levels[ldx]} alt={``} className="w-24 h-auto" />
                     <input
+                        disabled={disabled}
                         type="radio"
                         name={`${prefix ? `${prefix}-` : ``}painlevel${index > -1 ? `-${index}` : ``}`}
                         value={1 + ldx}
@@ -264,6 +271,7 @@ const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide
                 <div className="flex flex-wrap gap-4 items-center">
                     {characters.map((item, idx) => <label key={idx} htmlFor={`character-${idx}${index > -1 ? `-${index}` : ``}`} className="flex gap-2 items-center">
                         <input
+                            disabled={disabled}
                             type="checkbox"
                             name={`character${index > -1 ? `-${index}` : ``}`}
                             value={1 + idx}
@@ -287,6 +295,7 @@ const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide
             </div>
             <div className="mb-4">
                 <input
+                    disabled={disabled}
                     name={`text${index > -1 ? `-${index}` : ``}`}
                     placeholder="Введите текст"
                     value={painData.text ?? ``}
@@ -305,6 +314,8 @@ const PainMetter = ({ painData, painDatas, setPainDatas = () => { }, index, hide
 export default (props) => {
 
     const { data, setData, errors, nextTab } = props;
+
+    const { disabled = false } = usePage().props
 
     const painDataDefault = {
         level: 1,
@@ -368,6 +379,7 @@ export default (props) => {
                             ref={canvaRef}
                             lazyRadius={3}
                             hideGrid={true}
+                            disabled={disabled}
                             hideInterface={false}
                             brushRadius={2}
                             brushColor="#3A9EAA"
@@ -381,7 +393,7 @@ export default (props) => {
                             })}
                         />
                     </div>
-                    <div className="flex justify-center gap-12 py-4 items-center">
+                    {!disabled ? <div className="flex justify-center gap-12 py-4 items-center">
                         <button onClick={e => canvaRef.current.undo()}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -392,7 +404,7 @@ export default (props) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </button>
-                    </div>
+                    </div> : <></>}
                 </div>
                 <PainMetter painData={painDatas[painDatas.length - 1]} setPainDatas={setPainDatas} painDatas={painDatas} index={painDatas.length - 1} />
             </div>
@@ -402,6 +414,7 @@ export default (props) => {
                 <div className="text-sm font-medium mb-2">Локализация боли</div>
                 <textarea
                     placeholder="Введите текст"
+                    disabled={disabled}
                     value={data.painmap.localisation ?? ``}
                     onChange={e => setData(prev => {
                         const data = { ...prev }
@@ -427,6 +440,7 @@ export default (props) => {
                             styles={customStyles}
                             components={{ DropdownIndicator }}
                             options={pf}
+                            isDisabled={disabled}
                             placeholder={`Выбрать из списка`}
                             value={pf.find(el => el.value == data.painmap.frequency)}
                             onChange={value => setData(prev => {
@@ -438,6 +452,7 @@ export default (props) => {
                     </div>
                     <div>
                         <input
+                            disabled={disabled}
                             placeholder="Введите текст"
                             value={data.painmap.frequencytext ?? ``}
                             onChange={e => setData(prev => {
@@ -455,6 +470,7 @@ export default (props) => {
                 <div className="grid grid-cols-[1fr_2fr] gap-8 text-xs">
                     <div>
                         <Select
+                            isDisabled={disabled}
                             styles={customStyles}
                             components={{ DropdownIndicator }}
                             options={pu}
@@ -469,6 +485,7 @@ export default (props) => {
                     </div>
                     <div>
                         <input
+                            disabled={disabled}
                             placeholder="Введите текст"
                             value={data.painmap.worsingtext ?? ``}
                             onChange={e => setData(prev => {
@@ -489,6 +506,7 @@ export default (props) => {
                     {pomed.map((item, idx) => <label key={idx} htmlFor={`pomed-${idx}`} className={`flex gap-2 items-center ${idx == pomed.length - 1 ? `w-full` : ``}`}>
                         <div className="shrink-0 flex gap-2 items-center">
                             <input
+                                disabled={disabled}
                                 type="checkbox"
                                 name={`pomed`}
                                 id={`pomed-${idx}`}
@@ -511,6 +529,7 @@ export default (props) => {
                         </div>
                         {idx == pomed.length - 1 ? <input
                             placeholder="Введите текст"
+                            disabled={disabled}
                             value={data.painmap.pomedtext ?? ``}
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
@@ -527,6 +546,7 @@ export default (props) => {
                     {ponomed.map((item, idx) => <label key={idx} htmlFor={`ponomed-${idx}`} className={`flex gap-2 items-center ${idx == ponomed.length - 1 ? `w-full` : ``}`}>
                         <div className="shrink-0 flex gap-2 items-center">
                             <input
+                                disabled={disabled}
                                 type="checkbox"
                                 name={`ponomed`}
                                 id={`ponomed-${idx}`}
@@ -549,6 +569,7 @@ export default (props) => {
                         </div>
                         {idx == ponomed.length - 1 ? <input
                             placeholder="Введите текст"
+                            disabled={disabled}
                             value={data.painmap.ponomedtext ?? ``}
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
@@ -566,6 +587,7 @@ export default (props) => {
                 <div className="flex flex-wrap gap-6 grow mb-8 text-xs whitespace-nowrap">
                     {sideeffects.map((item, idx) => <label key={idx} htmlFor={`sideeffect-${idx}`} className={`flex gap-2 items-center ${idx == sideeffects.length - 1 ? `w-full` : ``}`}>
                         <input
+                            disabled={disabled}
                             type="checkbox"
                             name={`sideeffects[]`}
                             id={`sideeffect-${idx}`}
@@ -585,6 +607,7 @@ export default (props) => {
                         <div>{item}</div>
                         {idx == sideeffects.length - 1 ? <input
                             placeholder="Введите текст"
+                            disabled={disabled}
                             value={data.painmap.sideeffecttext ?? ``}
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
@@ -613,6 +636,7 @@ export default (props) => {
                 <div className="flex flex-col gap-4 text-xs">
                     {therapyeffects.map((item, idx) => <label key={idx} htmlFor={`therapyeffect-${idx}`} className={`flex gap-2 items-center`}>
                         <input
+                            disabled={disabled}
                             type="radio"
                             name={`therapyeffect`}
                             id={`therapyeffect-${idx}`}
@@ -637,6 +661,7 @@ export default (props) => {
             <div className="mb-8">
                 <div className="text-sm font-medium mb-2">Комментарий</div>
                 <textarea
+                    disabled={disabled}
                     placeholder="Введите текст"
                     value={data.painmap.comment ?? ``}
                     onChange={e => setData(prev => {
@@ -662,8 +687,8 @@ export default (props) => {
         </div>
 
 
-        <div className={`flex justify-end py-8`}>
+        {!disabled ? <div className={`flex justify-end py-8`}>
             <PrimaryButton size="sm" onClick={() => nextTab()}>Далее</PrimaryButton>
-        </div>
+        </div> : <></>}
     </>
 }

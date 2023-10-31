@@ -3,6 +3,7 @@ import InputError from "../InputError";
 import InputLabel from "../InputLabel";
 import PrimaryButton from "../PrimaryButton";
 import TextArea from "../TextArea";
+import { usePage } from "@inertiajs/react";
 
 const elements = [
     {
@@ -59,7 +60,9 @@ const elements = [
 
 export default (props) => {
 
-    const { data, setData, errors, nextTab  } = props;
+    const { disabled = false } = usePage().props
+
+    const { data, setData, errors, nextTab } = props;
 
     const handleOnChange = (event) => {
         setData(prev => {
@@ -89,6 +92,7 @@ export default (props) => {
             {elements.map((el, edx) => <div key={edx} className="mb-4">
                 <InputLabel htmlFor={el.code} value={el.title} color={`text-black`} weight={`font-semibold`} size={`text-sm`} />
                 <TextArea
+                    disabled={disabled}
                     id={el.code}
                     type="text"
                     name={el.code}
@@ -103,9 +107,9 @@ export default (props) => {
                 <InputError message={errors[el.code]} className="mt-2" />
             </div>)}
         </div>
-        <div className={`flex justify-end py-8`}>
+        {!disabled ? <div className={`flex justify-end py-8`}>
             <PrimaryButton size="sm" onClick={() => nextTab()}>Далее</PrimaryButton>
-        </div>
+        </div> : <></>}
     </>
 }
 

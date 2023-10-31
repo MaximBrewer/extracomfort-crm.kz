@@ -4,10 +4,12 @@ use App\Http\Controllers\Client;
 use App\Http\Controllers\Specialist;
 use App\Http\Controllers\Recieption;
 use App\Http\Controllers\Admin;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Sale;
 use App\Http\Controllers\Senior;
 use App\Http\Controllers\Nurse;
 use App\Http\Controllers\ProfileController;
+use App\Models\CallIn;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Artisan;
@@ -188,6 +190,9 @@ Route::group(['prefix' => 'sale', 'as' => 'sale.', 'middleware' => ['auth', 'sal
 });
 
 Route::middleware('auth')->group(function () {
+
+    Route::get('appointment/{book}', AppointmentController::class)->name('appointment');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
@@ -201,9 +206,17 @@ Route::get('/migrate', function () {
 });
 
 Route::post('ringostat/incoming', function (Request $request) {
-    Log::channel('ringostat')->info(print_r($request->all(), true));
+    CallIn::create(['data' => $request->all()]);
     return true;
 });
+
+
+Route::post('ringostat/incall', function (Request $request) {
+    // CallIn::create(['data' => $request->all()]);
+    return true;
+});
+
+
 
 Route::get('/clear', function () {
     Artisan::call('config:clear');

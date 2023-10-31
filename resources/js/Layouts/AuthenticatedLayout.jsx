@@ -21,11 +21,13 @@ import Sale from '@/Components/Menu/Sale';
 import Nurse from '@/Components/Menu/Nurse';
 
 import parse from "html-react-parser"
+import { useEffect } from 'react';
+import Close from '@/Icons/Close';
 
 export default function Authenticated({ auth, children, heading = false, scrollpage = false }) {
 
     const [showNotifications, setShowNotifications] = useState(false)
-    const [callNotification, setCallNotification] = useState(false)
+    const [notifications, setNotifications] = useState([])
 
 
     const { post } = useForm({});
@@ -273,12 +275,17 @@ export default function Authenticated({ auth, children, heading = false, scrollp
         ],
     }
 
-    if (auth.user) {
+    useEffect(() => {
         window.Echo.private(`App.Models.User.${auth.user.id}`)
-            .listen('notification', (e) => {
-                setCallNotification(e.notification)
+            .stopListening('.notification')
+            .listen('.notification', (e) => {
+                setNotifications(prev => {
+                    const ns = [...prev]
+                    ns.push(e);
+                    return ns
+                })
             });
-    }
+    }, [])
 
     return (
         <>
@@ -300,6 +307,7 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                         </ul>
                     </div>
                     <div>
+                        <Link href={`/appointment/19`}>Профиль</Link>
                         <Link href={`/profile`} className={`flex space-x-4 items-center mt-6 text-gray-800 pb-6`}>
                             <div className={`w-6 h-6 text-gray-600 flex items-center justify-center`}><Profile className={`w-5 h-auto`} /></div>
                             <span>Профиль</span>
@@ -334,13 +342,13 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                                 <span className={`text-blue-400`}>{priceFormat(auth.user.balance)}</span>
                             </div> : <div className={`flex mb-2`}>&nbsp;</div>}
                             <div className={`flex space-x-4 items-center`}>
-                                {auth.user.role.name !== 'admin' ? <a href="#" className={`relative`} onClick={e => {
+                                {/* {auth.user.role.name !== 'admin' ? <a href="#" className={`relative`} onClick={e => {
                                     e.preventDefault();
                                     setShowNotifications(prev => !prev)
                                 }}>
                                     <Bell className={`w-6 h-auto`} />
                                     <div className={`w-3 h-3 absolute -right-px -top-1 border-slate-100 rounded-full border-2 bg-green-500`} />
-                                </a> : ``}
+                                </a> : ``} */}
                                 <div className={`w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/avatar.jpeg)` }}></div>
                                 <div className={`leading-tight`}>
                                     <div className={`font-medium`}>{auth.user.name}</div>
@@ -364,16 +372,19 @@ export default function Authenticated({ auth, children, heading = false, scrollp
             </div>
             {showNotifications ? <div className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-10`} onClick={e => setShowNotifications(false)}></div> : ``}
 
-            {callNotification ? <div className={`fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 flex items-center justify-center`} onClick={e => setCallNotification(false)}>
-
-                <div className="bg-white p-5 rounded-lg shadow relative">
-                    <svg className="w-6 h-6 absolute -right-8 -top-8 text-white cursor-pointer" viewBox="0 0 13 13" fill="none" xmlns="http://www.w3.org/2000/svg" onClick={e => setCallNotification(false)}>
-                        <path d="M12.8333 1.2925L11.5408 0L6.41667 5.12417L1.2925 0L0 1.2925L5.12417 6.41667L0 11.5408L1.2925 12.8333L6.41667 7.70917L11.5408 12.8333L12.8333 11.5408L7.70917 6.41667L12.8333 1.2925Z" fill="currentColor" />
-                    </svg>
-                    <div>{parse(callNotification ?? ``)}</div>
-                </div>
-
-            </div> : ``}
+            {notifications.length ? <ul className={`overflow-auto fixed top-0 left-0 w-full h-full bg-black bg-opacity-50 z-50 px-4 py-4 flex flex-col gap-4`}>
+                {notifications.map((n, ndx) => <li key={ndx} className={`w-[18rem] px-4 py-2 bg-blue-50 rounded-lg pr-6 relative`} onClick={e => setNotifications(prev => {
+                    const ns = [...prev]
+                    ns.splice(ndx, 1);
+                    return ns
+                })}>
+                    <Close className={`w-4 h-4 absolute right-2 top-2 cursor-pointer`} />
+                    <div>{parse(n.notification ?? ``)}</div>
+                    {n.link ? <Link href={route(n.link.route, n.link.params)}>{n.link.text}</Link> : <></>}
+                </li>)}
+                <li className={`w-[18rem] px-4 py-2 bg-blue-50 rounded-lg pr-6 relative text-center cursor-pointer`} onClick={e => setNotifications([])}>очистить</li>
+            </ul > : <></>
+            }
         </>
     );
 }

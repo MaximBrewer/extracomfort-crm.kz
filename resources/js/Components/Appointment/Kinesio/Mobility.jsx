@@ -1,3 +1,4 @@
+import { usePage } from "@inertiajs/react"
 
 const fields = [
     { label: `Гипер`, name: `hyper` },
@@ -25,6 +26,8 @@ export default (props) => {
 
     const { data, setData, errors } = props;
 
+    const { disabled = false } = usePage().props
+
     return <div className={`bg-blue-80 rounded-lg p-5 mb-8`}>
 
         <div className="font-medium mb-4">V. Подвижность</div>
@@ -36,6 +39,7 @@ export default (props) => {
                         {cat.fields.map((field, ndx) => <Td key={ndx}>
                             <label className="w-full flex items-center justify-center gap-2">
                                 <input
+                                    disabled={disabled}
                                     type="radio"
                                     name={`sensivity-${cat.name}`}
                                     className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}

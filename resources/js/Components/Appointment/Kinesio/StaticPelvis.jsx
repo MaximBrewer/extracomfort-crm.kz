@@ -1,8 +1,11 @@
+import { usePage } from "@inertiajs/react";
 
 
 export default (props) => {
 
     const { data, setData, errors } = props;
+
+    const { disabled = false } = usePage().props
 
     return <div className={`bg-blue-80 rounded-lg p-5 mb-8`}>
 
@@ -12,6 +15,7 @@ export default (props) => {
                 <label className="flex items-center gap-2 mb-2">
                     <span className="">Таз</span>
                     <input
+                        disabled={disabled}
                         type="text"
                         onChange={e => setData(prev => {
                             const data = { ...prev }
@@ -28,6 +32,7 @@ export default (props) => {
                     <span className="">Длина НК Л</span>
                     <input
                         type="text"
+                        disabled={disabled}
                         onChange={e => setData(prev => {
                             const data = { ...prev }
                             const kinesio = data.kinesio
@@ -41,6 +46,7 @@ export default (props) => {
                     <span className="">П</span>
                     <input
                         type="text"
+                        disabled={disabled}
                         onChange={e => setData(prev => {
                             const data = { ...prev }
                             const kinesio = data.kinesio
@@ -56,6 +62,7 @@ export default (props) => {
                     <span className="">Тест 2 веса Л</span>
                     <input
                         type="text"
+                        disabled={disabled}
                         onChange={e => setData(prev => {
                             const data = { ...prev }
                             const kinesio = data.kinesio
@@ -69,6 +76,7 @@ export default (props) => {
                     <span className="">П</span>
                     <input
                         type="text"
+                        disabled={disabled}
                         onChange={e => setData(prev => {
                             const data = { ...prev }
                             const kinesio = data.kinesio
@@ -84,6 +92,7 @@ export default (props) => {
                     <span className="">Угол антеторсии Л</span>
                     <input
                         type="text"
+                        disabled={disabled}
                         onChange={e => setData(prev => {
                             const data = { ...prev }
                             const kinesio = data.kinesio
@@ -97,6 +106,7 @@ export default (props) => {
                     <span className="">П</span>
                     <input
                         type="text"
+                        disabled={disabled}
                         onChange={e => setData(prev => {
                             const data = { ...prev }
                             const kinesio = data.kinesio
@@ -112,6 +122,7 @@ export default (props) => {
                     <span className="">Длина бедренных кости Л</span>
                     <input
                         type="text"
+                        disabled={disabled}
                         onChange={e => setData(prev => {
                             const data = { ...prev }
                             const kinesio = data.kinesio
@@ -125,6 +136,7 @@ export default (props) => {
                     <span className="">П</span>
                     <input
                         type="text"
+                        disabled={disabled}
                         onChange={e => setData(prev => {
                             const data = { ...prev }
                             const kinesio = data.kinesio

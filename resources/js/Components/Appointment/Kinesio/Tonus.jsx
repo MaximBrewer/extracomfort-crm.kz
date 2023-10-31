@@ -1,4 +1,5 @@
 import Person from "@/../img/card/kinesio/i2.png"
+import { usePage } from "@inertiajs/react";
 import { useState } from 'react';
 import { useEffect } from 'react';
 import { useRef } from 'react';
@@ -7,6 +8,8 @@ import { useRef } from 'react';
 const FieldItem = ({ data, setData, fields, rounded, field, setZIndex }) => {
 
     const [opened, setOpened] = useState(false)
+
+    const { disabled = false } = usePage().props
 
     const ref = useRef(null)
 
@@ -25,7 +28,7 @@ const FieldItem = ({ data, setData, fields, rounded, field, setZIndex }) => {
         }
     }, [opened])
 
-    return <div ref={ref} className={`cursor-pointer relative text-sm flex gap-1 items-center leading-none ${rounded && fields.length > 2 ? `justify-center` : ``}`} onClick={e => setOpened(prev => !prev)}>
+    return <div ref={ref} className={`cursor-pointer relative text-sm flex gap-1 items-center leading-none ${rounded && fields.length > 2 ? `justify-center` : ``}`} onClick={e => setOpened(prev => disabled ? false : !prev)}>
         <span>{field.label}</span>
         <div className="">
             <div className="text-center min-w-[1.5rem] py-1 font-medium">{data.kinesio.tonus && data.kinesio.tonus[field.name] ? ['__', 'Го', 'Гр', '+', '0'][data.kinesio.tonus[field.name]] : '__'}</div>
@@ -66,6 +69,8 @@ export default (props) => {
     const { data, setData, errors } = props;
 
     const [tonus, setTonus] = useState([0, 0, 0, 0, 0])
+
+    const { disabled = false } = usePage().props
 
     useEffect(() => {
         if (data.kinesio && data.kinesio.tonus) {
@@ -146,6 +151,7 @@ export default (props) => {
                     <label className="flex items-center gap-2 px-4 py-1 absolute top-[3.25rem] -right-0 bg-zinc-300 border border-black">
                         <span className="w-8">ВП</span>
                         <input
+                            disabled={disabled}
                             type="checkbox"
                             id={`tonus-vp`}
                             onChange={e => setData(prev => {
@@ -163,6 +169,7 @@ export default (props) => {
                     <label className="flex items-center gap-2 px-4 py-1 absolute top-[32rem] -right-[4rem] bg-zinc-300 border border-black">
                         <span className="w-8">НП</span>
                         <input
+                            disabled={disabled}
                             type="checkbox"
                             id={`tonus-np`}
                             onChange={e => setData(prev => {

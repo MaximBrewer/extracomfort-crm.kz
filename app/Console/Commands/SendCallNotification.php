@@ -3,6 +3,8 @@
 namespace App\Console\Commands;
 
 use App\Events\NotificationEvent;
+use App\Models\Notification;
+use App\Models\User;
 use Illuminate\Console\Command;
 
 class SendCallNotification extends Command
@@ -26,6 +28,15 @@ class SendCallNotification extends Command
      */
     public function handle(): void
     {
-        event(new NotificationEvent("Звонит 777799998877"));
+        User::find(5)->notifications()->create([
+            'notification' => '<b>Звонит</b> ' . time(),
+            'link' => [
+                'text' => 'перейти',
+                'route' => 'appointment',
+                'params' => [
+                    'appointment' => 19
+                ]
+            ]
+        ]);
     }
 }

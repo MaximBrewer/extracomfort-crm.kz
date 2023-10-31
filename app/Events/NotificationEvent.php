@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Notification;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -13,14 +14,18 @@ use Illuminate\Queue\SerializesModels;
 class NotificationEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
-    
+
+    private $user;
     public $notification;
+    public $link;
     /**
      * Create a new event instance.
      */
-    public function __construct($notification)
+    public function __construct(Notification $model)
     {
-        $this->notification = $notification;
+        $this->user = $model->user;
+        $this->notification = $model->notification;
+        $this->link = $model->link;
     }
 
     /**
@@ -31,7 +36,7 @@ class NotificationEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new PrivateChannel('App.Models.User.2'),
+            new PrivateChannel('App.Models.User.' . $this->notification->user->id)
         ];
     }
 

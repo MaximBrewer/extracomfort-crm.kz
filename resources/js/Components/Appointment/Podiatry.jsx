@@ -1,8 +1,7 @@
 import { Fragment } from "react";
 import PrimaryButton from "../PrimaryButton";
 import Select, { components } from 'react-select';
-import { Link } from "@inertiajs/react";
-import { useLayout } from "@/Contexts/LayoutContext";
+import { Link, usePage } from "@inertiajs/react";
 
 import Img1 from "../../../img/card/podiatry/i1.jpg"
 import Img2 from "../../../img/card/podiatry/i2.jpg"
@@ -88,6 +87,8 @@ const Element = (props) => {
 
     const { data, setData, formitem, jsonname } = props
 
+    const { disabled = false } = usePage().props
+
     const [count, setCount] = useState(data.podiatry
         && data.podiatry[jsonname]
         && data.podiatry[jsonname][`${formitem.name}`] ? data.podiatry
@@ -97,7 +98,7 @@ const Element = (props) => {
     return (new Array(count).fill(null)).map((dr, drx) => <div key={drx} className="flex items-center gap-4 justify-between mb-1.5">
         <div className="text-sm flex gap-1 items-center justify-between w-[9.5rem]">
             <div>{drx ? `` : formitem.title}</div>
-            {formitem.multiple ? (
+            {formitem.multiple && !disabled ? (
                 drx ? <div
                     className="cursor-pointer w-4 h-4 bg-purple-900 rounded flex items-center justify-center leading-none font-bold text-white"
                     onClick={e => setCount(prev => --prev)}
@@ -111,6 +112,7 @@ const Element = (props) => {
                 <div className="text-sm w-16">{item.title}</div>
                 <div className="w-20">
                     <Select
+                        isDisabled={disabled}
                         styles={customStyles}
                         components={{ DropdownIndicator }}
                         options={ieoptions}
@@ -144,6 +146,8 @@ const Element = (props) => {
 
 export default (props) => {
 
+    const { disabled = false } = usePage().props
+
     const { data, setData, errors, nextTab, appointment } = props;
 
     const canvaTriggerRef = useRef(null)
@@ -151,7 +155,7 @@ export default (props) => {
     useEffect(() => {
         if (canvaTriggerRef.current && data.podiatry.insoleslines) {
             setTimeout(() => {
-                canvaTriggerRef.current.simulateDrawingLines({ lines: data.podiatry.insoleslines, immediate: true })
+                canvaTriggerRef.current.simulateDrawingLines({ lines: JSON.parse(JSON.stringify(data.podiatry.insoleslines)), immediate: true })
             }, 150)
         }
     }, [canvaTriggerRef])
@@ -161,7 +165,7 @@ export default (props) => {
     useEffect(() => {
         if (canvaViscerRef.current && data.podiatry.shoeslines) {
             setTimeout(() => {
-                canvaViscerRef.current.simulateDrawingLines({ lines: data.podiatry.shoeslines, immediate: true })
+                canvaViscerRef.current.simulateDrawingLines({ lines: JSON.parse(JSON.stringify(data.podiatry.shoeslines)), immediate: true })
             }, 150)
         }
     }, [canvaViscerRef])
@@ -175,6 +179,7 @@ export default (props) => {
                     <div className="text-sm font-semibold mb-4">Корректоры стопы:</div>
                     <div className="mb-4">
                         <textarea
+                            disabled={disabled}
                             className="bg-white rounded-lg border-white w-full h-[3.5rem]"
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
@@ -294,8 +299,9 @@ export default (props) => {
                     <div className="pl-4 pr-5 py-2.5 bg-slate-100 rounded-lg items-center gap-2 flex text-gray-700 text-sm relative my-4">
                         <File className="w-5 h-5 shrink-0" />
                         <div className="">{data.podiatry.file ? data.podiatry.file.name : `Прикрепить файл`}</div>
-                        <input
+                        {!disabled ? <input
                             type="file"
+                            disabled={disabled}
                             className="opacity-0 absolute top-0 left-0 w-full h-full cursor-pointer"
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
@@ -303,7 +309,7 @@ export default (props) => {
                                 data.podiatry.file = e.target.files.length ? e.target.files[0] : null;
                                 return data
                             })}
-                        />
+                        /> : <></>}
                         {data.podiatry.file && data.podiatry.file.href ? <a className="underline hover:no-undrline text-primary-500 relative" href={data.podiatry.file.href} target="_blank">Смотреть</a> : ``}
                     </div>
 
@@ -312,6 +318,7 @@ export default (props) => {
                         {[0, 1, 2].map((fpiitem, fdx) => <div key={fdx} className="flex text-center">
                             {[`l`, `r`].map((side, sdx) => <div key={sdx} className="w-20">
                                 <Select
+                                    isDisabled={disabled}
                                     styles={{
                                         ...customStyles,
                                         control: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -352,6 +359,7 @@ export default (props) => {
                     <div className="text-sm font-semibold mb-4">Примечание:</div>
                     <div className="mb-4">
                         <textarea
+                            disabled={disabled}
                             className="bg-white rounded-lg border-white w-full h-[5rem]"
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
@@ -366,6 +374,7 @@ export default (props) => {
                 <div className="shrink-0">
                     <div className="rounded-lg overflow-hidden realtive" style={{ transform: `translate3d(0,0,0)` }}>
                         <CanvasDraw
+                            disabled={disabled}
                             ref={canvaTriggerRef}
                             lazyRadius={0}
                             hideGrid={true}
@@ -383,7 +392,7 @@ export default (props) => {
                             })}
                         />
                     </div>
-                    <div className="flex justify-center gap-12 py-2 items-center">
+                    {disabled ? <></> : <div className="flex justify-center gap-12 py-2 items-center">
                         <button onClick={e => canvaTriggerRef.current.undo()}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -394,7 +403,7 @@ export default (props) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </button>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>
@@ -426,6 +435,7 @@ export default (props) => {
                 <div className="flex gap-4 items-center mb-2">
                     <label className="flex gap-3 items-center">
                         <input
+                            disabled={disabled}
                             type="checkbox"
                             className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 rounded-sm'}
                             onChange={e => setData(prev => {
@@ -440,6 +450,7 @@ export default (props) => {
                     </label>
                     {item.options ? <div className="grow">
                         <Select
+                            isDisabled={disabled}
                             styles={customStyles}
                             components={{ DropdownIndicator }}
                             placeholder={`Выбрать из списка`}
@@ -458,6 +469,7 @@ export default (props) => {
                 </div>
                 {item.txt ? <div className="mb-4">
                     <textarea
+                        disabled={disabled}
                         className="bg-white rounded-lg border-white w-full h-[3.5rem]"
                         onChange={e => setData(prev => {
                             const data = { ...prev }
@@ -476,6 +488,7 @@ export default (props) => {
                 {[`Накат`, `Клин`, `Передний отдел`].map((ttl, edx) => <div key={edx} className="max-w-[20rem] grow">
                     <label className="flex gap-2 items-center mb-3">
                         <input
+                            disabled={disabled}
                             type="radio"
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
@@ -521,6 +534,7 @@ export default (props) => {
                                     ><span>+</span></div>
                                     <div className="w-5 h-5 shrink-0">
                                         <input
+                                            disabled={disabled}
                                             type="number"
                                             max="99"
                                             onChange={e => setData(prev => {
@@ -577,6 +591,7 @@ export default (props) => {
                                     ><span>+</span></div>
                                     <div className="w-5 h-5 shrink-0">
                                         <input
+                                            disabled={disabled}
                                             type="number"
                                             size={2}
                                             onChange={e => setData(prev => {
@@ -705,6 +720,7 @@ export default (props) => {
                     <div className="text-sm font-semibold mb-4">Примечание:</div>
                     <div className="mb-4">
                         <textarea
+                            disabled={disabled}
                             className="bg-white rounded-lg border-white w-full h-[5rem]"
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
@@ -719,6 +735,7 @@ export default (props) => {
                 <div className="shrink-0">
                     <div className="rounded-lg overflow-hidden realtive" style={{ transform: `translate3d(0,0,0)` }}>
                         <CanvasDraw
+                            disabled={disabled}
                             ref={canvaViscerRef}
                             lazyRadius={0}
                             hideGrid={true}
@@ -736,7 +753,7 @@ export default (props) => {
                             })}
                         />
                     </div>
-                    <div className="flex justify-center gap-12 py-2 items-center">
+                    {disabled ? <></> : <div className="flex justify-center gap-12 py-2 items-center">
                         <button onClick={e => canvaViscerRef.current.undo()}>
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -747,7 +764,7 @@ export default (props) => {
                                 <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                             </svg>
                         </button>
-                    </div>
+                    </div>}
                 </div>
             </div>
 
@@ -760,6 +777,7 @@ export default (props) => {
                     <div className="flex gap-8">
                         <label className="flex gap-2 items-center mb-3">
                             <input
+                                disabled={disabled}
                                 type="checkbox"
                                 onChange={e => setData(prev => {
                                     const data = { ...prev }
@@ -782,6 +800,7 @@ export default (props) => {
                         </label>
                         <label className="flex gap-2 items-center mb-3">
                             <input
+                                disabled={disabled}
                                 type="checkbox"
                                 onChange={e => setData(prev => {
                                     const data = { ...prev }
@@ -824,6 +843,7 @@ export default (props) => {
                                         ><span>-</span></div>
                                         <div className="w-5 h-5 shrink-0">
                                             <input
+                                                disabled={disabled}
                                                 type="number"
                                                 max="99"
                                                 onChange={e => setData(prev => {
@@ -870,6 +890,7 @@ export default (props) => {
                                         ><span>-</span></div>
                                         <div className="w-5 h-5 shrink-0">
                                             <input
+                                                disabled={disabled}
                                                 type="number"
                                                 size={2}
                                                 onChange={e => setData(prev => {
@@ -919,6 +940,7 @@ export default (props) => {
                                         ><span>-</span></div>
                                         <div className="w-5 h-5 shrink-0">
                                             <input
+                                                disabled={disabled}
                                                 type="number"
                                                 max="99"
                                                 onChange={e => setData(prev => {
@@ -965,6 +987,7 @@ export default (props) => {
                                         ><span>-</span></div>
                                         <div className="w-5 h-5 shrink-0">
                                             <input
+                                                disabled={disabled}
                                                 type="number"
                                                 size={2}
                                                 onChange={e => setData(prev => {
@@ -1007,6 +1030,7 @@ export default (props) => {
             <div className="mb-8 flex items-end gap-16">
                 <div className="grow max-w-[3xl]">
                     <textarea
+                        disabled={disabled}
                         className="bg-white rounded-lg border-white w-full h-[5rem]"
                         onChange={e => setData(prev => {
                             const data = { ...prev }
@@ -1017,13 +1041,13 @@ export default (props) => {
                         value={data.podiatry ? (data.podiatry[`insolesnote`] ?? ``) : ``}
                     />
                 </div>
-                <div className="flex justify-end whitespace-nowrap pb-4">
+                {disabled ? <></> : <div className="flex justify-end whitespace-nowrap pb-4">
                     <PrimaryButton size="sm" onClick={() => { }}>Отправить в магазин</PrimaryButton>
-                </div>
+                </div>}
             </div>
         </div >
-        <div className={`flex justify-end py-8`}>
+        {disabled ? <></> : <div className={`flex justify-end py-8`}>
             <PrimaryButton size="sm" onClick={() => nextTab()}>Далее</PrimaryButton>
-        </div>
+        </div>}
     </>
 }

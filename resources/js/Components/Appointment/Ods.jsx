@@ -9,6 +9,7 @@ import { Fragment } from "react";
 import Checkbox from "../Checkbox";
 
 import parse from "html-react-parser"
+import { usePage } from "@inertiajs/react";
 
 const IIVOptions = [
     '-',
@@ -135,6 +136,8 @@ const Heading = ({ children, toggleOpen, opened, className = "" }) => {
 
 const SelectItem = (props) => {
 
+    const { disabled = false } = usePage().props
+
     const { data, setData, formitem, dynamic = false } = props
 
     const val = data.ods[`${formitem.name}${dynamic ? `_dyn` : `_option`}`];
@@ -144,6 +147,7 @@ const SelectItem = (props) => {
             {formitem.options.map((el, edx) => <Fragment key={edx}>
                 <label className="flex items-center py-0.5 px-2">
                     <Checkbox
+                        disabled={disabled}
                         name={`${formitem.name}${dynamic ? `_dyn` : `_option`}`}
                         value={edx}
                         checked={val === edx}
@@ -165,6 +169,7 @@ const SelectItem = (props) => {
         styles={customStyles}
         components={{ DropdownIndicator }}
         isSearchable={false}
+        isDisabled={disabled}
         isMulti={!!formitem.multiple}
         isClearable={!0}
         placeholder="Не выбрано"
@@ -188,6 +193,8 @@ const SelectItem = (props) => {
 
 const SelectItemII = (props) => {
 
+    const { disabled = false } = usePage().props
+
     const { data, setData, formitem = {}, row = {}, dynamic = false } = props
 
     const val = data.ods[`${row.name}_${formitem.name}${dynamic ? `_dyn` : `_option`}`];
@@ -197,6 +204,7 @@ const SelectItemII = (props) => {
             <div className="grid grid-cols-2 gap-2 select2-wapper">
                 <div>{formitem.title}</div>
                 <Select
+                    isDisabled={disabled}
                     styles={customStylesII}
                     components={{ DropdownIndicator: DropdownIndicatorII }}
                     isSearchable={false}
@@ -229,6 +237,7 @@ const SelectItemII = (props) => {
                 {formitem.subitems.map((subitem, sdx) => <div key={sdx} className="grid grid-cols-2 gap-2">
                     <div>{subitem.title}</div>
                     <Select
+                        isDisabled={disabled}
                         styles={customStylesII}
                         components={{ DropdownIndicator: DropdownIndicatorII }}
                         isSearchable={false}
@@ -259,6 +268,8 @@ const SelectItemII = (props) => {
 
 const BooleanItem = (props) => {
 
+    const { disabled = false } = usePage().props
+
     const { data, setData, formitem, dynamic = false } = props
 
     const val = data.ods[`${formitem.name}${dynamic ? `_dyn` : `_option`}`];
@@ -268,6 +279,7 @@ const BooleanItem = (props) => {
             name={`${formitem.name}${dynamic ? `_dyn` : `_option`}`}
             value={1}
             checked={!!val}
+            disabled={disabled}
             onChange={e => setData(prev => {
                 const data = { ...prev }
                 data.ods[`${formitem.name}${dynamic ? `_dyn` : `_option`}`] = e.target.checked
@@ -283,12 +295,15 @@ const BooleanItem = (props) => {
 
 const BooleanItemII = (props) => {
 
+    const { disabled = false } = usePage().props
+
     const { data, setData, formitem, row, dynamic = false } = props
 
     return formitem.type === 'boolean' ? <label className="grid grid-cols-4 gap-2 py-0.5 px-2">
         <div className="col-span-3">{formitem.title}</div>
         <div className="flex items-center">
             <Checkbox
+                disabled={disabled}
                 name={`${row.name}_${formitem.name}${dynamic ? `_dyn` : `_option`}`}
                 value={1}
                 defaultChecked={!!(1 * data.ods[`${row.name}_${formitem.name}${dynamic ? `_dyn` : `_option`}`])}
@@ -304,12 +319,15 @@ const BooleanItemII = (props) => {
 
 const TextareaItem = (props) => {
 
+    const { disabled = false } = usePage().props
+
     const { data, setData, formitem, dynamic = false } = props
 
     const val = data.ods[`${formitem.name}${dynamic ? `_dyn` : `_option`}`];
 
     return <label className="flex items-center py-0.5 px-2">
         <textarea
+            disabled={disabled}
             name={`${formitem.name}${dynamic ? `_dyn` : `_option`}`}
             value={data.ods[`${formitem.name}${dynamic ? `_dyn` : `_option`}`] ?? ``}
             className="w-full block border-0 bg-transparent h-[2.5rem] focus:outline-none"
@@ -324,6 +342,8 @@ const TextareaItem = (props) => {
 
 
 const Item = (props) => {
+
+    const { disabled = false } = usePage().props
 
     const { data, setData, formitem, selectType = 1 } = props
 
@@ -349,12 +369,13 @@ const Item = (props) => {
                 <TextareaItem {...props} />
             </Td>
             <Td padding={false} className="text-sm">
-                <TextareaItem {...props}  dynamic={true}/>
+                <TextareaItem {...props} dynamic={true} />
             </Td>
         </> : <></>}
         {formitem.type === 'heading' ? <></> : <>
             <Td padding={false}>
                 <textarea
+                    disabled={disabled}
                     name={`${formitem.name}_note`}
                     value={data.ods[`${formitem.name}_note`] ?? ``}
                     onChange={e => setData(prev => {
@@ -373,6 +394,8 @@ export default (props) => {
 
     const { data, setData, errors, nextTab } = props;
 
+    const { disabled = false } = usePage().props
+
     const canvaRef = useRef(null)
 
     const [common, setCommon] = useState(true)
@@ -384,7 +407,7 @@ export default (props) => {
     useEffect(() => {
         if (canvaRef.current && data.ods.lines) {
             setTimeout(() => {
-                canvaRef.current.simulateDrawingLines({ lines: data.ods.lines, immediate: true })
+                canvaRef.current.simulateDrawingLines({ lines: JSON.parse(JSON.stringify(data.ods.lines)), immediate: true })
             }, 150)
         }
     }, [canvaRef])
@@ -395,6 +418,7 @@ export default (props) => {
                 <div className="flex justify-center">
                     <CanvasDraw
                         ref={canvaRef}
+                        disabled={disabled}
                         lazyRadius={6}
                         hideGrid={true}
                         hideInterface={false}
@@ -410,7 +434,7 @@ export default (props) => {
                         })}
                     />
                 </div>
-                <div className="flex justify-center gap-12 py-4 items-center">
+                {!disabled ? <div className="flex justify-center gap-12 py-4 items-center">
                     <button onClick={e => canvaRef.current.undo()}>
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -421,7 +445,7 @@ export default (props) => {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                         </svg>
                     </button>
-                </div>
+                </div> : <></>}
             </div>
             <div className={`${tableClassses.grid} bg-purple-900 text-white font-bold rounded-t-lg border border-purple-900 overflow-hidden`}>
                 <Th>Признаки нарушения осанки</Th>
@@ -1122,6 +1146,7 @@ export default (props) => {
                                         <Checkbox
                                             name={`${formitem.name}_option`}
                                             value={1}
+                                            disabled={disabled}
                                             defaultChecked={!!(1 * data.ods[`${row.name}_${formitem.name}_option`])}
                                             onChange={e => setData(prev => {
                                                 const data = { ...prev }
@@ -1133,6 +1158,7 @@ export default (props) => {
                                     <div className="col-span-3">{formitem.title}</div>
                                 </label> : (
                                     formitem.type === 'textarea' ? <div className="-mx-2"><textarea
+                                        disabled={disabled}
                                         value={data.ods[`${row.name}_${formitem.name}_option`] ?? ``}
                                         onChange={e => setData(prev => {
                                             const data = { ...prev }
@@ -1147,6 +1173,7 @@ export default (props) => {
                                                 {formitem.subitems.map((subitem, sdx) => <label key={sdx} className="flex items-center gap-2">
                                                     <div className="flex items-center">
                                                         <input type="radio"
+                                                            disabled={disabled}
                                                             className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                                                             name={`${row.name}_${formitem.name}_option`}
                                                             value={subitem.value}
@@ -1230,6 +1257,7 @@ export default (props) => {
                                 formitem.type === 'boolean' ? <label className="flex items-center gap-2">
                                     <div className="flex items-center">
                                         <Checkbox
+                                            disabled={disabled}
                                             name={`${formitem.name}_dyn`}
                                             value={1}
                                             defaultChecked={!!(1 * data.ods[`${row.name}_${formitem.name}_dyn`])}
@@ -1243,6 +1271,7 @@ export default (props) => {
                                     <div className="col-span-3">{formitem.title}</div>
                                 </label> : (
                                     formitem.type === 'textarea' ? <div className="-mx-2"><textarea
+                                        disabled={disabled}
                                         value={data.ods[`${row.name}_${formitem.name}_dyn`] ?? ``}
                                         onChange={e => setData(prev => {
                                             const data = { ...prev }
@@ -1257,6 +1286,7 @@ export default (props) => {
                                                 {formitem.subitems.map((subitem, sdx) => <label key={sdx} className="flex items-center gap-2">
                                                     <div className="flex items-center">
                                                         <input type="radio"
+                                                            disabled={disabled}
                                                             className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                                                             name={`${row.name}_${formitem.name}_dyn`}
                                                             value={sdx}
@@ -1279,6 +1309,7 @@ export default (props) => {
                     </Td>
                     <Td padding={false}>
                         <textarea
+                            disabled={disabled}
                             value={data.ods[`${row.name}_${formitem.name}_note`] ?? ``}
                             onChange={e => setData(prev => {
                                 const data = { ...prev }
@@ -1295,6 +1326,7 @@ export default (props) => {
                 <div className="col-span-4 rounded-b-lg border-zinc-500 border-l border-r border-b">
 
                     <textarea
+                        disabled={disabled}
                         placeholder="Введите текст"
                         value={data.ods.notes ?? ``}
                         onChange={e => setData(prev => {
@@ -1307,8 +1339,8 @@ export default (props) => {
                 </div>
             </div>
         </div>
-        <div className={`flex justify-end py-8`}>
+        {!disabled ? <div className={`flex justify-end py-8`}>
             <PrimaryButton size="sm" onClick={() => nextTab()}>Далее</PrimaryButton>
-        </div>
+        </div> : <></>}
     </>
 }

@@ -17,8 +17,12 @@ use App\Listeners\SendSaleCreatedNotification;
 use App\Listeners\SendSeniorCreatedNotification;
 use App\Listeners\SendSpecialistCreatedNotification;
 use App\Listeners\SendSupervisorCreatedNotification;
+use App\Models\CallIn;
+use App\Models\Notification;
 use App\Models\Payment;
 use App\Models\TopUp;
+use App\Observers\CallIn as ObserversCallIn;
+use App\Observers\Notification as ObserversNotification;
 use App\Observers\Payment as ObserversPayment;
 use App\Observers\TopUp as ObserversTopUp;
 use App\Observers\User as ObserversUser;
@@ -66,6 +70,8 @@ class EventServiceProvider extends ServiceProvider
         TopUp::observe(ObserversTopUp::class);
         User::observe(ObserversUser::class);
         Payment::observe(ObserversPayment::class);
+        Notification::observe(ObserversNotification::class);
+        CallIn::observe(ObserversCallIn::class);
     }
 
     /**

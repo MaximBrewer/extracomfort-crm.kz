@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import PrimaryButton from "../PrimaryButton";
 import Select, { components } from 'react-select';
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { useLayout } from "@/Contexts/LayoutContext";
 
 import Img1 from "../../../img/card/reabilitation/i1.jpg"
@@ -76,10 +76,12 @@ export default (props) => {
 
     const canvaRef1 = useRef(null)
 
+    const { disabled = false } = usePage().props
+
     useEffect(() => {
         if (canvaRef1.current && data.reabilitation.lines1) {
             setTimeout(() => {
-                canvaRef1.current.simulateDrawingLines({ lines: data.reabilitation.lines1, immediate: true })
+                canvaRef1.current.simulateDrawingLines({ lines: JSON.parse(JSON.stringify(data.reabilitation.lines1)), immediate: true })
             }, 150)
         }
     }, [canvaRef1])
@@ -89,7 +91,7 @@ export default (props) => {
     useEffect(() => {
         if (canvaRef2.current && data.reabilitation.lines1) {
             setTimeout(() => {
-                canvaRef2.current.simulateDrawingLines({ lines: data.reabilitation.lines2, immediate: true })
+                canvaRef2.current.simulateDrawingLines({ lines: JSON.parse(JSON.stringify(data.reabilitation.lines2)), immediate: true })
             }, 150)
         }
     }, [canvaRef2])
@@ -283,6 +285,7 @@ export default (props) => {
                         <div className="flex gap-4 items-center mb-2">
                             <label className="flex gap-3 items-center">
                                 <input
+                                    disabled={disabled}
                                     type="checkbox"
                                     className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 rounded-sm'}
                                     onChange={e => setData(prev => {
@@ -297,6 +300,7 @@ export default (props) => {
                             </label>
                             {item.options ? <div className="grow">
                                 <Select
+                                    isDisabled={disabled}
                                     styles={customStyles}
                                     components={{ DropdownIndicator }}
                                     placeholder={`Выбрать из списка`}
@@ -316,6 +320,7 @@ export default (props) => {
                         {item.radios ? <div className="flex gap-4 mb-4 items-center">
                             {item.radios.map((r, rdx) => <label key={rdx} className="flex gap-2 items-center">
                                 <input
+                                    disabled={disabled}
                                     type="radio"
                                     name={`${item.name}_radio`}
                                     value={r.name}
@@ -334,6 +339,7 @@ export default (props) => {
                         {item.checkboxes ? <div className="flex gap-4 mb-4 items-center">
                             {item.checkboxes.map((r, rdx) => <label key={rdx} className="flex gap-2 items-center">
                                 <input
+                                    disabled={disabled}
                                     type="checkbox"
                                     name={`${item.name}_${r.name}`}
                                     defaultChecked={data.reabilitation && data.reabilitation[`${item.name}_${r.name}`]}
@@ -350,6 +356,7 @@ export default (props) => {
                         </div> : <></>}
                         {item.txt ? <div className="mb-4">
                             <textarea
+                                disabled={disabled}
                                 className="bg-white rounded-lg border-white w-full h-[3.5rem]"
                                 onChange={e => setData(prev => {
                                     const data = { ...prev }
@@ -364,6 +371,7 @@ export default (props) => {
                             {item.selects.map((r, rdx) => <label key={rdx} className="flex gap-2 items-center">
                                 <span className="w-1/2">{r.label}</span>
                                 <Select
+                                    isDisabled={disabled}
                                     styles={customStyles}
                                     components={{ DropdownIndicator }}
                                     options={r.values.map((v, vdx) => ({
@@ -388,6 +396,7 @@ export default (props) => {
                 <div className="p-5">
                     <div className="mb-5 rounded-lg overflow-hidden">
                         <CanvasDraw
+                            disabled={disabled}
                             ref={canvaRef1}
                             lazyRadius={0}
                             hideGrid={true}
@@ -403,7 +412,7 @@ export default (props) => {
                                 return data
                             })}
                         />
-                        <div className="flex justify-center gap-12 py-2 items-center">
+                        {disabled ? <></> : <div className="flex justify-center gap-12 py-2 items-center">
                             <button onClick={e => canvaRef1.current.undo()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -414,10 +423,11 @@ export default (props) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </button>
-                        </div>
+                        </div>}
                     </div>
                     <div className="mb-5 rounded-lg overflow-hidden">
                         <CanvasDraw
+                            disabled={disabled}
                             ref={canvaRef2}
                             lazyRadius={3}
                             hideGrid={true}
@@ -433,7 +443,7 @@ export default (props) => {
                                 return data
                             })}
                         />
-                        <div className="flex justify-center gap-12 pt-2 items-center">
+                        {disabled ? <></> : <div className="flex justify-center gap-12 pt-2 items-center">
                             <button onClick={e => canvaRef2.current.undo()}>
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -444,24 +454,24 @@ export default (props) => {
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                                 </svg>
                             </button>
-                        </div>
-                        <div className="flex justify-center gap-4 py-2 items-center">
+                        </div>}
+                        {disabled ? <></> : <div className="flex justify-center gap-4 py-2 items-center">
                             <div className={`w-10 h-6 flex justify-center items-center cursor-pointer border-b-2 ${brush2 === 2 ? `border-violet-500` : `border-transparent`}`} onClick={e => setbBrush2(2)}>
                                 <div className="rounded-full h-1 w-1 bg-violet-500" />
                             </div>
                             <div className={`w-10 h-6 flex justify-center items-center cursor-pointer border-b-2 ${brush2 === 6 ? `border-violet-500` : `border-transparent`}`} onClick={e => setbBrush2(6)}>
                                 <div className="rounded-full h-2 w-2 bg-violet-500" />
                             </div>
-                        </div>
+                        </div>}
                     </div>
-                    <div className="flex justify-end">
+                    {disabled ? <></> : <div className="flex justify-end">
                         <PrimaryButton size="sm" onClick={() => { }}>Отправить на ресепшн</PrimaryButton>
-                    </div>
+                    </div>}
                 </div>
             </div>
         </div>
-        <div className={`flex justify-end py-8`}>
+        {disabled ? <></> : <div className={`flex justify-end py-8`}>
             <PrimaryButton size="sm" onClick={() => nextTab()}>Далее</PrimaryButton>
-        </div>
+        </div>}
     </>
 }

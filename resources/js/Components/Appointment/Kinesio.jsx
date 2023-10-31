@@ -39,13 +39,14 @@ export default (props) => {
 
     const { data, setData, errors, nextTab } = props;
 
-    const { spravkababy, spravkayoung } = usePage().props
+    const { spravkababy, spravkayoung, disabled = false } = usePage().props
 
     return <>
         <div className={`p-5`}>
             <div className="flex gap-8">
                 {types.map((type, tdx) => <label key={tdx} className="flex items-center gap-2">
                     <input type="radio"
+                        disabled={disabled}
                         className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 '}
                         name={`type`}
                         value={type.value}
@@ -106,9 +107,8 @@ export default (props) => {
             <Oda {...props} />
         </> : <></>}
 
-
-        <div className={`flex justify-end py-8`}>
+        {!disabled ? <div className={`flex justify-end py-8`}>
             <PrimaryButton size="sm" onClick={() => nextTab()}>Далее</PrimaryButton>
-        </div>
+        </div> : <></>}
     </>
 }

@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import PrimaryButton from "../PrimaryButton";
 import Select, { components } from 'react-select';
-import { Link } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import AddonFile from "../Modals/AddonFile";
 import { useLayout } from "@/Contexts/LayoutContext";
 import DeleteFile from "../Modals/DeleteFile";
@@ -71,6 +71,9 @@ export default (props) => {
 
     const { setModal } = useLayout();
 
+    const { disabled = false } = usePage().props
+
+
     return <>
         <div className={`bg-blue-80 rounded-lg`}>
             <div className="grid grid-cols-[4fr_3fr]">
@@ -133,6 +136,7 @@ export default (props) => {
                         <div className="flex gap-4 items-center mb-4">
                             <label className="flex gap-3 items-center grow">
                                 <input
+                                    disabled={disabled}
                                     type="checkbox"
                                     className={'border-gray-300 text-purple-900 shadow-sm focus:ring-purple-900 rounded-sm'}
                                     onChange={e => setData(prev => {
@@ -152,6 +156,7 @@ export default (props) => {
                                     options={item.options}
                                     placeholder={`Выбрать из списка`}
                                     isSearchable={false}
+                                    isDisabled={disabled}
                                     isClearable={false}
                                     value={item.options.find(el => el.value == data.addon[`${item.name}_opt`])}
                                     onChange={value => setData(prev => {
@@ -165,6 +170,7 @@ export default (props) => {
                         </div>
                         <div>
                             <textarea
+                                disabled={disabled}
                                 className="bg-white rounded-lg border-white w-full h-[3.5rem]"
                                 onChange={e => setData(prev => {
                                     const data = { ...prev }
@@ -182,7 +188,7 @@ export default (props) => {
                                 {file.category_id === index ? <li className="relative">
                                     <a target="_blank" href={file.link} className="flex flex-col items-start">
                                         <div className="bg-zinc-300 rounded p-2 mb-1 relative">
-                                            <div
+                                            {!disabled ? <div
                                                 onClick={e => {
                                                     e.preventDefault()
                                                     setModal(<DeleteFile file={file} url={route(`specialist.file.delete`, {
@@ -196,7 +202,7 @@ export default (props) => {
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="2" stroke="currentColor" className="w-2.5 h-2.5">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                                 </svg>
-                                            </div>
+                                            </div> : <></>}
                                             <div className="relative pl-0">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="w-8 h-8">
                                                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
@@ -212,7 +218,7 @@ export default (props) => {
                     </div>
                 </Fragment>)}
                 <div className="border-r border-dashed border-blue-200"></div>
-                <div className="p-3 flex justify-end pt-6">
+                {!disabled ? <div className="p-3 flex justify-end pt-6">
                     <button
                         onClick={e => setModal(<AddonFile {...props} />)}
                         type="button"
@@ -222,11 +228,11 @@ export default (props) => {
                             <path d="M4 19H20V12H22V20C22 20.2652 21.8946 20.5196 21.7071 20.7071C21.5196 20.8946 21.2652 21 21 21H3C2.73478 21 2.48043 20.8946 2.29289 20.7071C2.10536 20.5196 2 20.2652 2 20V12H4V19ZM13 9V16H11V9H6L12 3L18 9H13Z" fill="white" />
                         </svg>
                     </button>
-                </div>
+                </div> : <></>}
             </div>
         </div>
-        <div className={`flex justify-end py-8`}>
+        {!disabled ? <div className={`flex justify-end py-8`}>
             <PrimaryButton size="sm" onClick={() => nextTab()}>Далее</PrimaryButton>
-        </div>
+        </div> : <></>}
     </>
 }

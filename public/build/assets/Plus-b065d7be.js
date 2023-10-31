@@ -1,1 +1,0 @@
-import{j as o}from"./app-9dc9b0a6.js";const t=r=>o.jsx("svg",{...r,xmlns:"http://www.w3.org/2000/svg",fill:"none",viewBox:"0 0 24 24",strokeWidth:1.5,stroke:"currentColor",children:o.jsx("path",{strokeLinecap:"round",strokeLinejoin:"round",d:"M12 4.5v15m7.5-7.5h-15"})});export{t as P};

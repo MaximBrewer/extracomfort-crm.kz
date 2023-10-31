@@ -2,12 +2,12 @@ import { forwardRef } from "react";
 import PrimaryButton from "../PrimaryButton";
 import { useRef } from "react";
 import P1 from "../../../img/card/oda/p1.jpg"
-import P2 from "../../../img/card/oda/p2.png"
-import P3 from "../../../img/card/oda/p3.png"
-import P4 from "../../../img/card/oda/p4.png"
-import P5 from "../../../img/card/oda/p5.png"
-import P6 from "../../../img/card/oda/p6.png"
-import P7 from "../../../img/card/oda/p7.png"
+import P2 from "../../../img/card/oda/p2.jpg"
+import P3 from "../../../img/card/oda/p3.jpg"
+import P4 from "../../../img/card/oda/p4.jpg"
+import P5 from "../../../img/card/oda/p5.jpg"
+import P6 from "../../../img/card/oda/p6.jpg"
+import P7 from "../../../img/card/oda/p7.jpg"
 
 import I1 from "../../../img/card/oda/I1.png"
 import I2 from "../../../img/card/oda/I2.png"
@@ -48,6 +48,36 @@ const Input = forwardRef(function ({ onChange, value, className = '', ...props }
 export default (props) => {
 
     const { data, setData, errors, nextTab } = props;
+
+    const i2Ref = useRef(null)
+
+    useEffect(() => {
+        if (i2Ref.current && data.oda.i2lines) {
+            setTimeout(() => {
+                i2Ref.current.simulateDrawingLines({ lines: data.oda.i2lines, immediate: true })
+            }, 150)
+        }
+    }, [i2Ref])
+
+    const i3Ref = useRef(null)
+
+    useEffect(() => {
+        if (i3Ref.current && data.oda.i3lines) {
+            setTimeout(() => {
+                i3Ref.current.simulateDrawingLines({ lines: data.oda.i3lines, immediate: true })
+            }, 150)
+        }
+    }, [i3Ref])
+
+    const i4Ref = useRef(null)
+
+    useEffect(() => {
+        if (i4Ref.current && data.oda.i4lines) {
+            setTimeout(() => {
+                i4Ref.current.simulateDrawingLines({ lines: data.oda.i4lines, immediate: true })
+            }, 150)
+        }
+    }, [i4Ref])
 
     const canvaTriggerRef = useRef(null)
 
@@ -161,121 +191,300 @@ export default (props) => {
                     </div>
                 </div>
                 <div className="rounded overflow-hidden">
-                    <div className="h-[304px] w-[226px] bg-white relative bg-center bg-cover" style={{ backgroundImage: `url('${P2}')` }}>
-
-                        <div className="absolute w-5 top-48 left-10 bg-purple-900 rounded-sm flex flex-col items-center">
-                            <div
-                                className="h-5 w-full shrink-0 text-white font-bold leading-none flex items-center justify-center cursor-pointer"
-                                onClick={e => setData(prev => {
+                    <div className="h-[304px] w-[226px] bg-white relative bg-center bg-cover">
+                        <div className="">
+                            <CanvasDraw
+                                ref={i2Ref}
+                                lazyRadius={6}
+                                hideGrid={true}
+                                hideInterface={false}
+                                brushRadius={2}
+                                brushColor="#56326E"
+                                canvasWidth={226}
+                                canvasHeight={304}
+                                imgSrc={P2}
+                                onChange={e => setData(prev => {
                                     const data = { ...prev }
-                                    data.podiatry || (data.podiatry = {})
-                                    data.podiatry.extensions || (data.podiatry.extensions = [])
-                                    data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
-                                    data.podiatry.extensions[edx].left = data.podiatry.extensions[edx].left ? ++data.podiatry.extensions[edx].left : 1
+                                    data.oda.i2lines = e.lines
                                     return data
                                 })}
-                            ><span>+</span></div>
-                            <div className="w-5 h-5 shrink-0">
-                                <input
-                                    type="number"
-                                    max="99"
-                                    onChange={e => setData(prev => {
-                                        const data = { ...prev }
-                                        data.podiatry || (data.podiatry = {})
-                                        data.podiatry.extensions || (data.podiatry.extensions = [])
-                                        data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
-                                        data.podiatry.extensions[edx].left = e.target.value
-                                        return data
-                                    })}
-                                    value={
-                                        data.podiatry
-                                            && data.podiatry.extensions
-                                            && data.podiatry.extensions[edx]
-                                            ? data.podiatry.extensions[edx].left : 0
-                                    }
-                                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-5 p-0 bg-white h-5 text-xs font-medium text-center focus:outline-none"
-                                />
-                            </div>
-                            <div
-                                className="h-5 w-full shrink-0 text-white font-bold leading-none flex items-center justify-center cursor-pointer"
-                                onClick={e => setData(prev => {
-                                    const data = { ...prev }
-                                    data.podiatry || (data.podiatry = {})
-                                    data.podiatry.extensions || (data.podiatry.extensions = [])
-                                    data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
-                                    data.podiatry.extensions[edx].left = data.podiatry.extensions[edx].left ? --data.podiatry.extensions[edx].left : 0
-                                    return data
-                                })}
-                            ><span>-</span></div>
+                            />
+                        </div>
+                        <div className="flex justify-center gap-4 py-2 items-center absolute bottom-0 w-full">
+                            <button onClick={e => i2Ref.current.undo()}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                                </svg>
+                            </button>
+                            <button onClick={e => i2Ref.current.clear()}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </button>
                         </div>
 
-                        <div className="absolute w-5 top-48 right-10 bg-purple-900 rounded-sm flex flex-col items-center">
-                            <div
-                                className="h-5 w-full shrink-0 text-white font-bold leading-none flex items-center justify-center cursor-pointer"
-                                onClick={e => setData(prev => {
-                                    const data = { ...prev }
-                                    data.podiatry || (data.podiatry = {})
-                                    data.podiatry.extensions || (data.podiatry.extensions = [])
-                                    data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
-                                    data.podiatry.extensions[edx].left = data.podiatry.extensions[edx].left ? ++data.podiatry.extensions[edx].left : 1
-                                    return data
-                                })}
-                            ><span>+</span></div>
-                            <div className="w-5 h-5 shrink-0">
+                        <div className="absolute top-44 left-4 flex flex-col">
+                            <label
+                                className="w-full shrink-0 font-bold leading-none flex items-center justify-center"
+                            >
                                 <input
-                                    type="number"
-                                    max="99"
+                                    type="radio"
+                                    defaultChecked={!!data.oda.i2l}
+                                    name="pdi2l"
+                                    value={1}
                                     onChange={e => setData(prev => {
                                         const data = { ...prev }
-                                        data.podiatry || (data.podiatry = {})
-                                        data.podiatry.extensions || (data.podiatry.extensions = [])
-                                        data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
-                                        data.podiatry.extensions[edx].left = e.target.value
+                                        data.oda.i2l = e.target.value
                                         return data
                                     })}
-                                    value={
-                                        data.podiatry
-                                            && data.podiatry.extensions
-                                            && data.podiatry.extensions[edx]
-                                            ? data.podiatry.extensions[edx].left : 0
-                                    }
-                                    className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none block w-5 p-0 bg-white h-5 text-xs font-medium text-center focus:outline-none"
+                                    className="peer sr-only"
                                 />
-                            </div>
-                            <div
-                                className="h-5 w-full shrink-0 text-white font-bold leading-none flex items-center justify-center cursor-pointer"
-                                onClick={e => setData(prev => {
-                                    const data = { ...prev }
-                                    data.podiatry || (data.podiatry = {})
-                                    data.podiatry.extensions || (data.podiatry.extensions = [])
-                                    data.podiatry.extensions[edx] || (data.podiatry.extensions[edx] = {})
-                                    data.podiatry.extensions[edx].left = data.podiatry.extensions[edx].left ? --data.podiatry.extensions[edx].left : 0
-                                    return data
-                                })}
-                            ><span>-</span></div>
+                                <span className="w-5 text-center block peer-checked:bg-purple-900 peer-checked:text-white py-0.5 border border-purple-900 rounded-t border-b-0">+</span>
+                            </label>
+                            <label
+                                className="w-full shrink-0 font-bold leading-none flex items-center justify-center"
+                            >
+                                <input
+                                    type="radio"
+                                    defaultChecked={!data.oda.i2l}
+                                    name="pdi2l"
+                                    value={0}
+                                    onChange={e => setData(prev => {
+                                        const data = { ...prev }
+                                        data.oda.i2l = e.target.value
+                                        return data
+                                    })}
+                                    className="peer sr-only"
+                                />
+                                <span className="w-5 text-center block peer-checked:bg-purple-900 peer-checked:text-white py-0.5 border border-purple-900 rounded-b border-t-0">-</span>
+                            </label>
+                        </div>
+
+
+                        <div className="absolute top-60 left-1/2 -translate-x-1/2 flex">
+                            <label
+                                className="block w-5 shrink-0 font-bold leading-none flex items-center justify-center"
+                            >
+                                <input
+                                    type="radio"
+                                    defaultChecked={!!data.oda.i2to}
+                                    name="pdi2to"
+                                    value={1}
+                                    onChange={e => setData(prev => {
+                                        const data = { ...prev }
+                                        data.oda.i2to = e.target.value
+                                        return data
+                                    })}
+                                    className="peer sr-only"
+                                />
+                                <span className="w-5 text-center block peer-checked:bg-purple-900 peer-checked:text-white py-0.5 border border-purple-900 rounded-l border-r-0">&lt;</span>
+                            </label>
+                            <label
+                                className="block w-5 shrink-0 font-bold leading-none flex items-center justify-center"
+                            >
+                                <input
+                                    type="radio"
+                                    defaultChecked={!data.oda.i2to}
+                                    name="pdi2to"
+                                    value={0}
+                                    onChange={e => setData(prev => {
+                                        const data = { ...prev }
+                                        data.oda.i2to = e.target.value
+                                        return data
+                                    })}
+                                    className="peer sr-only"
+                                />
+                                <span className="w-5 text-center block peer-checked:bg-purple-900 peer-checked:text-white py-0.5 border border-purple-900 rounded-r border-l-0">&gt;</span>
+                            </label>
+                        </div>
+
+
+                        <div className="absolute top-44 right-4 flex flex-col">
+                            <label
+                                className="w-full shrink-0 font-bold leading-none flex items-center justify-center"
+                            >
+                                <input
+                                    type="radio"
+                                    defaultChecked={!!data.oda.i2r}
+                                    name="pdi2r"
+                                    value={1}
+                                    onChange={e => setData(prev => {
+                                        const data = { ...prev }
+                                        data.oda.i2r = e.target.value
+                                        return data
+                                    })}
+                                    className="peer sr-only"
+                                />
+                                <span className="w-5 text-center block peer-checked:bg-purple-900 peer-checked:text-white py-0.5 border border-purple-900 rounded-t border-b-0">+</span>
+                            </label>
+                            <label
+                                className="w-full shrink-0 font-bold leading-none flex items-center justify-center"
+                            >
+                                <input
+                                    type="radio"
+                                    defaultChecked={!data.oda.i2r}
+                                    name="pdi2r"
+                                    value={0}
+                                    onChange={e => setData(prev => {
+                                        const data = { ...prev }
+                                        data.oda.i2r = e.target.value
+                                        return data
+                                    })}
+                                    className="peer sr-only"
+                                />
+                                <span className="w-5 text-center block peer-checked:bg-purple-900 peer-checked:text-white py-0.5 border border-purple-900 rounded-b border-t-0">-</span>
+                            </label>
                         </div>
 
                     </div>
                 </div>
                 <div className="rounded overflow-hidden">
-                    <div className="h-[304px] w-[226px] bg-white relative bg-center bg-cover" style={{ backgroundImage: `url('${P3}')` }}>
-
+                    <div className="h-[304px] w-[226px] bg-white relative bg-center bg-cover">
+                        <div className="">
+                            <CanvasDraw
+                                ref={i3Ref}
+                                lazyRadius={6}
+                                hideGrid={true}
+                                hideInterface={false}
+                                brushRadius={2}
+                                brushColor="#56326E"
+                                canvasWidth={226}
+                                canvasHeight={304}
+                                imgSrc={P3}
+                                onChange={e => setData(prev => {
+                                    const data = { ...prev }
+                                    data.oda.i3lines = e.lines
+                                    return data
+                                })}
+                            />
+                        </div>
+                        <div className="flex justify-center gap-4 py-2 items-center absolute bottom-0 w-full">
+                            <button onClick={e => i3Ref.current.undo()}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                                </svg>
+                            </button>
+                            <button onClick={e => i3Ref.current.clear()}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div className="rounded overflow-hidden">
-                    <div className="h-[304px] w-[226px] bg-white relative bg-center bg-cover" style={{ backgroundImage: `url('${P4}')` }}>
-
+                    <div className="h-[304px] w-[226px] bg-white relative bg-center bg-cover">
+                        <div className="">
+                            <CanvasDraw
+                                ref={i4Ref}
+                                lazyRadius={6}
+                                hideGrid={true}
+                                hideInterface={false}
+                                brushRadius={2}
+                                brushColor="#56326E"
+                                canvasWidth={226}
+                                canvasHeight={304}
+                                imgSrc={P4}
+                                onChange={e => setData(prev => {
+                                    const data = { ...prev }
+                                    data.oda.i4lines = e.lines
+                                    return data
+                                })}
+                            />
+                        </div>
+                        <div className="flex justify-center gap-4 py-2 items-center absolute bottom-0 w-full">
+                            <button onClick={e => i4Ref.current.undo()}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
+                                </svg>
+                            </button>
+                            <button onClick={e => i4Ref.current.clear()}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M9.75 9.75l4.5 4.5m0-4.5l-4.5 4.5M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                            </button>
+                        </div>
                     </div>
                 </div>
                 <div className="rounded overflow-hidden">
                     <div className="h-[226px] w-[226px] bg-white relative bg-center bg-cover" style={{ backgroundImage: `url('${P5}')` }}>
-
+                        <input
+                            className="absolute top-24 text-center left-8 py-0.5 px-1 w-10 text-sm"
+                            value={data.oda.i5e1 ?? 0}
+                            onChange={e => setData(prev => {
+                                const data = { ...prev }
+                                data.oda.i5e1 = e.target.value
+                                return data
+                            })}
+                        />
+                        <input
+                            className="absolute top-8 text-center left-16 py-0.5 px-1 w-10 text-sm"
+                            value={data.oda.i5e2 ?? 0}
+                            onChange={e => setData(prev => {
+                                const data = { ...prev }
+                                data.oda.i5e2 = e.target.value
+                                return data
+                            })}
+                        />
+                        <input
+                            className="absolute top-8 text-center right-16 py-0.5 px-1 w-10 text-sm"
+                            value={data.oda.i5e3 ?? 0}
+                            onChange={e => setData(prev => {
+                                const data = { ...prev }
+                                data.oda.i5e3 = e.target.value
+                                return data
+                            })}
+                        />
+                        <input
+                            className="absolute top-24 text-center right-8 py-0.5 px-1 w-10 text-sm"
+                            value={data.oda.i5e4 ?? 0}
+                            onChange={e => setData(prev => {
+                                const data = { ...prev }
+                                data.oda.i5e4 = e.target.value
+                                return data
+                            })}
+                        />
                     </div>
                     <div className="font-medium my-2">ШОП</div>
                 </div>
                 <div className="rounded overflow-hidden">
                     <div className="h-[226px] w-[226px] bg-white relative bg-center bg-cover" style={{ backgroundImage: `url('${P5}')` }}>
-
+                        <input
+                            className="absolute top-24 text-center left-8 py-0.5 px-1 w-10 text-sm"
+                            value={data.oda.s5e1 ?? 0}
+                            onChange={e => setData(prev => {
+                                const data = { ...prev }
+                                data.oda.s5e1 = e.target.value
+                                return data
+                            })}
+                        />
+                        <input
+                            className="absolute top-8 text-center left-16 py-0.5 px-1 w-10 text-sm"
+                            value={data.oda.s5e2 ?? 0}
+                            onChange={e => setData(prev => {
+                                const data = { ...prev }
+                                data.oda.s5e2 = e.target.value
+                                return data
+                            })}
+                        />
+                        <input
+                            className="absolute top-8 text-center right-16 py-0.5 px-1 w-10 text-sm"
+                            value={data.oda.s5e3 ?? 0}
+                            onChange={e => setData(prev => {
+                                const data = { ...prev }
+                                data.oda.s5e3 = e.target.value
+                                return data
+                            })}
+                        />
+                        <input
+                            className="absolute top-24 text-center right-8 py-0.5 px-1 w-10 text-sm"
+                            value={data.oda.s5e4 ?? 0}
+                            onChange={e => setData(prev => {
+                                const data = { ...prev }
+                                data.oda.s5e4 = e.target.value
+                                return data
+                            })}
+                        />
                     </div>
                     <div className="font-medium my-2">ПОП</div>
 
@@ -407,6 +616,18 @@ export default (props) => {
             <div className="">
                 <div className="font-medium mb-2">Дополнения</div>
 
+                <textarea
+                    placeholder="Введите текст"
+                    value={data.oda.adds ?? ``}
+                    onChange={e => setData(prev => {
+                        const data = { ...prev }
+                        data.oda.adds = e.target.value
+                        return data
+                    })}
+                    className="w-full border-0 rounded grow text-xs h-24 "
+                />
+
+                <div className="font-medium mb-2">Пластичность</div>
                 <table className="table-auto w-full mb-16">
                     <thead>
                         <tr>

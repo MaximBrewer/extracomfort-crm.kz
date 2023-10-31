@@ -110,5 +110,24 @@ class Oda extends Model
         'sagth12I',
         'sagth12II',
         'sagth12III',
+
+        'i2l',
+        'i2r',
+        'i2to',
+        'adds',
+        'i2lines',
+        'i3lines',
+        'i4lines',
+
+
+        'i5e1',
+        'i5e2',
+        'i5e3',
+        'i5e4',
+        's5e1',
+        's5e2',
+        's5e3',
+        's5e4',
+
     ];
 }

@@ -223,9 +223,9 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
         }
         $model->slug = Str::slug($product->name);
         $model->title = $product->name;
-        $model->excerpt = (string)$product->Описание;
-        $model->meta_description = (string)$product->Описание;
-        $model->body = (string)$product->Описание;
+        // $model->excerpt = (string)$product->Описание;
+        // $model->meta_description = (string)$product->Описание;
+        // $model->body = (string)$product->Описание;
         $model->article = (string)$product->Артикул;
         $model->save();
         return $model;

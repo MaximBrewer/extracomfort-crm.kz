@@ -51,11 +51,9 @@ class ParseCSV11 extends Command
         $errcnt = 0;
         if (($handle = fopen(storage_path('csv/Мишин.csv'), "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
-                if (strstr($data[0], 'Дата приема:')) {
-                    $date = Carbon::parse(trim(str_replace('Дата приема:', '', $data[0])));
-                    $time = $date = Carbon::parse($date->format('Y-m-d 09:00:00'));
-                } elseif ($id = (int)$data[0]) {
-                    $fio = $data[1];
+                if ($id = (int)$data[0]) {
+                    $date = Carbon::parse($data[1]);
+                    $fio = $data[2];
                     $fio = preg_split('/\s/', $fio, -1, PREG_SPLIT_NO_EMPTY);
                     if (!count($fio)) continue;
                     switch (count($fio)) {
@@ -91,7 +89,7 @@ class ParseCSV11 extends Command
                         continue;
                     }
                     $direction = Direction::find(2);
-                    $service = $direction->services()->firstOrCreate(['title' => $data[2]]);
+                    $service = $direction->services()->firstOrCreate(['title' => $data[3]]);
                     $book = false;
                     do {
                         try {

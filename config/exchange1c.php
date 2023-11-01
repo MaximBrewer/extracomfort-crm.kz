@@ -25,12 +25,8 @@ return [
     'queue'       => 'exchange1C',
     'auth'        => [
         'custom'   => false,
-        'callback' => function ($username, $password) {
-            if ($username == 'admin' && $password == 'admin') {
-                return true;
-            }
-
-            return false;
-        },
+        // 'callback' => function ($username, $password) {
+        //     return $username == 'admin' && $password == 'admin';
+        // },
     ],
 ];

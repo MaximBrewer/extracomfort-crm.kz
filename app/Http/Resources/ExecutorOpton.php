@@ -20,7 +20,7 @@ class ExecutorOpton extends JsonResource
             'id' => $this->id,
             'name' => trim($this->lastname . ' ' . $this->name . ' ' . $this->surname),
             'role' => $this->role->display_name,
-            'avatar' => Storage::url($this->avatar)
+            'avatar' => Storage::url(($this->gender ?: 'male') . '.jpg'),
         ];
         return $array;
     }

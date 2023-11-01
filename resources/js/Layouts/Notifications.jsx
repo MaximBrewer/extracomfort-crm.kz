@@ -10,7 +10,7 @@ export default (props) => {
         <div className={`bg-white rounded-xl bg-white py-6 px-6 z-1 relative`}>
             <div className={`text-lg font-semibold mb-5`}>Следующий прием</div>
             <div className={`flex space-x-5 items-center mb-5`}>
-                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/avatar.jpeg)` }}></div>
+                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url('${auth.user.gender})` }}></div>
                 <div className={`grow`}>
                     <div className={`text-sm text-violet-500`}>Имя Фамилия Специалиста</div>
                     <div className={`font-medium`}>Назначение приема</div>

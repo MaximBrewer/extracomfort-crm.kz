@@ -38,7 +38,7 @@ export default (props) => {
                 </Link>
                 <div className={`shadow-bb rounded-lg bg-white px-6 overflow-y-auto pt-5`}>
                     {recieptions.map((recieption, sdx) => <div key={sdx} className="flex space-x-5 items-center mb-5 p-5 rounded-lg bg-blue-50 hover:bg-white hover:shadow-block">
-                        <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/avatar.jpeg)` }}></div>
+                        <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url('${recieption.avatar}')` }}></div>
                         <div className={`grow`}>
                             <div className={`font-medium text-violet-500`}>{recieption.lastname} {recieption.name} {recieption.surname}</div>
                         </div>

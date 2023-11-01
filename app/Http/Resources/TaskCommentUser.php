@@ -19,7 +19,7 @@ class TaskCommentUser extends JsonResource
         $array = [
             'id' => $this->id,
             'name' => $this->name,
-            'avatar' => Storage::url($this->avatar),
+            'avatar' => Storage::url(($this->gender ?: 'male') . '.jpg'),
             // 'role' => $this->role
         ];
         return $array;

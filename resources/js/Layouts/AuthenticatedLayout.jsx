@@ -307,7 +307,6 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                         </ul>
                     </div>
                     <div>
-                        <Link href={`/appointment/19`}>Профиль</Link>
                         <Link href={`/profile`} className={`flex space-x-4 items-center mt-6 text-gray-800 pb-6`}>
                             <div className={`w-6 h-6 text-gray-600 flex items-center justify-center`}><Profile className={`w-5 h-auto`} /></div>
                             <span>Профиль</span>
@@ -349,7 +348,7 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                                     <Bell className={`w-6 h-auto`} />
                                     <div className={`w-3 h-3 absolute -right-px -top-1 border-slate-100 rounded-full border-2 bg-green-500`} />
                                 </a> : ``} */}
-                                <div className={`w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/avatar.jpeg)` }}></div>
+                                <div className={`w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url('${auth.user.avatar}')` }}></div>
                                 <div className={`leading-tight`}>
                                     <div className={`font-medium`}>{auth.user.name}</div>
                                     <div>{roles[auth.user.role.name]}</div>

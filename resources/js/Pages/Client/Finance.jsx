@@ -73,7 +73,7 @@ export default (props) => {
 
                         <div className={`flex space-x-5 items-center mb-5 rounded-lg py-5 bg-blue-50 hover:bg-white hover:shadow-block`}>
                             <div className={`w-[60%] flex space-x-5 items-center pl-5`}>
-                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/avatar.jpeg)` }}></div>
+                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/female.jpg)` }}></div>
                                 <div className={`grow`}>
                                     <div className={`font-medium text-violet-500`}>Ткач Олег Викторович</div>
                                     <div className={`text-sm`}>Ортореабилитолог</div>
@@ -89,7 +89,7 @@ export default (props) => {
 
                         <div className={`flex space-x-5 items-center mb-5 rounded-lg py-5 bg-blue-50 hover:bg-white hover:shadow-block`}>
                             <div className={`w-[60%] flex space-x-5 items-center pl-5`}>
-                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/avatar.jpeg)` }}></div>
+                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/female.jpg)` }}></div>
                                 <div className={`grow`}>
                                     <div className={`font-medium text-violet-500`}>Ткач Олег Викторович</div>
                                     <div className={`text-sm`}>Ортореабилитолог</div>
@@ -105,7 +105,7 @@ export default (props) => {
 
                         <div className={`flex space-x-5 items-center mb-5 rounded-lg py-5 bg-blue-50 hover:bg-white hover:shadow-block`}>
                             <div className={`w-[60%] flex space-x-5 items-center pl-5`}>
-                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/avatar.jpeg)` }}></div>
+                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/female.jpg)` }}></div>
                                 <div className={`grow`}>
                                     <div className={`font-medium text-violet-500`}>Ткач Олег Викторович</div>
                                     <div className={`text-sm`}>Ортореабилитолог</div>
@@ -121,7 +121,7 @@ export default (props) => {
 
                         <div className={`flex space-x-5 items-center mb-5 rounded-lg py-5 bg-blue-50 hover:bg-white hover:shadow-block`}>
                             <div className={`w-[60%] flex space-x-5 items-center pl-5`}>
-                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/avatar.jpeg)` }}></div>
+                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/female.jpg)` }}></div>
                                 <div className={`grow`}>
                                     <div className={`font-medium text-violet-500`}>Ткач Олег Викторович</div>
                                     <div className={`text-sm`}>Ортореабилитолог</div>
@@ -149,7 +149,7 @@ export default (props) => {
 
                         <div className={`flex space-x-5 items-center mb-5 rounded-lg py-5 bg-blue-50 hover:bg-white hover:shadow-block`}>
                             <div className={`w-[60%] flex space-x-5 items-center pl-5`}>
-                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/avatar.jpeg)` }}></div>
+                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/female.jpg)` }}></div>
                                 <div className={`grow`}>
                                     <div className={`font-medium text-violet-500`}>Ткач Олег Викторович</div>
                                     <div className={`text-sm`}>Ортореабилитолог</div>
@@ -165,7 +165,7 @@ export default (props) => {
 
                         <div className={`flex space-x-5 items-center mb-5 rounded-lg py-5 bg-blue-50 hover:bg-white hover:shadow-block`}>
                             <div className={`w-[60%] flex space-x-5 items-center pl-5`}>
-                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/avatar.jpeg)` }}></div>
+                                <div className={`shrink-0 w-10 h-10 bg-cover rounded bg-center`} style={{ backgroundImage: `url(/storage/female.jpg)` }}></div>
                                 <div className={`grow`}>
                                     <div className={`font-medium text-violet-500`}>Ткач Олег Викторович</div>
                                     <div className={`text-sm`}>Ортореабилитолог</div>

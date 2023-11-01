@@ -41,7 +41,6 @@ const Day = (props) => {
 const DirectionOption = (props) => {
     const { direction } = props
     return <>
-        {/* <div className="w-10 h-10 bg-cover rounded bg-center" style={{ backgroundImage: `url("/storage/avatar.jpeg")` }}></div> */}
         <div className={`h-10 px-4 flex items-center`}>
             <span>{direction.title}</span>
         </div>

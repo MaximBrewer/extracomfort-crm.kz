@@ -33,7 +33,7 @@ const Day = (props) => {
 const SpecialistOption = (props) => {
     const { specialist } = props
     return <>
-        <div className="w-10 h-10 bg-cover rounded bg-center" style={{ backgroundImage: `url("/storage/avatar.jpeg")` }}></div>
+        <div className="w-10 h-10 bg-cover rounded bg-center" style={{ backgroundImage: `url('${specialist.avatar}')` }}></div>
         <div>{specialist.lastname}{specialist.name ? ` ${specialist.name.substr(0, 1).toUpperCase()}.` : ``}{specialist.surname ? ` ${specialist.surname.substr(0, 1).toUpperCase()}.` : ``}</div>
     </>
 }

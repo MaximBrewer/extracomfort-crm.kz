@@ -155,6 +155,7 @@ export default (props) => {
                             setData={setData}
                             errors={errors}
                             appointment={appointment}
+                            nextTab={nextTab}
                         /> : ``}
                         {tab.code === `kinesio` ? <Kinesio
                             data={data}

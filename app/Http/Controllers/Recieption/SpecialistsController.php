@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Recieption;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\SpecialistTizer;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -15,7 +16,7 @@ class SpecialistsController extends Controller
     public function __invoke(Request $request)
     {
         $data['pagetitle'] = 'Специалисты';
-        $data['specialists'] = User::where('role_id', 4)->get();
+        $data['specialists'] = SpecialistTizer::collection(User::where('role_id', 4)->with('directions')->paginate(1000));
         return Inertia::render('Recieption/Specialists', $data);
     }
 

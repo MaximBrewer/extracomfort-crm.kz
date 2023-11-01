@@ -82,7 +82,7 @@ class PatientsController extends Controller
         $spr = DB::table('settings')->where('key', 'site.spravkayoung')->first();
         $data['spravkayoung'] = $spr ? $spr->value : "";
 
-        $data['pagetitle'] = 'Запись №-(Жолжаксинов Арман Тасбулатович)';
+        $data['pagetitle'] = 'Запись №' . $book->id;
         $data['patient'] = new PatientCardSpecialist($book->patient);
         $data['appointment'] = new Appointment($appointment);
         $data['scrollpage'] = true;

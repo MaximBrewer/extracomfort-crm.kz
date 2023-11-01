@@ -49,7 +49,7 @@ class ParseCSV6 extends Command
         $date = now();
         $time = $date = Carbon::parse($date->format('Y-m-d 09:00:00'));
         $errcnt = 0;
-        if (($handle = fopen(Storage::path('../../csv/Худоконова.csv'), "r")) !== FALSE) {
+        if (($handle = fopen(storage_path('csv/Худоконова.csv'), "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
                 if ($id = (int)$data[0]) {
                     $date = Carbon::parse($data[1]);

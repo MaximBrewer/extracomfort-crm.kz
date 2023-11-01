@@ -49,7 +49,7 @@ class ParseCSV4 extends Command
         $date = now();
         $time = $date = Carbon::parse($date->format('Y-m-d 09:00:00'));
         $errcnt = 0;
-        if (($handle = fopen(Storage::path('../../csv/Дубовихин.csv'), "r")) !== FALSE) {
+        if (($handle = fopen(storage_path('csv/Дубовихин.csv'), "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
                 if (strstr($data[0], 'Дата приема:')) {
                     $date = Carbon::parse(trim(str_replace('Дата приема:', '', $data[0])));
@@ -142,7 +142,7 @@ class ParseCSV4 extends Command
     //         14 => "Участок"
     //     ];
     //     $row = 1;
-    //     if (($handle = fopen(Storage::path('../../csv/пациенты.csv'), "r")) !== FALSE) {
+    //     if (($handle = fopen(storage_path('csv/пациенты.csv'), "r")) !== FALSE) {
     //         while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
     //             if ($row > 1) {
     //                 if ($data[12]) $phones = $data[12];

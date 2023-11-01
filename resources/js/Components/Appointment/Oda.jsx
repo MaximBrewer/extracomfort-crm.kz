@@ -11,8 +11,8 @@ import P7 from "../../../img/card/oda/p7.jpg"
 
 import I1 from "../../../img/card/oda/i1.png"
 import I2 from "../../../img/card/oda/i2.png"
-import I3 from "../../../img/card/oda/iI3.png"
-import I4 from "../../../img/card/oda/iI4.png"
+import I3 from "../../../img/card/oda/i3.png"
+import I4 from "../../../img/card/oda/i4.png"
 import I5 from "../../../img/card/oda/i5.png"
 import I6 from "../../../img/card/oda/i6.png"
 

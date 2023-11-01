@@ -101,7 +101,7 @@ class ParseCSV11 extends Command
                                 'service_id' => $service->id,
                                 'branch_id' => 1,
                                 'patient_id' => $user->id,
-                                'specialist_id' => 7,
+                                'specialist_id' => 31962,
                                 'recieption_id' => null,
                                 'duration' => 10
                             ], [

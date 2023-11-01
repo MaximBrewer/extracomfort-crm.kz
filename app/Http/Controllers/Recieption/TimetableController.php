@@ -37,8 +37,8 @@ class TimetableController extends Controller
             ];
             $weekday->addDay();
         }
-
-        $data['books'] = BookRecieption::collection($branch->books()->where('date', $date)->orderBy('time', 'asc')->get());
+        
+        $data['books'] = BookRecieption::collection($branch->books()->where('date', $date->format('Y-m-d'))->orderBy('time', 'asc')->get());
         $data['branch'] = $branch;
         $data['branches'] = ResourcesBranch::collection(Branch::all());
         $data['weekdays'] = $weekdays;

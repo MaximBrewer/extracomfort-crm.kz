@@ -20,5 +20,10 @@ export default {
             title: `Отмененная`,
             color: `text-red-700`
         },
+        {
+            code: `completed`,
+            title: `Завершен`,
+            color: `text-green-400`
+        },
     ]
 }

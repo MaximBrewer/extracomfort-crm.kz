@@ -167,6 +167,8 @@ class User extends Authenticatable
         'birthdate',
         'schedule',
         'locality_id',
+        'ais_id',
+        'external_id',
         'branch_id',
     ];
 
@@ -187,6 +189,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'birthdate' => 'date',
         'schedule' => 'array'
     ];
 

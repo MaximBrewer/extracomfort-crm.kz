@@ -15,6 +15,7 @@
         "laravel/sanctum": "^3.2",
         "laravel/tinker": "^2.8",
         "maximbrewer/laravel-exchange1c": "v1.1.1",
+        "thiagoalessio/tesseract_ocr": "^2.13",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

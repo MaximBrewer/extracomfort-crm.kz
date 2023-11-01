@@ -3,6 +3,7 @@
 namespace App\Observers;
 
 use App\Models\User as ModelsUser;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
@@ -18,7 +19,7 @@ class User
     {
         if ($model->role && $model->role->name === 'client') {
             if ($model->wasChanged(['name', 'tin', 'phone']) || $model->getOriginal('user_id') === null) {
-                $this->sendUserTo1c($model);
+                !App::isLocal() && $this->sendUserTo1c($model);
             }
         }
         return true;
@@ -26,6 +27,7 @@ class User
 
     private function sendUserTo1c(ModelsUser $model)
     {
+        sleep(1);
         $url = 'http://79.140.228.7:80/IPBatmanovUT/hs/dataExchange/clients';
 
         $data = [[

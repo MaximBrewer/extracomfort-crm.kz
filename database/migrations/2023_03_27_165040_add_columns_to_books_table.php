@@ -16,7 +16,8 @@ return new class extends Migration
                 'none',
                 'confirmed',
                 'lost',
-                'canceled'
+                'canceled',
+                'completed'
             ])->default('none');
         });
     }

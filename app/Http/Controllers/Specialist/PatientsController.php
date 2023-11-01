@@ -86,7 +86,7 @@ class PatientsController extends Controller
 
         $data['successshop'] = !!Session::get('successshop');
         $data['successrecieption'] = !!Session::get('successrecieption');
-        
+
         return Inertia::render('Specialist/Patient/Appointment', $data);
     }
 
@@ -202,9 +202,21 @@ class PatientsController extends Controller
                 ]
             ]
         ]);
-        $task->users()->attach(User::whereHas('role', function (Builder $query) {
+
+        $users = User::whereHas('role', function (Builder $query) {
             $query->where('name', 'recieption');
-        })->where('branch_id', Auth::user()->branch_id)->pluck('id'));
+        })->where('branch_id', Auth::user()->branch_id)->get();
+
+        $message = "<p>Новое задание</p>";
+        $message .= "<p><b>" . $task->title . "</b></p>";
+
+        foreach ($users as $user) {
+            $task->users()->attach($user);
+            $user->notifications()->create([
+                'notification' => $message
+            ]);
+        }
+        
         return redirect()->back()->with('successrecieption', true);
     }
 

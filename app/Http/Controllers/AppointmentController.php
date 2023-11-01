@@ -36,7 +36,7 @@ class AppointmentController extends Controller
         $spr = DB::table('settings')->where('key', 'site.spravkayoung')->first();
         $data['spravkayoung'] = $spr ? $spr->value : "";
 
-        $data['pagetitle'] = 'Запись №' . $book->id;
+        $data['pagetitle'] = 'Запись №' . $book->id . "(".$book->patient->fullName.")";
         $data['patient'] = new PatientCardSpecialist($book->patient);
         $data['appointment'] = new Appointment($appointment);
         $data['scrollpage'] = true;

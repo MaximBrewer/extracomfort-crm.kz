@@ -133,18 +133,21 @@ export default (props) => {
                     <form onSubmit={submit} ref={formRef}>
                         {tab.code === `consult` ? <Consult
                             data={data}
+                            nextTab={nextTab}
                             setData={setData}
                             errors={errors}
                         /> : ``}
                         {tab.code === `ods` ? <Ods
                             data={data}
                             setData={setData}
+                            nextTab={nextTab}
                             transform={transform}
                             errors={errors}
                         /> : ``}
                         {tab.code === `painmap` ? <Painmap
                             data={data}
                             setData={setData}
+                            nextTab={nextTab}
                             errors={errors}
                         /> : ``}
                         {tab.code === `addon` ? <Addon
@@ -163,17 +166,20 @@ export default (props) => {
                         {tab.code === `podiatry` ? <Podiatry
                             data={data}
                             setData={setData}
+                            nextTab={nextTab}
                             errors={errors}
                             appointment={appointment}
                         /> : ``}
                         {tab.code === `reabilitation` ? <Reabilitation
                             data={data}
                             setData={setData}
+                            nextTab={nextTab}
                             errors={errors}
                         /> : ``}
                         {tab.code === `other` ? <Other
                             data={data}
                             setData={setData}
+                            nextTab={nextTab}
                             errors={errors}
                         /> : ``}
                     </form>

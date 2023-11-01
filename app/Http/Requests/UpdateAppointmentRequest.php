@@ -22,7 +22,7 @@ class UpdateAppointmentRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'anvitae' => 'required'
+            // 'anvitae' => 'required'
         ];
     }
 }

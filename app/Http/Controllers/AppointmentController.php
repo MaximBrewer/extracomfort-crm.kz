@@ -24,7 +24,10 @@ class AppointmentController extends Controller
         if (!$appointment->reabilitation)   $book->appointment->reabilitation()->create([]);
         if (!$appointment->addon)   $book->appointment->addon()->create([]);
         if (!$appointment->podiatry)   $book->appointment->podiatry()->create([]);
-        if (!$appointment->kinesio)   $book->appointment->kinesio()->create([]);
+        if (!$appointment->kinesio) {
+            $book->appointment->kinesio()->create([]);
+            $appointment = $book->appointment()->first();
+        }
         if (!$appointment->kinesio->interview)   $book->appointment->kinesio->interview()->create([]);
 
         $appointment = $book->appointment()->first();

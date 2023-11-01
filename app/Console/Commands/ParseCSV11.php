@@ -90,7 +90,7 @@ class ParseCSV11 extends Command
                         $errcnt++;
                         continue;
                     }
-                    $direction = Direction::find(11);
+                    $direction = Direction::find(2);
                     $service = $direction->services()->firstOrCreate(['title' => $data[2]]);
                     $book = false;
                     do {

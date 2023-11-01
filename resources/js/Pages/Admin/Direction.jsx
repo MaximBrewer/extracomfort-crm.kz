@@ -18,7 +18,7 @@ export default (props) => {
         >
             <Head title={pagetitle} />
 
-            <div className="pb-12 pt-5">
+            <div className="pb-12 pt-5 overflow-auto">
                 <Direction {...props} />
             </div>
         </AuthenticatedLayout>

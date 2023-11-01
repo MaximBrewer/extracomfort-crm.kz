@@ -25,7 +25,7 @@ export default (props) => {
         >
             <Head title={pagetitle} />
             <div className={`shadow-bb rounded-lg bg-white py-5 px-6 overflow-y-auto`}>
-                {patients.map((patient, pdx) => <Link href={route(`senior.patient.card`, {
+                {patients.data.map((patient, pdx) => <Link href={route(`senior.patient.card`, {
                     patient: patient.id
                 })} key={pdx} className={`flex space-x-5 items-center mb-5 p-5 rounded-lg bg-blue-50 hover:bg-white hover:shadow-block`} preserveState>
                     <div className={`w-[20%]`}>

@@ -203,16 +203,16 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 route: `specialist.timetable`,
                 icon: <Calendar className={`w-6 h-auto`} />
             },
-            {
-                title: 'Пациенты',
-                route: `specialist.patients`,
-                icon: <Patients className={`w-5 h-auto`} />
-            },
-            {
-                title: 'Специалисты',
-                route: `specialist.specialists`,
-                icon: <Spec className={`w-4 h-auto`} />
-            },
+            // {
+            //     title: 'Пациенты',
+            //     route: `specialist.patients`,
+            //     icon: <Patients className={`w-5 h-auto`} />
+            // },
+            // {
+            //     title: 'Специалисты',
+            //     route: `specialist.specialists`,
+            //     icon: <Spec className={`w-4 h-auto`} />
+            // },
             {
                 title: 'Задачи',
                 route: `specialist.tasks.index`,

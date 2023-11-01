@@ -18,6 +18,22 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
+use App\Events\PatientCreated;
+use App\Http\Requests\PatientStoreRequest;
+use App\Http\Requests\PatientTopUpRequest;
+use App\Http\Requests\PatientUpdateRequest;
+use App\Http\Resources\Direction as ResourcesDirection;
+use App\Http\Resources\Locality as ResourcesLocality;
+use App\Models\Branch;
+use App\Models\Direction;
+use App\Models\Locality;
+use App\Models\TopUp;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Jenssegers\Date\Date;
+
+
 class PatientsController extends Controller
 {
     /**
@@ -25,7 +41,9 @@ class PatientsController extends Controller
      */
     public function __invoke(Request $request)
     {
+        $this->getCommonData($data);
         $data['pagetitle'] = 'Пациенты';
+        $data['patients'] = User::where('role_id', 2)->paginate(50);
         return Inertia::render('Specialist/Patients', $data);
     }
 
@@ -188,5 +206,24 @@ class PatientsController extends Controller
             $query->where('name', 'recieption');
         })->where('branch_id', Auth::user()->branch_id)->pluck('id'));
         return redirect()->back()->with('successrecieption', true);
+    }
+
+    /**
+     * Common data for crud.
+     */
+    private function getCommonData(&$data)
+    {
+        $data['genders'] = [
+            [
+                'value' => 'male',
+                'label' => 'Мужской',
+            ], [
+                'value' => 'female',
+                'label' => 'Женский'
+            ]
+        ];
+
+        $data['directions'] = ResourcesDirection::collection(Direction::all());
+        $data['localities'] = ResourcesLocality::collection(Locality::all());
     }
 }

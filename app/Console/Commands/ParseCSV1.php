@@ -93,20 +93,25 @@ class ParseCSV1 extends Command
                     $direction = Direction::find(10);
                     $service = $direction->services()->firstOrCreate(['title' => $data[2]]);
 
-                    $book = Book::firstOrCreate([
-                        'date' => $date->format("Y-m-d"),
-                        'status' => 'completed',
-                        'service_id' => $service->id,
-                        'branch_id' => 1,
-                        'patient_id' => $user->id,
-                        'specialist_id' => 5,
-                        'recieption_id' => null,
-                        'duration' => 10
-                    ], [
-                        'start' => $time->format("H:i:s"),
-                        'time' => $time->format("H:i:s"),
-                    ]);
-                    $time->addMinutes(10);
+                    do {
+                        try {
+                            $book = Book::firstOrCreate([
+                                'date' => $date->format("Y-m-d"),
+                                'status' => 'completed',
+                                'service_id' => $service->id,
+                                'branch_id' => 1,
+                                'patient_id' => $user->id,
+                                'specialist_id' => 5,
+                                'recieption_id' => null,
+                                'duration' => 10
+                            ], [
+                                'start' => $time->format("H:i:s"),
+                                'time' => $time->format("H:i:s"),
+                            ]);
+                        } catch (\Throwable $e) {
+                        }
+                        $time->addMinutes(10);
+                    } while (!$book);
                 }
                 $row++;
             }

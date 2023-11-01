@@ -51,7 +51,7 @@ class ParseCSV extends Command
             14 => "Участок"
         ];
         $row = 1;
-        if (($handle = fopen(Storage::path('../../csv/пациенты.csv'), "r")) !== FALSE) {
+        if (($handle = fopen(Storage::path('../../csv/patients.csv'), "r")) !== FALSE) {
             while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
                 if ($row > 1) {
 

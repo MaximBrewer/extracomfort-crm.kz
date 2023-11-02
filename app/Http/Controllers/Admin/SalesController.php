@@ -8,6 +8,7 @@ use App\Http\Requests\SaleStoreRequest;
 use App\Http\Requests\SaleUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
+use App\Http\Resources\User as ResourcesUser;
 use App\Models\Direction;
 use App\Models\Locality;
 use App\Models\User;
@@ -24,7 +25,7 @@ class SalesController extends Controller
      */
     public function index()
     {
-        $data['sales'] = User::where('role_id', 7)->get();
+        $data['sales'] = ResourcesUser::collection(User::where('role_id', 7)->get());
         $data['pagetitle'] = 'Продавцы-консультанты';
         return Inertia::render('Admin/Sales', $data);
     }

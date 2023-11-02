@@ -8,6 +8,7 @@ use App\Http\Requests\RecieptionStoreRequest;
 use App\Http\Requests\RecieptionUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
+use App\Http\Resources\User as ResourcesUser;
 use App\Models\Direction;
 use App\Models\Locality;
 use App\Models\User;
@@ -24,7 +25,7 @@ class RecieptionsController extends Controller
      */
     public function index()
     {
-        $data['recieptions'] = User::where('role_id', 3)->get();
+        $data['recieptions'] = ResourcesUser::collection(User::where('role_id', 3)->get());
         $data['pagetitle'] = 'Ресепшн';
         return Inertia::render('Admin/Recieptions', $data);
     }

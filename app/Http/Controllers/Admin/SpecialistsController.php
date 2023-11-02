@@ -8,6 +8,7 @@ use App\Http\Requests\SpecialistStoreRequest;
 use App\Http\Requests\SpecialistUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
+use App\Http\Resources\User as ResourcesUser;
 use App\Models\Direction;
 use App\Models\Locality;
 use App\Models\User;
@@ -24,7 +25,7 @@ class SpecialistsController extends Controller
      */
     public function index()
     {
-        $data['specialists'] = User::where('role_id', 4)->get();
+        $data['specialists'] = ResourcesUser::collection(User::where('role_id', 4)->get());
         $data['pagetitle'] = 'Специалисты';
         return Inertia::render('Admin/Specialists', $data);
     }

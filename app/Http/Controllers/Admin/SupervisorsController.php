@@ -8,6 +8,7 @@ use App\Http\Requests\SupervisorStoreRequest;
 use App\Http\Requests\SupervisorUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
+use App\Http\Resources\User as ResourcesUser;
 use App\Models\Direction;
 use App\Models\Locality;
 use App\Models\User;
@@ -24,7 +25,7 @@ class SupervisorsController extends Controller
      */
     public function index()
     {
-        $data['supervisors'] = User::where('role_id', 10)->get();
+        $data['supervisors'] = ResourcesUser::collection(User::where('role_id', 10)->get());
         $data['pagetitle'] = 'Старший администратор';
         return Inertia::render('Admin/Supervisors', $data);
     }

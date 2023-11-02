@@ -27,6 +27,7 @@ class User extends JsonResource
             'name' => $this->name,
             'avatar' => Storage::url(($this->gender ?: 'male') . '.jpg'),
             'role' => $this->role,
+            'directions' => $this->directions ? Direction::collection($this->directions) : [],
             'branch' => $this->branch ? new UserBranch($this->branch) : null,
             'locality' => $this->locality ? new UserBranch($this->locality) : null,
         ];

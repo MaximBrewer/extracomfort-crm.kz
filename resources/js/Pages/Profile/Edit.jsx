@@ -22,8 +22,8 @@ export default function Edit({ auth, mustVerifyEmail, status }) {
                         />
                     </div>
 
-                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg grow">
-                        <UpdatePasswordForm className="max-w-xl" />
+                    <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg grow max-w-xl">
+                        <UpdatePasswordForm />
                     </div>
 
                     {/* <div className="p-4 sm:p-8 bg-white shadow sm:rounded-lg">

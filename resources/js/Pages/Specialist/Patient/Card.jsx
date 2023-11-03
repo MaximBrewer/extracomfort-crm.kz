@@ -39,7 +39,6 @@ export default (props) => {
                 </div>
             }
         >
-            <Head title={pagetitle} />
             <div className={`rounded-lg shadow-block bg-white px-6 py-6 mb-5 relative`}>
                 <div className={`flex`}>
                     <div className={`grow border-black border-r border-opacity-50 pr-5`}>

@@ -32,8 +32,6 @@ export default function ResetPassword({ token, email }) {
 
     return (
         <GuestLayout>
-            <Head title="Сброс пароля" />
-
             <form onSubmit={submit}>
                 <div>
                     <InputLabel htmlFor="email" value="E-mail" />

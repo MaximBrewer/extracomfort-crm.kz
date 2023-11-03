@@ -77,7 +77,6 @@ export default (props) => {
         errors={props.errors}
         heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
     >
-        <Head title={pagetitle} />
         <div className={`shadow-block rounded-lg bg-white text-sm text-center overflow-hidden flex flex-col p-1 mb-3`}>
             <div className='overflow-y-auto'>
                 <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr] bg-slate-100`}>

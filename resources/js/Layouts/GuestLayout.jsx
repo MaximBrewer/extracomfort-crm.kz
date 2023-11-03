@@ -1,8 +1,12 @@
 import ApplicationLogo from '@/Components/ApplicationLogo';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 
 export default function Guest({ children }) {
-    return (
+
+    const { pagetitle = `` } = usePage().props
+
+    return <>
+        <Head title={pagetitle} />
         <div className="min-h-screen flex flex-col items-center pt-32">
             <div className={`mb-4`}>
                 <Link href="/">
@@ -14,5 +18,5 @@ export default function Guest({ children }) {
                 {children}
             </div>
         </div>
-    );
+    </>;
 }

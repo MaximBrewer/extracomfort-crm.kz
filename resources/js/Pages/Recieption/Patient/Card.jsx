@@ -45,7 +45,6 @@ export default (props) => {
                 </div>
             }
         >
-            <Head title={pagetitle} />
             <div className={`rounded-lg shadow-block bg-white px-6 py-6 mb-5 relative`}>
                 <Link
                     className={`absolute right-0 top-0 text-white bg-blue-400 w-6 h-6 flex items-center justify-center rounded-tr-lg`}

@@ -16,8 +16,6 @@ export default (props) => {
             errors={props.errors}
             heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
         >
-            <Head title={pagetitle} />
-
             <div className="pt-5 pb-5">
                 <div className={`shadow-bb rounded-lg bg-white py-5 px-6`}>
                     <div className={`flex space-x-5 items-center mb-5 p-5 rounded-lg bg-blue-50 hover:bg-white hover:shadow-block`}>

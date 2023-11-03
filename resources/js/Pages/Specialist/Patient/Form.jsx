@@ -121,8 +121,6 @@ export default (props) => {
             errors={props.errors}
             heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
         >
-            <Head title={pagetitle} />
-
             <div className="pb-12 pt-5">
                 <form onSubmit={submit}>
                     <div className={`grid grid-cols-2 gap-16`}>

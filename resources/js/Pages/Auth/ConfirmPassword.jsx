@@ -29,8 +29,6 @@ export default function ConfirmPassword() {
 
     return (
         <GuestLayout>
-            <Head title="Подтвердите пароль" />
-
             <div className="mb-4 text-sm text-gray-600">
                 Это безопасная область приложения. Пожалуйста, подтвердите свой пароль, прежде чем продолжить.
             </div>

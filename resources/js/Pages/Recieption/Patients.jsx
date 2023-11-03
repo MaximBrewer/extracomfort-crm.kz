@@ -33,7 +33,6 @@ export default (props) => {
                 </div>
             }
         >
-            <Head title={pagetitle} />
             <form onSubmit={submit} className="flex gap-4 items-center mb-4 p-1">
                 <div className="grow">
                     <TextInput name="q" value={data.q ?? ``} className="w-full" onChange={handleOnChange} />

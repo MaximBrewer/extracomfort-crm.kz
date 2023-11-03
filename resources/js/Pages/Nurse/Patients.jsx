@@ -23,7 +23,6 @@ export default (props) => {
                 </div>
             }
         >
-            <Head title={pagetitle} />
             <div className={`shadow-bb rounded-lg bg-white py-5 px-6 overflow-y-auto`}>
                 {patients.data.map((patient, pdx) => <Link href={route(`nurse.patient.card`, {
                     patient: patient.id

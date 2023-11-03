@@ -18,8 +18,6 @@ export default (props) => {
             errors={props.errors}
             heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
         >
-            <Head title={pagetitle} />
-
             <div className="pb-12 overflow-hidden flex flex-col">
                 <div className={`shadow-bb rounded-lg bg-white py-5 px-6 overflow-y-auto`}>
                     {specialists.data.map((specialist, sdx) => <div key={sdx} className={`flex space-x-5 items-center mb-5 p-5 rounded-lg bg-blue-50 hover:bg-white hover:shadow-block`}>

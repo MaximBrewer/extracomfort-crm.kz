@@ -60,8 +60,6 @@ export default (props) => {
             scrollpage={true}
             heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
         >
-            <Head title={pagetitle} />
-
             <div className="flex flex-col mb-12">
                 <ul className={`flex z-1 relative text-center items-strech leading-none`}>
                     {menu.data.map((it, idx) => <li key={idx} className={`relative flex ${it.code === tab.code ? `z-10` : ``}`}>

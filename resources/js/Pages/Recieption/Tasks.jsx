@@ -16,8 +16,6 @@ export default (props) => {
             auth={props.auth}
             errors={props.errors}
         >
-            <Head title={pagetitle} />
-
             <div className="pb-12 overflow-hidden flex flex-col">
                 <div className={`flex items-center justify-between`}>
                     <ul className={`flex z-1 relative`}>

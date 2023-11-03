@@ -20,8 +20,6 @@ export default (props) => {
             errors={props.errors}
             heading={false}
         >
-            <Head title={pagetitle} />
-
             <div className="pb-12">
                 <ul className={`flex z-1 relative`}>
                     <li className={`relative`}>

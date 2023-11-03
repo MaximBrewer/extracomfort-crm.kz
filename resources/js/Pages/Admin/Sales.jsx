@@ -27,8 +27,6 @@ export default (props) => {
             errors={props.errors}
             heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
         >
-            <Head title={pagetitle} />
-
             <div className="pb-12 overflow-hidden flex flex-col">
                 <Link href={route('admin.sales.create')}>
                     <PrimaryButton className={`mb-4`}>

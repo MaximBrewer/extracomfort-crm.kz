@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import Calendar from '@/Components/Menu/Calendar';
-import { Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import History from '@/Components/Menu/History';
 import Spec from '@/Components/Menu/Spec';
 import Finance from '@/Components/Menu/Finance';
@@ -287,8 +287,11 @@ export default function Authenticated({ auth, children, heading = false, scrollp
             });
     }, [])
 
+    const { pagetitle = `` } = usePage().props
+
     return (
         <>
+            <Head title={pagetitle} />
             <div className={`flex space-x-6 container mx-auto h-screen min-h-[30rem]`}>
                 <aside className={`w-56 shrink-0 flex flex-col justify-between py-5`}>
                     <div className={`mb-8`}>

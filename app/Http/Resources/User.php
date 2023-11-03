@@ -25,6 +25,9 @@ class User extends JsonResource
         $array = [
             'id' => $this->id,
             'name' => $this->name,
+            'email' => $this->email,
+            'lastname' => $this->lastname,
+            'surname' => $this->surname,
             'fullName' => $this->fullName,
             'avatar' => Storage::url(($this->gender ?: 'male') . '.jpg'),
             'role' => $this->role,

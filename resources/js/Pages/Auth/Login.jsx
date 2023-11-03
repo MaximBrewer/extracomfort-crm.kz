@@ -12,7 +12,7 @@ import { IMaskInput, useIMask } from 'react-imask';
 
 
 
-export default function Login({ status, canResetPassword }) {
+export default function Login({ status, canResetPassword, pagetitle = `` }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         email: '',
         phone: '',
@@ -36,10 +36,11 @@ export default function Login({ status, canResetPassword }) {
         post(route('login'));
     };
 
+
     return (
 
         <div className="min-h-screen flex flex-col items-center justify-center">
-            <Head title="Log in" />
+            <Head title={pagetitle} />
             <div className={`mb-4`}>
                 <Link href="/">
                     <ApplicationLogo className="w-32 h-auto" />

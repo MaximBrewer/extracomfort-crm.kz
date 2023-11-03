@@ -2,9 +2,12 @@ import { Link, Head } from '@inertiajs/react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 
 export default function Welcome(props) {
+
+    const { pagetitle = `` } = props
+
     return (
         <>
-            <Head title="Welcome" />
+            <Head title={pagetitle} />
             <div className="relative min-h-screen bg-center">
                 <div className="p-6 text-right">
                     {props.auth.user ? (

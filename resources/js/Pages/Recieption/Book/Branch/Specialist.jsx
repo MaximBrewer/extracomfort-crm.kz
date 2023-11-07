@@ -15,13 +15,16 @@ const Day = (props) => {
     const { item, day, books, currentWeek } = props
     const { setModal } = useLayout()
 
+
     let book = books.data.find(book => book.date == currentWeek.days[day].date && book.time == item.time);
+    console.log(item,day,book)
     let show = !book || book.start === book.time;
 
     return <>
         {show ? <div
             onClick={e => item.days[day] !== 'rest' && !book ? setModal(<Book {...props} item={item} day={day} />) : void (0)}
             className={`overflow-hidden relative ${item.days[day] !== 'rest' ? 'cursor-pointer' : ''} ${book ? `row-span-${Math.ceil(book.duration / 5)}` : ``} border-l px-px leading-tight py-px flex flex-col items-center justify-center border-violet-500 border-b border-b-dashed border-violet-500 ${book ? `${timestatuses.find(ts => ts.code === `active`).color}` : `${timestatuses.find(ts => ts.code === item.days[day]).color}`}`}>
+                <div className='absolute'>{day}</div>
             {book ? <>
                 <div className={`text-center w-full whitespace-nowrap text-ellipsis overflow-hidden`}>{book.patient.fio}</div>
                 <div className={`text-center w-full whitespace-nowrap text-ellipsis overflow-hidden`}>{book.patient.phone ? book.patient.phone : book.patient.email}</div>

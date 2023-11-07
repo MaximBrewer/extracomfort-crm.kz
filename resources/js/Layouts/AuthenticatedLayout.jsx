@@ -110,35 +110,35 @@ export default function Authenticated({ auth, children, heading = false, scrollp
             },
         ],
         supervisor: [
-            {
-                title: 'Расписание',
-                route: `supervisor.timetable`,
-                params: {
-                    branch: 1
-                },
-                icon: <Calendar className={`w-6 h-auto`} />
-            },
-            {
-                title: 'Пациенты',
-                route: `supervisor.patients`,
-                icon: <Patients className={`w-5 h-auto`} />
-            },
-            {
-                title: 'Специалисты',
-                route: `supervisor.specialists`,
-                icon: <Spec className={`w-4 h-auto`} />
-            },
+            // {
+            //     title: 'Расписание',
+            //     route: `supervisor.timetable`,
+            //     params: {
+            //         branch: 1
+            //     },
+            //     icon: <Calendar className={`w-6 h-auto`} />
+            // },
+            // {
+            //     title: 'Пациенты',
+            //     route: `supervisor.patients`,
+            //     icon: <Patients className={`w-5 h-auto`} />
+            // },
+            // {
+            //     title: 'Специалисты',
+            //     route: `supervisor.specialists`,
+            //     icon: <Spec className={`w-4 h-auto`} />
+            // },
             {
                 title: 'Задачи',
                 route: `supervisor.tasks.index`,
                 active: `supervisor.tasks`,
                 icon: <Tasks className={`w-6 h-auto`} />
             },
-            {
-                title: 'Финансы',
-                route: `supervisor.finance`,
-                icon: <Finance className={`w-5 h-auto`} />
-            },
+            // {
+            //     title: 'Финансы',
+            //     route: `supervisor.finance`,
+            //     icon: <Finance className={`w-5 h-auto`} />
+            // },
         ],
         recieption: [
             {

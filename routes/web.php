@@ -8,6 +8,7 @@ use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Sale;
 use App\Http\Controllers\Senior;
 use App\Http\Controllers\Nurse;
+use App\Http\Controllers\Supervisor;
 use App\Http\Controllers\ProfileController;
 use App\Models\CallIn;
 use Illuminate\Foundation\Application;
@@ -53,6 +54,16 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
         Route::patch('{task}/status', [Admin\TasksController::class, 'status'])->name('status');
         Route::group(['prefix' => '{task}'],  function () {
             Route::resource('comments', Admin\CommentsController::class);
+        });
+    });
+});
+
+Route::group(['prefix' => 'supervisor', 'as' => 'supervisor.', 'middleware' => ['auth', 'supervisor']],  function () {
+    Route::resource('tasks', Supervisor\TasksController::class);
+    Route::group(['prefix' => 'tasks', 'as' => 'tasks.'],  function () {
+        Route::patch('{task}/status', [supervisor\TasksController::class, 'status'])->name('status');
+        Route::group(['prefix' => '{task}'],  function () {
+            Route::resource('comments', supervisor\CommentsController::class);
         });
     });
 });

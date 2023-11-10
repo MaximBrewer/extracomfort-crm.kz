@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 use Bigperson\Exchange1C\Interfaces\ProductInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -97,7 +98,9 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
      */
     public function setGroup1c($group)
     {
-        $category = Category::where('accounting_id', $group->id)->first();
+        $category = Category::whereHas('accountingIds', function (Builder $query) use ($group) {
+            $query->where('accounting_id', $group->id);
+        })->first();
         $category && $this->category_id = $category->id;
         $this->save();
     }

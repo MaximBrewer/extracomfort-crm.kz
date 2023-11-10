@@ -64,6 +64,8 @@ class Category extends Model implements \Bigperson\Exchange1C\Interfaces\GroupIn
          * @var \Zenwalker\CommerceML\Model\Group $parent
          */
 
+        $xmlId = (string)$group->owner->classifier->xml->Ид;
+
         if ($parent = $group->getParent()) {
             $parentModel = self::createByML($parent);
             $parent_id = $parentModel->id;
@@ -73,8 +75,8 @@ class Category extends Model implements \Bigperson\Exchange1C\Interfaces\GroupIn
         }
 
         $slug = Str::slug($group->name);
-        if (!$model = Category::whereHas('accountingIds', function (Builder $query) use ($group) {
-            $query->where('accounting_id', $group->id);
+        if (!$model = Category::whereHas('accountingIds', function (Builder $query) use ($group, $xmlId) {
+            $query->where('accounting_id', $xmlId . '#' . $group->id);
         })->orWhere(function (Builder $query) use ($slug, $parent_id) {
             $query->where('slug', $slug)->where('parent_id', $parent_id);
         })->first()) {
@@ -85,7 +87,7 @@ class Category extends Model implements \Bigperson\Exchange1C\Interfaces\GroupIn
         $model->name = $group->name;
         $model->slug = $slug;
         $model->save();
-        $model->accountingIds()->firstOrCreate(['accounting_id' =>  $group->id]);
+        $model->accountingIds()->firstOrCreate(['accounting_id' =>  $xmlId . '#' . $group->id]);
         return $model;
     }
 }

@@ -98,8 +98,10 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
      */
     public function setGroup1c($group)
     {
-        $category = Category::whereHas('accountingIds', function (Builder $query) use ($group) {
-            $query->where('accounting_id', $group->id);
+        $xmlId = (string)$group->owner->classifier->xml->Ид;
+
+        $category = Category::whereHas('accountingIds', function (Builder $query) use ($group, $xmlId) {
+            $query->where('accounting_id', $xmlId . '#' .  $group->id);
         })->first();
         $category && $this->category_id = $category->id;
         $this->save();

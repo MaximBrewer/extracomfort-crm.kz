@@ -15,13 +15,14 @@ class BookSpecialist extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $array = parent::toArray($request);
         return [
-            'id' => $this->id,
-            'start' => $this->start,
-            'duration' => $this->duration,
-            'date' => $this->date,
-            'time' => $this->time,
-            'patient' => new BookSpecialistPatient($this->patient)
+            'id' => $array['id'],
+            'start' => $array['start'],
+            'duration' => $array['duration'],
+            'date' => $array['date'],
+            'time' => $array['time'],
+            'patient' => new BookSpecialistPatient($array['patient'])
         ];
     }
 }

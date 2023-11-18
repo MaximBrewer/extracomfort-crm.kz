@@ -41,8 +41,16 @@ class SpecialistsController extends Controller
     {
         $schedule = $specialist->schedule;
         foreach ($schedule as &$time) {
-            if ($time['time'] === $request->time) {
-                $time['days'][$request->day] = $request->status;
+            if ($request->time &&  $request->date)
+                if ($time['time'] === $request->time) {
+                    $time['days'][$request->day] = $request->status;
+                }
+            if ($request->items) {
+                foreach ($request->items as $s) {
+                    if ($time['time'] === $s['time']) {
+                        $time['days'][$s['day']] = $request->status;
+                    }
+                }
             }
         }
         $specialist->update([

@@ -17,6 +17,7 @@ use App\Models\Direction;
 use App\Models\Locality;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -107,13 +108,16 @@ class BookController extends Controller
         }
 
         $this->getCommonData($data);
-        $data['specialists'] = DirectionSpecialist::collection($direction->specialists()->with(['booksSpecialist' => function (Builder $query) use ($date) {
-            $query->where('date', $date);
-        }])->get());
+        $data['specialists'] = DirectionSpecialist::collection($direction->specialists()
+            ->with(['booksSpecialist' => function (HasMany $hasMany) use ($date) {
+                $hasMany->where('date', $date);
+            }])
+            ->get());
         $data['pagetitle'] = 'Расписание направления';
         $data['patient'] = $patient;
         $data['branch'] = $branch;
         $data['direction'] = $direction;
+        $data['services'] = $direction->services;
         $data['date'] = $date->format('d.m.Y');
         $data['dateText'] = $date->isoFormat('dddd, MMMM, D');
         $data['prevDate'] = (new Carbon($date))->subDay()->format('d.m.Y');

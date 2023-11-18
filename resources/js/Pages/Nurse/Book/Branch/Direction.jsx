@@ -59,7 +59,7 @@ export default (props) => {
         heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
     >
         <div className={`shadow-block rounded-lg bg-white text-sm overflow-hidden flex flex-col p-1 mb-3 min-h-[33.33vh]`}>
-            <div className={`py-5 px-6 flex space-x-6`}>
+            <div className={`py-5 px-6 flex space-x-6 relative z-30`}>
                 <div className={`flex capitalize rounded-lg bg-blue-50 overflow-hidden transition flex items-center justify-between min-w-[285px]`}>
                     <Link href={route(`nurse.book.direction`, {
                         patient: patient.id,
@@ -114,7 +114,7 @@ export default (props) => {
                         gridTemplateColumns: `5.25rem repeat(${specialists.data.length}, minmax(154px, max-content))`
                     }}>
                         <div className={`bg-slate-100`}></div>
-                        {specialists.data.map((specialist, sdx) => <div key={`specialist-${sdx}`} className={`p-5 border-l bg-slate-100 border-l border-violet-500 capitalize`}>{specialist.fio}</div>)}
+                        {specialists.data.map((specialist, sdx) => <div key={`specialist-${sdx}`} className={`py-5 border-l bg-slate-100 border-l border-violet-500 capitalize`}>{specialist.fio}</div>)}
                     </div>
                     <div className={`grid text-center`} style={{
                         gridTemplateColumns: `5.25rem repeat(${specialists.data.length}, minmax(154px, max-content))`

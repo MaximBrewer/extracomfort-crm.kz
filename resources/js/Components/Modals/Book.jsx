@@ -1,12 +1,13 @@
 import { useLayout } from "@/Contexts/LayoutContext";
 import durations from "@/data/durations";
 import services from "@/data/services";
-import { useForm } from "@inertiajs/react";
+import { useForm, usePage } from "@inertiajs/react";
 import Select from "react-select";
 import InputError from "../InputError"
 import InputLabel from "../InputLabel";
 import PrimaryButton from "../PrimaryButton";
 import times from "@/data/times";
+import { useState } from "react";
 
 const customStyles = {
     control: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -38,6 +39,8 @@ export default (props) => {
         week: week,
         date: date
     });
+
+    const [services, setServices] = useState(props.services ? props.services : [])
 
     transform((data) => ({
         ...data,
@@ -119,6 +122,26 @@ export default (props) => {
             </div>
 
             <div className="mb-4">
+                <InputLabel htmlFor="service" value="Направление" color={`text-gray-200`} weight={`normal`} />
+                <Select
+                    styles={customStyles}
+                    isSearchable={false}
+                    isClearable={false}
+                    name="service"
+                    maxMenuHeight={200}
+                    value={data.direction}
+                    options={specialist.directions}
+                    placeholder={``}
+                    getOptionLabel={item => item.title}
+                    getOptionValue={item => item.id}
+                    onChange={(value) => setData('direction', value)}
+                // className="basic-multi-select"
+                // classNamePrefix="select"
+                />
+                <InputError message={errors.service} className="mt-2" />
+            </div>
+
+            {services.length ? <div className="mb-4">
                 <InputLabel htmlFor="service" value="Услуга" color={`text-gray-200`} weight={`normal`} />
                 <Select
                     styles={customStyles}
@@ -127,7 +150,7 @@ export default (props) => {
                     name="service"
                     maxMenuHeight={200}
                     value={data.service}
-                    options={specialist.directions}
+                    options={services}
                     placeholder={``}
                     getOptionLabel={item => item.title}
                     getOptionValue={item => item.id}
@@ -136,7 +159,9 @@ export default (props) => {
                 // classNamePrefix="select"
                 />
                 <InputError message={errors.service} className="mt-2" />
-            </div>
+            </div> : ``}
+
+
             <div className={`text-center`}>
                 <InputError message={errors.message} className="mt-2" />
             </div>

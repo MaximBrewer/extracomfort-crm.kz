@@ -2,7 +2,7 @@
 import ArrowDown from '@/Icons/ArrowDown';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Inertia } from '@inertiajs/inertia';
-import { Head, Link } from '@inertiajs/react';
+import { Head, Link, usePage } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import timestatuses from '@/data/timestatuses';
 import { useLayout } from '@/Contexts/LayoutContext';
@@ -17,13 +17,15 @@ const Day = (props) => {
     const { item, date, specialist } = props
     const { setModal, moment } = useLayout()
 
+    const { services } = usePage().props
+
     let day = moment(date, 'DD.MM.YYYY').day() === 0 ? 6 : (moment(date, 'DD.MM.YYYY').day() - 1)
     let book = specialist.books.find(book => book.date == date && book.time == item.time);
     let show = !book || book.start === book.time;
 
     const handleClick = (e) => {
         e.preventDefault()
-        setModal(<Book {...props} item={item} date={date} />)
+        setModal(<Book {...props} item={item} date={date} services={services} />)
     }
 
     return <>
@@ -59,7 +61,7 @@ export default (props) => {
         heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
     >
         <div className={`shadow-block rounded-lg bg-white text-sm overflow-hidden flex flex-col p-1 mb-3 min-h-[33.33vh]`}>
-            <div className={`py-5 px-6 flex space-x-6`}>
+            <div className={`py-5 px-6 flex space-x-6 relative z-30`}>
                 <div className={`flex capitalize rounded-lg bg-blue-50 overflow-hidden transition flex items-center justify-between min-w-[285px]`}>
                     <Link href={route(`recieption.book.direction`, {
                         patient: patient.id,
@@ -114,7 +116,7 @@ export default (props) => {
                         gridTemplateColumns: `5.25rem repeat(${specialists.data.length}, minmax(154px, max-content))`
                     }}>
                         <div className={`bg-slate-100`}></div>
-                        {specialists.data.map((specialist, sdx) => <div key={`specialist-${sdx}`} className={`p-5 border-l bg-slate-100 border-l border-violet-500 capitalize`}>{specialist.fio}</div>)}
+                        {specialists.data.map((specialist, sdx) => <div key={`specialist-${sdx}`} className={`py-5 border-l bg-slate-100 border-l border-violet-500 capitalize`}>{specialist.fio}</div>)}
                     </div>
                     <div className={`grid text-center`} style={{
                         gridTemplateColumns: `5.25rem repeat(${specialists.data.length}, minmax(154px, max-content))`

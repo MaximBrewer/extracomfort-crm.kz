@@ -99,7 +99,6 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
     public function setGroup1c($group)
     {
         $xmlId = (string)$group->owner->classifier->xml->Ид;
-
         $category = Category::whereHas('accountingIds', function (Builder $query) use ($group, $xmlId) {
             $query->where('accounting_id', $xmlId . '#' .  $group->id);
         })->first();
@@ -222,10 +221,17 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
      */
     public static function createModel1c($product)
     {
-        if (!$model = Product::where('accounting_id', $product->id)->first()) {
-            $model = new Product();
-            $model->accounting_id = $product->id;
+        $xmlId = (string)$product->owner->classifier->xml->Ид;
+
+        if (!$model = Product::where('accounting_id', $xmlId . '#' . $product->id)->first()) {
+            if (!$model = Product::where('accounting_id', $product->id)->first()) {
+                $model = new Product();
+                $model->accounting_id = $xmlId . '#' . $product->id;
+            } else {
+                $model->accounting_id = $xmlId . '#' . $product->id;
+            }
         }
+
         $model->slug = Str::slug($product->name);
         $model->title = $product->name;
         // $model->excerpt = (string)$product->Описание;
@@ -243,6 +249,6 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
      */
     public static function findProductBy1c(string $id): ?self
     {
-        return self::where('accounting_id', $id)->first();
+        return self::where('accounting_id', 'like', '%' . $id)->first();
     }
 }

@@ -15,7 +15,8 @@ class DirectionSpecialist extends JsonResource
     public function toArray(Request $request): array
     {
         $array = parent::toArray($request);
-        $array['books'] = BookSpecialist::collection($this->booksSpecialist);
+        $array['books'] = BookSpecialist::collection($array['books_specialist']);
+        unset($array['books_specialist']);
         $array['fio'] = $this->fio;
         return $array;
     }

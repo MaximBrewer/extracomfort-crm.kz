@@ -18,8 +18,9 @@ class Property extends Model
 
     public static function createByMl($property)
     {
+        $xmlId = (string)$property->owner->classifier->xml->Ид;
         $propertyModel = Property::firstOrCreate(
-            ['accounting_id' => (string)$property->Ид],
+            ['accounting_id' => $xmlId . '#' . (string)$property->Ид],
             ['title' => (string)$property->Наименование]
         );
         // if (!empty($property->ВариантыЗначений)) foreach ($property->ВариантыЗначений as $value) {

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Bigperson\Exchange1C\Interfaces\OfferInterface;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -64,7 +65,9 @@ class Offer extends Model implements OfferInterface
      */
     public function setPrice1c($price)
     {
-        $priceType = PriceType::where('accounting_id', $price->getType()->id)->first();
+        $priceType = PriceType::whereHas('accountingIds', function (Builder $query) use ($price) {
+            $query->where('accounting_id', $price->getType()->id);
+        })->first();
         $priceModel = Price::createByMl($price, $this, $priceType);
         $this->prices()->syncWithoutDetaching($priceModel->id);
     }
@@ -88,8 +91,9 @@ class Offer extends Model implements OfferInterface
      */
     public static function createByMl($offer): Offer
     {
+        $xmlId = (string)$offer->owner->offerPackage->xpath('//c:ИдКаталога')[0];
         return Offer::firstOrCreate(
-            ['accounting_id' => $offer->id],
+            ['accounting_id' => $xmlId . '#' . $offer->id],
             [
                 'title' => (string)$offer->name,
                 'quantity' => (float)$offer->Количество,

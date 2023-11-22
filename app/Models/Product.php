@@ -122,13 +122,14 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
      */
     public function setProperty1c($property)
     {
-        $propertyModel = Property::where('accounting_id', $property->id)->first();
+        $xmlId = (string)$property->owner->classifier->xml->Ид;
+        $propertyModel = Property::where('accounting_id', $xmlId . '#' . $property->id)->first();
         $productPropertyModel = $this->properties()->where('property_id', $propertyModel->id)->first();
         if (!$productPropertyModel) $productPropertyModel = new ProductProperty();
         $productPropertyModel->product_id = $this->id;
         $productPropertyModel->property_id = $propertyModel->id;
         $propertyValue = $property->getValueModel();
-        if ($propertyAccountingId = (string)$propertyValue->ИдЗначения) {
+        if ($propertyAccountingId = $xmlId . '#' . (string)$propertyValue->ИдЗначения) {
             $value = PropertyValue::where('accounting_id', $propertyAccountingId)->first();
             $productPropertyModel->property_value_id = $value->id;
         } else {
@@ -187,11 +188,12 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
         foreach ($properties as $property) {
             $propertyModel = Property::createByMl($property);
             foreach ($property->getAvailableValues() as $value) {
-                if (!$propertyValue = PropertyValue::where('accounting_id', (string)$value->ИдЗначения)->first()) {
+                $xmlId = (string)$property->owner->classifier->xml->Ид;
+                if (!$propertyValue = PropertyValue::where('accounting_id', $xmlId . '#' . (string)$value->ИдЗначения)->first()) {
                     $propertyValue = new PropertyValue();
                     $propertyValue->title = (string)$value->Значение;
                     $propertyValue->property_id = $propertyModel->id;
-                    $propertyValue->accounting_id = (string)$value->ИдЗначения;
+                    $propertyValue->accounting_id = $xmlId . '#' . (string)$value->ИдЗначения;
                     $propertyValue->save();
                     unset($propertyValue);
                 }
@@ -247,8 +249,8 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
      *
      * @return ProductInterface|null
      */
-    public static function findProductBy1c(string $id): ?self
+    public static function findProductBy1c(string $id, string $catalogXmlId): ?self
     {
-        return self::where('accounting_id', 'like', '%' . $id)->first();
+        return self::where('accounting_id', 'like', $catalogXmlId . '#' . $id)->first();
     }
 }

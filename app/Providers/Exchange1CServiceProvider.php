@@ -5,7 +5,9 @@ namespace Altynbek07\Exchange1C;
 use Altynbek07\Exchange1C\Interfaces\EventDispatcherInterface;
 use Altynbek07\Exchange1C\Interfaces\ModelBuilderInterface;
 use Illuminate\Contracts\Events\Dispatcher;
+use Illuminate\Support\Facades\Config;
 use Illuminate\Support\ServiceProvider;
+use MaximBrewer\LaravelExchange1C\LaravelEventDispatcher;
 
 /**
  * Class Exchange1CServiceProvider.

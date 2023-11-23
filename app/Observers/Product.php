@@ -42,27 +42,14 @@ class Product
     private function setFacets(ModelsProduct $model)
     {
         foreach ($model->offers as $offer) {
+            Facet::firstOrCreate([
+                'path' => $model->path,
+                'product_id' => $model->id,
+                'offer_id' => $offer->id
+            ]);
             foreach ($offer->specifications as $specification) {
-
-                $category = null;
-                $subcategory = null;
-                $subsubcategory = null;
-                if ($model->category) {
-                    if ($model->category->parent && $model->category->parent->parent) {
-                        $category = $model->category->parent->parent->id;
-                        $subcategory = $model->category->parent->id;
-                        $subsubcategory = $model->category->id;
-                    } elseif ($model->category->parent) {
-                        $category = $model->category->parent->id;
-                        $subcategory = $model->category->id;
-                    } else {
-                        $category = $model->category->id;
-                    }
-                }
                 Facet::firstOrCreate([
-                    'category_id' => $category,
-                    'subcategory_id' => $subcategory,
-                    'subsubcategory_id' => $subsubcategory,
+                    'path' => $model->path,
                     'product_id' => $model->id,
                     'offer_id' => $offer->id,
                     'specification_id' => $specification->id,

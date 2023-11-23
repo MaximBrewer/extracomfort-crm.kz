@@ -9,8 +9,7 @@ class Offer
 {
     public function created(ModelsOffer $model)
     {
-        $this->setFacets($model);
-        $this->setMinPrice($model);
+        
     }
 
     public function updated(ModelsOffer $model)
@@ -19,8 +18,9 @@ class Offer
         $this->setMinPrice($model);
     }
 
-    public function deleted(ModelsOffer $model)
+    public function deleting(ModelsOffer $model)
     {
+        $this->setMinPrice($model);
         foreach (Facet::where('offer_id', $model->id) as $facet)  $facet->delete();
     }
 
@@ -40,27 +40,11 @@ class Offer
 
     private function setFacets(ModelsOffer $model)
     {
+        $product = $model->product;
         foreach ($model->specifications as $specification) {
-            $category = null;
-            $subcategory = null;
-            $subsubcategory = null;
-            if ($model->category) {
-                if ($model->category->parent && $model->category->parent->parent) {
-                    $category = $model->category->parent->parent->id;
-                    $subcategory = $model->category->parent->id;
-                    $subsubcategory = $model->category->id;
-                } elseif ($model->category->parent) {
-                    $category = $model->category->parent->id;
-                    $subcategory = $model->category->id;
-                } else {
-                    $category = $model->category->id;
-                }
-            }
             Facet::firstOrCreate([
-                'category_id' => $category,
-                'subcategory_id' => $subcategory,
-                'subsubcategory_id' => $subsubcategory,
-                'product_id' => $model->id,
+                'path' => $product->path,
+                'product_id' => $product->id,
                 'offer_id' => $model->id,
                 'specification_id' => $specification->id,
                 'specification_accounting_id' => $specification->accounting_id,

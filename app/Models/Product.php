@@ -232,12 +232,8 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
         $xmlId = (string)$product->owner->classifier->xml->Ид;
 
         if (!$model = Product::where('accounting_id', $xmlId . '#' . $product->id)->first()) {
-            if (!$model = Product::where('accounting_id', $product->id)->first()) {
-                $model = new Product();
-                $model->accounting_id = $xmlId . '#' . $product->id;
-            } else {
-                $model->accounting_id = $xmlId . '#' . $product->id;
-            }
+            if (!$model = Product::where('accounting_id', $product->id)->first()) $model = new Product();
+            $model->accounting_id = $xmlId . '#' . $product->id;
         }
 
         $model->slug = Str::slug($product->name);

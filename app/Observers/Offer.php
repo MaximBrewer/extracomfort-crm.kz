@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Facet;
 use App\Models\Offer as ModelsOffer;
+use Illuminate\Support\Facades\DB;
 
 class Offer
 {
@@ -40,8 +41,9 @@ class Offer
 
     private function setFacets(ModelsOffer $model)
     {
+        DB::table('facets')->where('offer_id', $model->id)->delete();
         $product = $model->product;
-        foreach ($model->specifications as $specification) {
+        if ($product) foreach ($model->specifications as $specification) {
             Facet::firstOrCreate([
                 'path' => $product->path,
                 'product_id' => $product->id,

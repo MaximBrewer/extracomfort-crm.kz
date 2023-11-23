@@ -69,6 +69,12 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
     {
     }
 
+
+    public function offers(): HasMany
+    {
+        return $this->hasMany(Offer::class);
+    }
+
     /**
      * Установка реквизитов, (import.xml > Каталог > Товары > Товар > ЗначенияРеквизитов > ЗначениеРеквизита)
      * $name - Наименование

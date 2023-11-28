@@ -276,7 +276,7 @@ export default (props) => {
                         </a>
                         {open ? <ul className={`absolute top-full left-0 w-full rounded-lg bg-blue-50`}>
                             {branches.data.map((m, mdx) => <li key={mdx}>
-                                <Link href={route(`nurse.notifications`, { branch: m.id })}
+                                <Link href={route(`nurse.reminders`, { branch: m.id })}
                                     className={`block px-4 py-2 hover:text-violet-500`}
                                     onClick={e => setOpen(false)}>{m.title}</Link>
                             </li>)}
@@ -286,7 +286,7 @@ export default (props) => {
                 <div className={`shadow-bb rounded-lg bg-white py-5 px-4 overflow-hidden flex flex-col`}>
                     <div className={`text-lg font-medium mb-5 capitalize`}>{dateText}</div>
                     <div className={`flex items-center bg-slate-100 rounded-lg -mx-3`}>
-                        <Link href={route(`nurse.notifications`, {
+                        <Link href={route(`nurse.reminders`, {
                             branch: branch,
                             date: prevyear
                         })} className={`flex items-center shrink-0 py-4 px-4 hover:scale-110`}>
@@ -295,7 +295,7 @@ export default (props) => {
                         <ul className={`grow grid grid-cols-6 text-center py-1.5`}>
                             {monthes.map((item, idx) => <React.Fragment key={idx}>
                                 {(month < 7 && idx < 6) || (month > 6 && idx > 5) ? <li className={`flex justify-center`}>
-                                    <Link href={route(`nurse.notifications`, {
+                                    <Link href={route(`nurse.reminders`, {
                                         branch: branch,
                                         date: `${idx < 9 ? `0` : ``}${idx * 1 + 1}.${year}`
                                     })} className={`py-3 px-3 rounded-lg ${month == idx + 1 ? `bg-white shadow-block` : `hover:bg-white hover:shadow-block`} cursor-pointer`}>
@@ -305,7 +305,7 @@ export default (props) => {
                                 </li> : ``}
                             </React.Fragment>)}
                         </ul>
-                        <Link href={route(`nurse.notifications`, {
+                        <Link href={route(`nurse.reminders`, {
                             branch: branch,
                             date: nextyear
                         })} className={`flex items-center shrink-0 py-4 px-4 hover:scale-110`}>

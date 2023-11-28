@@ -5,7 +5,7 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import History from '@/Components/Menu/History';
 import Spec from '@/Components/Menu/Spec';
 import Finance from '@/Components/Menu/Finance';
-import Bell from '@/Components/Bell';
+import Bell from '@/Components/Menu/Bell';
 import Profile from '@/Components/Menu/Profile';
 import Patients from '@/Components/Menu/Patients';
 import SecondaryButton from '@/Components/SecondaryButton';
@@ -142,7 +142,7 @@ export default function Authenticated({ auth, children, heading = false, scrollp
         ],
         recieption: [
             {
-                title: 'Расписание',
+                title: 'Записи на прием',
                 route: `recieption.timetable`,
                 params: {
                     branch: 1
@@ -169,6 +169,11 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 title: 'Финансы',
                 route: `recieption.finance`,
                 icon: <Finance className={`w-5 h-auto`} />
+            },
+            {
+                title: 'Уведомления',
+                route: `recieption.notifications.index`,
+                icon: <Bell className={`w-6 h-auto`} />
             },
         ],
         nurse: [

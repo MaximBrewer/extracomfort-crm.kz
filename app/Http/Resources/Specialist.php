@@ -7,6 +7,13 @@ use Illuminate\Http\Resources\Json\JsonResource;
 
 class Specialist extends JsonResource
 {
+
+    /**
+     * The "data" wrapper that should be applied.
+     *
+     * @var string|null
+     */
+    public static $wrap = null;
     /**
      * Transform the resource into an array.
      *
@@ -14,6 +21,8 @@ class Specialist extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        $arr = parent::toArray($request);
+        $arr['directions'] = Direction::collection($this->directions);
+        return $arr;
     }
 }

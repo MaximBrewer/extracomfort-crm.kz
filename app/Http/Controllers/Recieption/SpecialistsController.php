@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\SpecialistTizer;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
 class SpecialistsController extends Controller
@@ -31,6 +32,7 @@ class SpecialistsController extends Controller
             $specialist->save();
         }
         $data['specialist'] = $specialist;
+        $data['startOfWeek'] = (new Carbon)->startOfWeek()->format("Y-m-d");
         return Inertia::render('Recieption/Specialist/Schedule', $data);
     }
 
@@ -41,7 +43,7 @@ class SpecialistsController extends Controller
     {
         $schedule = $specialist->schedule;
         foreach ($schedule as &$time) {
-            if ($request->time &&  $request->date)
+            if ($request->time &&  $request->day)
                 if ($time['time'] === $request->time) {
                     $time['days'][$request->day] = $request->status;
                 }

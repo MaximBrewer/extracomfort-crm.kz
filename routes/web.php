@@ -70,7 +70,7 @@ Route::group(['prefix' => 'supervisor', 'as' => 'supervisor.', 'middleware' => [
 
 Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => ['auth', 'recieption']],  function () {
     Route::get('{branch}/timetable/{date?}', [Recieption\TimetableController::class, 'index'])->name('timetable');
-    Route::get('{branch}/notifications/{date?}', [Recieption\NotificationsController::class, 'index'])->name('notifications');
+    Route::get('{branch}/reminders/{date?}', [Recieption\RemindersController::class, 'index'])->name('reminders');
     Route::get('patients', Recieption\PatientsController::class)->name('patients');
     Route::get('patient/create', [Recieption\PatientsController::class, 'create'])->name('patient.create');
     Route::get('patient/edit/{patient}', [Recieption\PatientsController::class, 'edit'])->name('patient.edit');
@@ -92,6 +92,8 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::patch('book/{book}/status', [Recieption\BookController::class, 'status'])->name('book.status');
     Route::post('book/{book}/payment', [Recieption\BookController::class, 'payment'])->name('book.payment');
 
+    Route::resource('notifications', Recieption\NotificationController::class);
+
     Route::resource('tasks', Recieption\TasksController::class);
     Route::group(['prefix' => 'tasks', 'as' => 'tasks.'],  function () {
         Route::patch('{task}/status', [Recieption\TasksController::class, 'status'])->name('status');
@@ -103,7 +105,7 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
 
 Route::group(['prefix' => 'nurse', 'as' => 'nurse.', 'middleware' => ['auth', 'nurse']],  function () {
     Route::get('{branch}/timetable/{date?}', [Nurse\TimetableController::class, 'index'])->name('timetable');
-    Route::get('{branch}/notifications/{date?}', [Nurse\NotificationsController::class, 'index'])->name('notifications');
+    Route::get('{branch}/reminders/{date?}', [Nurse\RemindersController::class, 'index'])->name('reminders');
     Route::get('patients', Nurse\PatientsController::class)->name('patients');
     Route::get('patient/create', [Nurse\PatientsController::class, 'create'])->name('patient.create');
     Route::get('patient/edit/{patient}', [Nurse\PatientsController::class, 'edit'])->name('patient.edit');

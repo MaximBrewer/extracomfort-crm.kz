@@ -22,6 +22,7 @@ use App\Models\Notification;
 use App\Models\Offer;
 use App\Models\Payment;
 use App\Models\Product;
+use App\Models\Reminder;
 use App\Models\Task;
 use App\Models\TopUp;
 use App\Observers\CallIn as ObserversCallIn;
@@ -29,6 +30,7 @@ use App\Observers\Notification as ObserversNotification;
 use App\Observers\Offer as ObserversOffer;
 use App\Observers\Payment as ObserversPayment;
 use App\Observers\Product as ObserversProduct;
+use App\Observers\Reminder as ObserversReminder;
 use App\Observers\Task as ObserversTask;
 use App\Observers\TopUp as ObserversTopUp;
 use App\Observers\User as ObserversUser;
@@ -80,6 +82,7 @@ class EventServiceProvider extends ServiceProvider
         User::observe(ObserversUser::class);
         Payment::observe(ObserversPayment::class);
         Notification::observe(ObserversNotification::class);
+        Reminder::observe(ObserversReminder::class);
         CallIn::observe(ObserversCallIn::class);
     }
 

@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
-class NotificationsController extends Controller
+class RemindersController extends Controller
 {
     /**
      * Handle the incoming request.
@@ -34,6 +34,6 @@ class NotificationsController extends Controller
         $data['prevyear'] = $date->format('m') < 7 ? '01.' . ($date->format('Y') - 1) : '06.' . ($date->format('Y'));
         $data['nextyear'] = $date->format('m') < 7 ? '07.' . ($date->format('Y')) : '01.' . ($date->format('Y') + 1);
 
-        return Inertia::render('Supervisor/Notifications', $data);
+        return Inertia::render('Supervisor/Reminders', $data);
     }
 }

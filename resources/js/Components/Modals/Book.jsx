@@ -8,6 +8,7 @@ import InputLabel from "../InputLabel";
 import PrimaryButton from "../PrimaryButton";
 import times from "@/data/times";
 import { useState } from "react";
+import { useEffect } from "react";
 
 const customStyles = {
     control: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -41,6 +42,10 @@ export default (props) => {
     });
 
     const [services, setServices] = useState(props.services ? props.services : [])
+
+    useEffect(() => {
+        setServices(data.direction && data.direction.services.length ? data.direction.services : [])
+    }, [data.direction])
 
     transform((data) => ({
         ...data,

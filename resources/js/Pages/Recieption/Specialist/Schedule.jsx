@@ -2,6 +2,7 @@ import timestatuses from '@/data/timestatuses';
 import weekdays from '@/data/weekdays';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, router, useForm } from '@inertiajs/react';
+import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 
 const Day = (props) => {
@@ -142,7 +143,8 @@ const Day = (props) => {
 
 export default (props) => {
 
-    const { pagetitle, specialist } = props
+    const { pagetitle, specialist, startOfWeek } = props
+    console.log(moment(startOfWeek))
 
     let times = [];
     for (let i in specialist.monday) {
@@ -184,10 +186,22 @@ export default (props) => {
                     </div>
                     <div className={`inline-flex bg-slate-100`}>
                         <div className={`w-24 shrink-0`}>&nbsp;</div>
-                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>{weekday.title}</div>)}
-                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>{weekday.title}</div>)}
-                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>{weekday.title}</div>)}
-                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>{weekday.title}</div>)}
+                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>
+                            <div>{weekday.title}</div>
+                            <div>{moment(startOfWeek).add(wdx, 'days').format('DD.MM.YYYY')}</div>
+                        </div>)}
+                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>
+                            <div>{weekday.title}</div>
+                            <div>{moment(startOfWeek).add(wdx + 7, 'days').format('DD.MM.YYYY')}</div>
+                        </div>)}
+                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>
+                            <div>{weekday.title}</div>
+                            <div>{moment(startOfWeek).add(wdx + 14, 'days').format('DD.MM.YYYY')}</div>
+                        </div>)}
+                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>
+                            <div>{weekday.title}</div>
+                            <div>{moment(startOfWeek).add(wdx + 21, 'days').format('DD.MM.YYYY')}</div>
+                        </div>)}
                     </div>
                     <div className={`flex`}>
                         <div className={`h-8 w-24 shrink-0`}></div>

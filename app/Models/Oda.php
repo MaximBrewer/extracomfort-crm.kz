@@ -85,6 +85,7 @@ class Oda extends Model
         'kraus',
         'webber',
         'rise',
+        'rise2',
 
         'sagc3I',
         'sagc3II',

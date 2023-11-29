@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::table('odas', function (Blueprint $table) {
             $table->unsignedInteger('rise')->nullable();
+            $table->unsignedInteger('rise2')->nullable();
         });
     }
 

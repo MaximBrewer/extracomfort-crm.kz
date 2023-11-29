@@ -302,7 +302,7 @@ export default function Authenticated({ auth, children, heading = false, scrollp
     return (
         <>
             <Head title={pagetitle} />
-            <div className={`flex space-x-6 container mx-auto h-screen min-h-[30rem]`}>
+            <div className={`flex space-x-2 container h-screen min-h-[30rem]`}>
                 <aside className={`w-56 shrink-0 flex flex-col justify-between py-5`}>
                     <div className={`mb-8`}>
                         <div className={`mb-8`}>

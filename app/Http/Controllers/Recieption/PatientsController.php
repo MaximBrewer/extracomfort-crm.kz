@@ -9,6 +9,7 @@ use App\Http\Requests\PatientTopUpRequest;
 use App\Http\Requests\PatientUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
+use App\Http\Resources\Patient;
 use App\Http\Resources\User as ResourcesUser;
 use App\Models\Branch;
 use App\Models\Direction;
@@ -33,8 +34,7 @@ class PatientsController extends Controller
         $this->getCommonData($data);
         $data['pagetitle'] = 'Пациенты';
         $data['request'] = $request->only('q');
-
-        $users = User::where('role_id', 2);
+        $data['patients'] =  Patient::collection(User::where('role_id', 2)->paginate(50));
 
         if ($request->get('q')) {
             $users->where('name', 'like', $request->get('q') . '%')

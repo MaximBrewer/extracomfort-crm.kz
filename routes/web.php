@@ -136,15 +136,12 @@ Route::group(['prefix' => 'nurse', 'as' => 'nurse.', 'middleware' => ['auth', 'n
     });
 });
 
-Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['auth', 'client']],  function () {
-    Route::get('timetable', Client\TimetableController::class)->name('timetable');
-    Route::get('history', Client\HistoryController::class)->name('history');
-    Route::get('specialists', Client\SpecialistsController::class)->name('specialists');
-    Route::get('finance', Client\FinanceController::class)->name('finance');
-});
-
 Route::group(['prefix' => 'specialist', 'as' => 'specialist.', 'middleware' => ['auth', 'specialist']],  function () {
     Route::get('timetable/{date?}', [Specialist\TimetableController::class, 'index'])->name('timetable');
+    
+    Route::get('schedule', [Specialist\ScheduleController::class, 'index'])->name('schedule');
+    Route::patch('schedule', [Specialist\ScheduleController::class, 'update'])->name('schedule.update');
+    
     Route::get('patient/{patient}', [Specialist\PatientsController::class, 'show'])->name('patient.show');
     Route::get('appointment/{book}', [Specialist\PatientsController::class, 'appointment'])->name('appointment');
     Route::post('appointment/{book}', [Specialist\PatientsController::class, 'appointmentUpdate'])->name('appointment.update');
@@ -153,6 +150,16 @@ Route::group(['prefix' => 'specialist', 'as' => 'specialist.', 'middleware' => [
     Route::patch('appointment/{book}/torecieption', [Specialist\PatientsController::class, 'toRecieption'])->name('appointment.torecieption');
 
     Route::get('patients', Specialist\PatientsController::class)->name('patients');
+    Route::get('patient/card/{patient}', [Specialist\PatientsController::class, 'card'])->name('patient.card');
+
+    Route::get('book/{patient}/{branch}', [Specialist\BookController::class, 'branch'])->name('book.branch');
+    Route::get('book/{patient}/{branch}/direction/{direction}/{date}', [Specialist\BookController::class, 'direction'])->name('book.direction');
+    Route::get('book/{patient}/{branch}/specialist/{specialist}/{year}/{week}', [Specialist\BookController::class, 'specialist'])->name('book.specialist');
+    Route::post('book/{patient}/{branch}/{specialist}', [Specialist\BookController::class, 'store'])->name('book.store');
+    Route::patch('book/{book}/{patient}/{branch}/{specialist}', [Specialist\BookController::class, 'update'])->name('book.update');
+    Route::patch('book/{book}/status', [Specialist\BookController::class, 'status'])->name('book.status');
+    Route::post('book/{book}/payment', [Specialist\BookController::class, 'payment'])->name('book.payment');
+
     Route::get('specialists', Specialist\SpecialistsController::class)->name('specialists');
     Route::get('finance', Specialist\FinanceController::class)->name('finance');
 
@@ -168,6 +175,8 @@ Route::group(['prefix' => 'specialist', 'as' => 'specialist.', 'middleware' => [
 
     Route::delete('file/{file}', [Specialist\FilesController::class, 'destroy'])->name('file.delete');
 });
+
+
 
 // Магазин
 
@@ -205,6 +214,18 @@ Route::group(['prefix' => 'sale', 'as' => 'sale.', 'middleware' => ['auth', 'sal
             Route::resource('comments', Sale\CommentsController::class);
         });
     });
+});
+
+
+
+
+
+
+Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['auth', 'client']],  function () {
+    Route::get('timetable', Client\TimetableController::class)->name('timetable');
+    Route::get('history', Client\HistoryController::class)->name('history');
+    Route::get('specialists', Client\SpecialistsController::class)->name('specialists');
+    Route::get('finance', Client\FinanceController::class)->name('finance');
 });
 
 Route::middleware('auth')->group(function () {

@@ -178,7 +178,7 @@ export default function Authenticated({ auth, children, heading = false, scrollp
         ],
         nurse: [
             {
-                title: 'Расписание',
+                title: 'Записи на прием',
                 route: `nurse.timetable`,
                 params: {
                     branch: 1
@@ -204,15 +204,20 @@ export default function Authenticated({ auth, children, heading = false, scrollp
         ],
         specialist: [
             {
-                title: 'Расписание',
+                title: 'Записи на прием',
                 route: `specialist.timetable`,
                 icon: <Calendar className={`w-6 h-auto`} />
             },
-            // {
-            //     title: 'Пациенты',
-            //     route: `specialist.patients`,
-            //     icon: <Patients className={`w-5 h-auto`} />
-            // },
+            {
+                title: 'Расписание',
+                route: `specialist.schedule`,
+                icon: <Calendar className={`w-6 h-auto`} />
+            },
+            {
+                title: 'Пациенты',
+                route: `specialist.patients`,
+                icon: <Patients className={`w-5 h-auto`} />
+            },
             // {
             //     title: 'Специалисты',
             //     route: `specialist.specialists`,

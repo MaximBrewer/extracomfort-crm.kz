@@ -193,6 +193,16 @@ export default (props) => {
                                 return data
                             })}
                         />
+                        <input
+                            disabled={disabled}
+                            className="absolute top-3 left-6 py-1 px-2 w-16"
+                            value={data.oda.rise2 ?? 0}
+                            onChange={e => setData(prev => {
+                                const data = { ...prev }
+                                data.oda.rise2 = e.target.value
+                                return data
+                            })}
+                        />
                     </div>
                 </div>
                 <div className="rounded overflow-hidden">

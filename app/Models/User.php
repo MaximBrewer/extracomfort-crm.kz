@@ -195,6 +195,7 @@ class User extends Authenticatable
 
 
     public static $canBook = [
+        'specialist',
         'recieption',
         'nurse'
     ];

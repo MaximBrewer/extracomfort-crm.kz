@@ -24,6 +24,7 @@ use App\Http\Requests\PatientTopUpRequest;
 use App\Http\Requests\PatientUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
+use App\Http\Resources\Patient;
 use App\Models\Branch;
 use App\Models\Direction;
 use App\Models\Locality;
@@ -43,20 +44,21 @@ class PatientsController extends Controller
     {
         $this->getCommonData($data);
         $data['pagetitle'] = 'Пациенты';
-        $data['patients'] = User::where('role_id', 2)->paginate(50);
+        $data['patients'] =  Patient::collection(User::where('role_id', 2)->paginate(50));
         return Inertia::render('Specialist/Patients', $data);
     }
 
     /**
-     * Handle the incoming request.
+     * Display the specified resource.
      */
-    public function show(Request $request, User $patient)
+    public function card(User $patient)
     {
+        $data = [];
+        $this->getCommonData($data);
+        $data['patient'] = new Patient($patient);
         $data['pagetitle'] = 'Карточка пациента';
-        $data['patient'] = new PatientCardSpecialist($patient);
         return Inertia::render('Specialist/Patient/Card', $data);
     }
-
     /**
      * Handle the incoming request.
      */

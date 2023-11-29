@@ -11,7 +11,7 @@ export default (props) => {
 
     const { pagetitle, patients, request = {} } = props
 
-    const { setModal } = useLayout();
+    const { setModal, age } = useLayout();
 
     const { data, setData, get } = useForm(request);
 
@@ -47,7 +47,7 @@ export default (props) => {
                 })} key={pdx} className={`flex space-x-5 items-center mb-5 p-5 rounded-lg bg-blue-50 hover:bg-white hover:shadow-block`} preserveState>
                     <div className={`w-[70%]`}>
                         <div className={`font-medium`}>{patient.fullName}</div>
-                        <div className={`text-sm`}>30 лет</div>
+                        <div className={`text-sm`}>{age(patient)}</div>
                     </div>
                     <div className={`grow`}>
                         <div className={``}>{patient.email}</div>

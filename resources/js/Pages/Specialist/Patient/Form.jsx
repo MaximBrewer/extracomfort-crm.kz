@@ -100,7 +100,7 @@ export default (props) => {
     const submit = (e) => {
         e.preventDefault();
         if (patient && patient.id)
-            patch(route('recieption.patients.update', {
+            patch(route('specialist.patients.update', {
                 patient: patient.id
             }), {
                 onSuccess: () => {
@@ -108,7 +108,7 @@ export default (props) => {
                 }
             });
         else
-            post(route('recieption.patients.store'), {
+            post(route('specialist.patients.store'), {
                 onSuccess: () => {
 
                 }
@@ -273,7 +273,7 @@ export default (props) => {
                         </div>
                     </div>
                     <div className={`flex space-x-8 items-center justify-end`}>
-                        <Link href={route('recieption.patients')}>
+                        <Link href={route('specialist.patients')}>
                             <CancelButton className={`my-4 justify-center text-lg font-semibold`} size={`wide`}>Отменить</CancelButton>
                         </Link>
                         <SuccessButton type={`submit`} className={`my-4 justify-center text-lg font-semibold`} size={`wide`}>Сохранить</SuccessButton>

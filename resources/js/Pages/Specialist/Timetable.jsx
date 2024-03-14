@@ -18,7 +18,7 @@ const Status = (props) => {
     const { setModal } = useLayout();
     const status = statuses.data.find(s => s.code == book.status)
 
-    return <div className={`h-10 flex items-center justify-end`}>
+    return <div className={`flex items-center justify-end`}>
         <div className={`${status.color} mr-4`}>{status.title}</div>
     </div>
 }
@@ -30,7 +30,7 @@ const Payment = (props) => {
     let sum = 0;
     for (let p of book.payments) sum = +p.sum
 
-    return <div className={`h-10 flex items-center justify-end`}>
+    return <div className={`flex items-center justify-end`}>
         <div className={`text-gray-300 mr-4`}>{sum ? priceFormat(sum) : `Оплата`}</div>
     </div>
 }
@@ -38,9 +38,9 @@ const Payment = (props) => {
 
 export default (props) => {
 
-    const { pagetitle, dateText, weekdays, prevweek, nextweek, books, auth } = props
-
-    const [open, setOpen] = useState(false)
+    const { pagetitle, dateText, weekdays, prevweek, nextweek, books, auth } = props;
+    
+    const [open, setOpen] = useState(false);
 
     return (
         <AuthenticatedLayout
@@ -100,9 +100,10 @@ export default (props) => {
                                             <div className={``}>{book.patient.phone ? book.patient.phone : book.patient.email}</div>
                                         </div>
                                     </div>
-                                    <div className={`text-sm w-[40%]`}>
-                                        <span className={`text-violet-500 font-medium`}>{book.service ? book.service.title : ``}</span>
-                                    </div>
+                                    {book.service ? <div className={`text-sm w-[40%]`}>
+                                        <div className={`text-violet-500 font-medium`}>{book.service.direction ? book.service.direction.title : ``}</div>
+                                        <div className={`text-violet-500 font-medium`}>{book.service.title}</div>
+                                    </div> : <></>}
                                     <div className={`text-sm w-[20%] flex justify-end -my-3`}>
                                         <div className={`pr-5`}>
                                             <Status book={book} auth={auth} />

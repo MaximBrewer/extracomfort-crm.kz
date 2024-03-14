@@ -45,7 +45,7 @@ class TimetableController extends Controller
         $data['prevweek'] = (new Carbon($date))->startOfWeek()->subDay()->format('d.m.Y');
         $data['date'] = $date->format('d.m.Y');
         $data['dateText'] = $date->isoFormat('dddd, MMMM, D');
-        
+
         $data['pagetitle'] = 'Расписание';
         return Inertia::render('Specialist/Timetable', $data);
     }

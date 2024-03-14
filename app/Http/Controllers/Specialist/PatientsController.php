@@ -24,10 +24,13 @@ use App\Http\Requests\PatientTopUpRequest;
 use App\Http\Requests\PatientUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
-use App\Http\Resources\Patient;
+use App\Http\Resources\Patient as ResourcesPatient;
+use App\Http\Resources\SpecialistPatientCard;
+use App\Http\Resources\SpecialistPatientCardBook;
 use App\Models\Branch;
 use App\Models\Direction;
 use App\Models\Locality;
+use App\Models\Patient;
 use App\Models\TopUp;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Hash;
@@ -44,18 +47,28 @@ class PatientsController extends Controller
     {
         $this->getCommonData($data);
         $data['pagetitle'] = 'Пациенты';
-        $data['patients'] =  Patient::collection(User::where('role_id', 2)->paginate(50));
+        $data['patients'] =  ResourcesPatient::collection(Patient::all()->paginate(50));
         return Inertia::render('Specialist/Patients', $data);
     }
 
     /**
      * Display the specified resource.
      */
-    public function card(User $patient)
+    public function card(Patient $patient)
     {
         $data = [];
         $this->getCommonData($data);
-        $data['patient'] = new Patient($patient);
+        $data['patient'] = new SpecialistPatientCard($patient);
+        $data['books'] = SpecialistPatientCardBook::collection($patient->books()->paginate(
+            $perPage = 5,
+            $columns = ['*'],
+            $pageName = 'ab'
+        ));
+        $data['appointments'] = SpecialistPatientCardBook::collection($patient->appointments()->paginate(
+            $perPage = 5,
+            $columns = ['*'],
+            $pageName = 'ap'
+        ));
         $data['pagetitle'] = 'Карточка пациента';
         return Inertia::render('Specialist/Patient/Card', $data);
     }
@@ -84,7 +97,7 @@ class PatientsController extends Controller
         $spr = DB::table('settings')->where('key', 'site.spravkayoung')->first();
         $data['spravkayoung'] = $spr ? $spr->value : "";
 
-        $data['pagetitle'] = 'Запись №' . $book->id . "(".$book->patient->fullName.")";
+        $data['pagetitle'] = 'Запись №' . $book->id . "(" . $book->patient->fullName . ")";
         $data['patient'] = new PatientCardSpecialist($book->patient);
         $data['appointment'] = new Appointment($appointment);
         $data['scrollpage'] = true;

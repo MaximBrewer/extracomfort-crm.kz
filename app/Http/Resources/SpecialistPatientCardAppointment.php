@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BookRecieptionService extends JsonResource
+class SpecialistPatientCardAppointment extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,10 +14,6 @@ class BookRecieptionService extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'direction' => new BookRecieptionServiceDirection($this->direction),
-            'title' => $this->title
-        ];
+        return parent::toArray($request);
     }
 }

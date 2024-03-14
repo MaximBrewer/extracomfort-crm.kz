@@ -4,6 +4,7 @@ namespace App\Observers;
 
 use App\Models\Facet;
 use App\Models\Product as ModelsProduct;
+use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Support\Facades\DB;
 
 class Product

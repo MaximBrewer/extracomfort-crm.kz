@@ -1,37 +1,59 @@
 
 import { useLayout } from '@/Contexts/LayoutContext';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head } from '@inertiajs/react';
 import { Link, useForm } from "@inertiajs/react";
-import { useEffect, useState } from "react";
-import { IMaskInput } from "react-imask";
-import PrimaryButton from '@/Components/PrimaryButton';
-import SuccessButton from '@/Components/SuccessButton';
-import CancelButton from "@/Components/CancelButton";
-import DangerButton from "@/Components/DangerButton";
-import InputError from "@/Components/InputError"
-import InputLabel from "@/Components/InputLabel";
-import TextInput from "@/Components/TextInput"
-import Select from 'react-select';
-import Pencil from '@/Components/Pencil';
 import ChevronDown from '@/Components/ChevronDown';
-import ChevronRight from '@/Components/ChevronRight';
-import ChevronLeft from '@/Components/ChevronLeft';
-import TopUp from '@/Components/Modals/TopUp';
-import Plus from '@/Components/Plus';
-import ChooseBranche from '@/Components/Modals/ChooseBranche';
 import genders from '@/data/genders';
+import { useInView } from 'react-hook-inview';
+import { Inertia } from '@inertiajs/inertia';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 
 export default (props) => {
 
     const { pagetitle, patient, auth } = props
 
+    const [appointments, setAppointments] = useState(props.appointments)
+    const [books, setBooks] = useState(props.appointments)
+
+    const loadAppointments = () => {
+        Inertia.get(route('specialist.patient.card', {
+            patient: patient.data.id,
+            ap: 1 + appointments.meta.current_page,
+            ab: books.meta.current_page,
+        }), {
+            only: ['appointments'],
+            preserveState: true,
+            preserveScroll: true,
+            onSuccess: (props) => {
+                setAppointments(prev => ({
+                    data: [...prev.data, props.appointments.data],
+                    meta: props.appointments.meta
+                }))
+            }
+        })
+    }
+
+    // useEffect(() => {
+    //     loadAppointments()
+    // }, [])
+
+    const [apRef, apInView] = useInView(
+        {
+            onEnter: () => {
+                // if (!appointments.meta.current_page || appointments.meta.current_page < appointments.meta.last_page) loadAppointments()
+            },
+        },
+        [],
+    )
+
     const { priceFormat, setModal, moment } = useLayout();
 
     return (
         <AuthenticatedLayout
             auth={props.auth}
+            scrollpage={true}
             errors={props.errors}
             heading={
                 <div className={`flex space-x-4 items-center`}>
@@ -74,92 +96,32 @@ export default (props) => {
                     </div>
                 </div>
             </div>
-            <div className={`rounded-lg shadow-block bg-white px-6 py-6 mb-5 grow flex flex-col overflow-y-hidden`}>
+            <div className={`rounded-lg shadow-block bg-white px-6 py-6 mb-5 grow flex flex-col`}>
                 <h2 className={`text-xl font-medium mb-4`}>История</h2>
-                <div className={`flex items-center justify-between`}>
+                <div className={`flex items-center justify-between mb-8`}>
                     <div className={`flex items-center space-x-[.125rem] text-violet-500`}>
-                        <div className={`bg-white shadow-block w-24 h-10 flex items-center justify-center rounded-l-lg`}>
-                            <span>Неделя</span>
+                        <div className={`bg-white shadow-block flex items-center justify-center rounded-l-lg px-6 py-2`}>
+                            <span>Записи на прием</span>
                         </div>
-                        <div className={`bg-blue-50 w-24 h-10 flex items-center justify-center`}>
-                            <span>Месяц</span>
+                        <div className={`bg-blue-50 flex items-center justify-center px-6 py-2`}>
+                            <span>История записей</span>
                         </div>
-                        <div className={`bg-blue-50 w-24 h-10 flex items-center justify-center rounded-r-lg`}>
-                            <span>Год</span>
-                        </div>
-                    </div>
-                    <div className={`flex items-center justify-between w-40 rounded-lg bg-blue-50 h-10`}>
-                        <a href="#" className={`py-2.5 px-2 flex items-center`}>
-                            <ChevronLeft className={`w-2 h-auto`} />
-                        </a>
-                        <div>Период</div>
-                        <a href="#" className={`py-2.5 px-2 flex items-center`}>
-                            <ChevronRight className={`w-2 h-auto`} />
-                        </a>
                     </div>
                 </div>
-                <div className={`relative my-4`}>
-                    <div className={`absolute -left-6 -right-6 top-1/2 border border-dashed border-blue-200`}></div>
-                    <div className={`flex`}>
-                        <div className={`bg-white px-2 relative z-1 text-xs uppercase font-medium`}>Последние результаты</div>
-                    </div>
-                </div>
-                <ul className={`grow overflow-y-auto`}>
-                    {/* <li className={`rounded-lg px-6 py-6 bg-blue-50 relative`}>
-                        <div className={`text-violet-500 text-sm`}>Доктор ФИО</div>
+                <ul className={`grow space-y-4`}>
+                    {appointments.data.map((appointment, adx) => <li key={adx} className={`rounded-lg px-6 py-6 bg-blue-50 relative`}>
+                        <div className={`text-violet-500 text-sm`}>{appointment.specialist.lastname} {appointment.specialist.name} {appointment.specialist.surname}</div>
                         <hr className={`border-dashed border-blue-200 my-1`} />
                         <div className={`font-medium`}>Наименование приема</div>
-                        <div className={`text-sm`}>13.05.2022</div>
-                        <a href="#" className={`absolute -translate-y-1/2 top-1/2 right-6`} >
+                        <div className={`text-sm`}>{appointment.date} {appointment.start}</div>
+                        <Link href={route('appointment', {
+                            book: appointment.id
+                        })} className={`absolute -translate-y-1/2 top-1/2 right-6`} >
                             <ChevronDown className={`w-4 h-auto`} />
-                        </a>
-                    </li>
-                    <li className={`rounded-lg px-6 py-6 bg-blue-50 relative`}>
-                        <div className={`text-violet-500 text-sm`}>Доктор ФИО</div>
-                        <hr className={`border-dashed border-blue-200 my-1`} />
-                        <div className={`font-medium`}>Наименование приема</div>
-                        <div className={`text-sm`}>13.05.2022</div>
-                        <a href="#" className={`absolute -translate-y-1/2 top-1/2 right-6`} >
-                            <ChevronDown className={`w-4 h-auto`} />
-                        </a>
-                    </li>
-                    <li className={`rounded-lg px-6 py-6 bg-blue-50 relative`}>
-                        <div className={`text-violet-500 text-sm`}>Доктор ФИО</div>
-                        <hr className={`border-dashed border-blue-200 my-1`} />
-                        <div className={`font-medium`}>Наименование приема</div>
-                        <div className={`text-sm`}>13.05.2022</div>
-                        <a href="#" className={`absolute -translate-y-1/2 top-1/2 right-6`} >
-                            <ChevronDown className={`w-4 h-auto`} />
-                        </a>
-                    </li>
-                    <li className={`rounded-lg px-6 py-6 bg-blue-50 relative`}>
-                        <div className={`text-violet-500 text-sm`}>Доктор ФИО</div>
-                        <hr className={`border-dashed border-blue-200 my-1`} />
-                        <div className={`font-medium`}>Наименование приема</div>
-                        <div className={`text-sm`}>13.05.2022</div>
-                        <a href="#" className={`absolute -translate-y-1/2 top-1/2 right-6`} >
-                            <ChevronDown className={`w-4 h-auto`} />
-                        </a>
-                    </li>
-                    <li className={`rounded-lg px-6 py-6 bg-blue-50 relative`}>
-                        <div className={`text-violet-500 text-sm`}>Доктор ФИО</div>
-                        <hr className={`border-dashed border-blue-200 my-1`} />
-                        <div className={`font-medium`}>Наименование приема</div>
-                        <div className={`text-sm`}>13.05.2022</div>
-                        <a href="#" className={`absolute -translate-y-1/2 top-1/2 right-6`} >
-                            <ChevronDown className={`w-4 h-auto`} />
-                        </a>
-                    </li>
-                    <li className={`rounded-lg px-6 py-6 bg-blue-50 relative`}>
-                        <div className={`text-violet-500 text-sm`}>Доктор ФИО</div>
-                        <hr className={`border-dashed border-blue-200 my-1`} />
-                        <div className={`font-medium`}>Наименование приема</div>
-                        <div className={`text-sm`}>13.05.2022</div>
-                        <a href="#" className={`absolute -translate-y-1/2 top-1/2 right-6`} >
-                            <ChevronDown className={`w-4 h-auto`} />
-                        </a>
-                    </li> */}
+                        </Link>
+                    </li>)}
                 </ul>
+                {!appointments.meta.current_page || appointments.meta.current_page < appointments.meta.last_page ? <button ref={apRef}>Загрузить еще</button> : <></>}
             </div>
         </AuthenticatedLayout>
     );

@@ -15,7 +15,7 @@ class Service extends Model
         'title'
     ];
 
-    public function property(): BelongsTo
+    public function direction(): BelongsTo
     {
         return $this->belongsTo(Direction::class);
     }

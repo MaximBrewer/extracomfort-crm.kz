@@ -80,6 +80,13 @@ class Book extends Model
     /**
      * Interact with the user's balance.
      */
+    public function specialist(): BelongsTo
+    {
+        return $this->belongsTo(Specialist::class, 'specialist_id');
+    }
+    /**
+     * Interact with the user's balance.
+     */
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class, 'book_id');

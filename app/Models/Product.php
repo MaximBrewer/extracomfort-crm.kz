@@ -162,11 +162,6 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
         }
     }
 
-    public function images(): MorphMany
-    {
-        return $this->morphMany(Image::class, 'entity');
-    }
-
     protected function path(): Attribute
     {
         return Attribute::make(

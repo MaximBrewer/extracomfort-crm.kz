@@ -150,6 +150,14 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 icon: <Calendar className={`w-6 h-auto`} />
             },
             {
+                title: 'Записи в физиокабинет',
+                route: `recieption.fisio.index`,
+                params: {
+                    branch: 1
+                },
+                icon: <Calendar className={`w-6 h-auto`} />
+            },
+            {
                 title: 'Пациенты',
                 route: `recieption.patients`,
                 icon: <Patients className={`w-5 h-auto`} />

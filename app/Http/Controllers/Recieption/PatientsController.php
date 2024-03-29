@@ -36,6 +36,8 @@ class PatientsController extends Controller
         $data['request'] = $request->only('q');
         $data['patients'] =  Patient::collection(User::where('role_id', 2)->paginate(50));
 
+        $users =  User::where('role_id', 2);
+
         if ($request->get('q')) {
             $users->where('name', 'like', $request->get('q') . '%')
                 ->orWhere('lastname', 'like', $request->get('q') . '%')

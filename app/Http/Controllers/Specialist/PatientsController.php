@@ -47,7 +47,7 @@ class PatientsController extends Controller
     {
         $this->getCommonData($data);
         $data['pagetitle'] = 'Пациенты';
-        $data['patients'] =  ResourcesPatient::collection(Patient::all()->paginate(50));
+        $data['patients'] =  ResourcesPatient::collection(Patient::get()->paginate(50));
         return Inertia::render('Specialist/Patients', $data);
     }
 

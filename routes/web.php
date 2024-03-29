@@ -92,6 +92,8 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::patch('book/{book}/status', [Recieption\BookController::class, 'status'])->name('book.status');
     Route::post('book/{book}/payment', [Recieption\BookController::class, 'payment'])->name('book.payment');
 
+    Route::get('{branch}/fisio', [Recieption\FisioController::class, 'index'])->name('fisio.index');
+
     Route::resource('notifications', Recieption\NotificationController::class);
 
     Route::resource('tasks', Recieption\TasksController::class);
@@ -138,10 +140,10 @@ Route::group(['prefix' => 'nurse', 'as' => 'nurse.', 'middleware' => ['auth', 'n
 
 Route::group(['prefix' => 'specialist', 'as' => 'specialist.', 'middleware' => ['auth', 'specialist']],  function () {
     Route::get('timetable/{date?}', [Specialist\TimetableController::class, 'index'])->name('timetable');
-    
+
     Route::get('schedule', [Specialist\ScheduleController::class, 'index'])->name('schedule');
     Route::patch('schedule', [Specialist\ScheduleController::class, 'update'])->name('schedule.update');
-    
+
     Route::get('patient/{patient}', [Specialist\PatientsController::class, 'show'])->name('patient.show');
     Route::get('appointment/{book}', [Specialist\PatientsController::class, 'appointment'])->name('appointment');
     Route::post('appointment/{book}', [Specialist\PatientsController::class, 'appointmentUpdate'])->name('appointment.update');

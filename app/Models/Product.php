@@ -21,9 +21,9 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
 
 
 
-    public function category(): BelongsTo
+    public function categories(): BelongsToMany
     {
-        return $this->belongsTo(Category::class, 'category_id');
+        return $this->belongsToMany(Category::class, 'product_category');
     }
 
 
@@ -106,11 +106,27 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
     public function setGroup1c($group)
     {
         $xmlId = (string)$group->owner->classifier->xml->Ид;
+        if ($this->accounting_id === 'b8d18144-b9e3-47db-b14b-725fccd75716#3db42ef8-052d-11ea-82e8-c03896412530')
+            var_dump($group->id);
         $category = Category::whereHas('accountingIds', function (Builder $query) use ($group, $xmlId) {
             $query->where('accounting_id', $xmlId . '#' .  $group->id);
         })->first();
         $category && $this->category_id = $category->id;
         $this->save();
+    }
+
+    /**
+     * Предпологается, что дерево групп у Вас уже создано (\carono\exchange1c\interfaces\GroupInterface::createTree1c).
+     *
+     * @param \Zenwalker\CommerceML\Model\Group $group
+     *
+     * @return mixed
+     */
+    public function setGroups1c($groups)
+    {
+        $this->categories()->sync(Category::whereHas('accountingIds', function (Builder $query) use ($groups) {
+            $query->whereIn('accounting_id', $groups);
+        })->pluck('id'));
     }
 
     /**

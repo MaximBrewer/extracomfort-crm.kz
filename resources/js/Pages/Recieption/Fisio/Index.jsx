@@ -1,6 +1,10 @@
+import FisioBook from '@/Components/Modals/FisioBook';
 import PrimaryButton from '@/Components/PrimaryButton';
 import SecondaryButton from '@/Components/SecondaryButton';
+import { useLayout } from '@/Contexts/LayoutContext';
 import ArrowDown from '@/Icons/ArrowDown';
+import ArrowLeft from '@/Icons/ArrowLeft';
+import ArrowRight from '@/Icons/ArrowRight';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import moment from 'moment';
@@ -8,9 +12,34 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import Select from 'react-select'
 
+
 export default (props) => {
 
-    const { pagetitle = ``, fisioCategories, books, branch, branches, auth } = props
+    const { pagetitle = ``, fisioCategories, date, books, branch, branches, auth, prevDate, nextDate, dateText } = props
+
+    const BookTizer = ({ time, service }) => {
+
+        let book = books.data.find(book => book.service_id === service.id && book.time === time && book.date === date && book.branch_id === branch.id && !book.second)
+        let book2 = books.data.find(book => book.service_id === service.id && book.time === time && book.date === date && book.branch_id === branch.id && book.second)
+
+        return <>
+            <div>
+                {book ? <div>{book.patient.lastname}</div> : <>
+                    <PrimaryButton size="xs" className='' onClick={e => setModal(<FisioBook service={service} date={date} time={time} branch={branch} />)}>записать</PrimaryButton>
+                </>}
+            </div>
+            <div className="mt-0.5">
+                {category.double ? <>
+                    {book2 ? <div>{book2.patient.lastname}</div> : <>
+                        <SecondaryButton size="xs" className='' onClick={e => setModal(<FisioBook service={service} date={date} time={time} branch={branch} second={true} />)}>записать</SecondaryButton>
+                    </>}
+                </> : <></>}
+            </div>
+        </>;
+    }
+
+
+    const { setModal } = useLayout()
 
     const [open, setOpen] = useState(false)
     const [category, setCategory] = useState(fisioCategories.data.length ? fisioCategories.data[0] : null)
@@ -29,7 +58,7 @@ export default (props) => {
                 curr.add('minutes', category.duration)
                 times.push(curr.format('HH:mm'))
                 console.log()
-            } while (curr.hours() < 18)
+            } while (curr.hours() < 20)
 
             setTimes(times)
         }
@@ -39,14 +68,34 @@ export default (props) => {
         <AuthenticatedLayout
             auth={props.auth}
             errors={props.errors}
-            heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
+            heading={<div className="flex items-center justify-between"><h1 className="font-semibold text-3xl text-gray-800 leading-tight">
+                {pagetitle}
+            </h1>
+                <div className={`flex capitalize rounded-lg bg-blue-50 overflow-hidden transition flex items-center justify-between min-w-[285px]`}>
+                    <Link href={route(`recieption.fisio.index`, {
+                        branch: branch.id,
+                        date: prevDate
+                    })}
+                        className={`py-2.5 px-4 hover:bg-slate-100`}>
+                        <ArrowLeft className={`w-2 h-auto`} />
+                    </Link>
+                    <span>{dateText}</span>
+                    <Link href={route(`recieption.fisio.index`, {
+                        branch: branch.id,
+                        date: nextDate
+                    })}
+                        className={`py-2.5 px-4 hover:bg-slate-100`}>
+                        <ArrowRight className={`w-2 h-auto`} />
+                    </Link>
+                </div>
+            </div>}
         >
             <div className="pb-12 overflow-hidden flex flex-col">
                 <div className={`flex items-center justify-between`}>
                     <ul className={`flex z-1 relative`}>
                         {fisioCategories.data.map((fc, fcdx) => <li key={fcdx} className={`relative`}>
                             <a href="#"
-                                className={`block rounded-t-lg py-2.5 px-6 shadow-bb font-medium text-3xl ${category && category.id === fc.id ? `bg-white` : `bg-blue-50 text-blue-20`}`}
+                                className={`block rounded-t-lg py-2 px-6 shadow-bb font-medium text-xl ${category && category.id === fc.id ? `bg-white` : `bg-blue-50 text-blue-20`}`}
                                 onClick={e => setCategory(fc)}>{fc.title}</a>
                             <div className={`absolute top-full h-2 left-0 w-full bg-white`}></div>
                         </li>)}
@@ -76,12 +125,11 @@ export default (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {times.map((time, tdx) => <tr key={tdx}>
-                                <td className="border py-1 px-2">{time}</td>
+                            {times.map((tm, tdx) => <tr key={tdx}>
+                                <td className="border py-1 px-2">{tm}</td>
                                 {category.services.map((s, sdx) => <td key={sdx} className="border py-1 px-2 text-center">
                                     <div className="flex flex-col gap-1 items-center">
-                                        <PrimaryButton size="xs" className=''>записать</PrimaryButton>
-                                        {category.double ? <SecondaryButton size="xs" className=''>записать</SecondaryButton> : <></>}
+                                        <BookTizer service={s} time={tm} />
                                     </div>
                                 </td>)}
                             </tr>)}

@@ -78,6 +78,9 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::patch('patient/topup/{patient}', [Recieption\PatientsController::class, 'topup'])->name('patient.topup');
     Route::patch('patient/{patient}', [Recieption\PatientsController::class, 'update'])->name('patients.update');
     Route::get('patient/card/{patient}', [Recieption\PatientsController::class, 'card'])->name('patient.card');
+
+    Route::get('search/patients', [Recieption\PatientsController::class, 'search']);
+
     Route::get('specialists', Recieption\SpecialistsController::class)->name('specialists');
     Route::get('finance', Recieption\FinanceController::class)->name('finance');
 
@@ -92,7 +95,8 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::patch('book/{book}/status', [Recieption\BookController::class, 'status'])->name('book.status');
     Route::post('book/{book}/payment', [Recieption\BookController::class, 'payment'])->name('book.payment');
 
-    Route::get('{branch}/fisio', [Recieption\FisioController::class, 'index'])->name('fisio.index');
+    Route::get('{branch}/fisio/{date?}', [Recieption\FisioController::class, 'index'])->name('fisio.index');
+    Route::post('{branch}/fisio/{date?}', [Recieption\FisioController::class, 'book'])->name('fisio.books.store');
 
     Route::resource('notifications', Recieption\NotificationController::class);
 

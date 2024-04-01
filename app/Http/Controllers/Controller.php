@@ -9,6 +9,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class Controller extends BaseController
@@ -28,6 +29,7 @@ class Controller extends BaseController
             // request()->user()->touchOnline();
             $user = Auth::user();
         }
+        if (Session::get('message')) Inertia::share('message', Session::get('message'));
         Inertia::share('auth', $user ? ['user' => new ResourcesUser($user)] : []);
         Inertia::share('paymethods', TopUp::getMethodOptions());
         return $this->{$method}(...array_values($parameters));

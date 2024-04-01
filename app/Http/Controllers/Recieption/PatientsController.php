@@ -14,6 +14,7 @@ use App\Http\Resources\User as ResourcesUser;
 use App\Models\Branch;
 use App\Models\Direction;
 use App\Models\Locality;
+use App\Models\Patient as ModelsPatient;
 use App\Models\TopUp;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -145,5 +146,11 @@ class PatientsController extends Controller
 
         $data['directions'] = ResourcesDirection::collection(Direction::all());
         $data['localities'] = ResourcesLocality::collection(Locality::all());
+    }
+
+
+    public function search(Request $request)
+    {
+        return ['patients' => Patient::collection(ModelsPatient::where('lastname', 'like', '%' . $request->get('query') . '%')->limit(10)->get())];
     }
 }

@@ -150,7 +150,7 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 icon: <Calendar className={`w-6 h-auto`} />
             },
             {
-                title: 'Записи в физиокабинет',
+                title: 'Физиокабинет',
                 route: `recieption.fisio.index`,
                 params: {
                     branch: 1

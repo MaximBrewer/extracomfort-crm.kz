@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Direction extends JsonResource
+class ServiceCategory extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,8 +16,9 @@ class Direction extends JsonResource
     {
         return [
             'id' => $this->id,
+            'sort' => $this->sort,
             'title' => $this->title,
-            'categories' => ServiceCategory::collection($this->categories),
+            'services' => Service::collection($this->services),
         ];
     }
 }

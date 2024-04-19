@@ -10,18 +10,20 @@ import PrimaryButton from "../PrimaryButton";
 import SuccessButton from "../SuccessButton";
 import TextInput from "../TextInput"
 import Select from 'react-select';
-import Services from "./Direction/Services";
+import Categories from "./Direction/Categories";
 
 
 export default (props) => {
 
     const direction = props.direction.data
 
+    console.log(direction)
+
     const { data, setData, post, patch, processing, errors, reset, transform } = useForm({
         id: direction ? direction.id : null,
         title: direction && direction.title ? direction.title : ``,
         sort: direction && direction.sort ? direction.sort : 100,
-        services: direction && direction.services ? direction.services : ``
+        categories: direction && direction.categories ? direction.categories : []
     });
 
     const handleOnChange = (event) => {
@@ -80,7 +82,7 @@ export default (props) => {
         </div>
 
         <div className="mb-4">
-            <Services setData={setData} data={data} />
+            <Categories setData={setData} data={data} />
         </div>
 
         <div className={`flex space-x-8 items-center justify-end`}>

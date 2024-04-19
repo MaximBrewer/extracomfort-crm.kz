@@ -47,6 +47,32 @@ class DirectionsController extends Controller
             'sort',
             'title'
         ]));
+
+        $direction->categories()->delete();
+        if ($request->get('categories')) {
+            foreach ($request->get('categories') as $category) {
+                if (empty($category['title'])) continue;
+                $categoryModel = $direction->categories()->withTrashed()->updateOrCreate([
+                    'title' => $category['title']
+                ], [
+                    'sort' => $category['sort']
+                ]);
+                $categoryModel->restore();
+                $categoryModel->services()->delete();
+                if (isset($category['services']) && !empty($category['services'])) {
+                    foreach ($category['services'] as $service) {
+                        if (empty($service['title'])) continue;
+                        $serviceModel = $categoryModel->services()->withTrashed()->updateOrCreate([
+                            'title' => $service['title'],
+                            'price' => isset($service['price']) ? $service['price'] : null,
+                        ], [
+                            'sort' => $service['sort']
+                        ]);
+                        $serviceModel->restore();
+                    }
+                }
+            }
+        }
         return redirect()->route('admin.directions.index');
     }
 

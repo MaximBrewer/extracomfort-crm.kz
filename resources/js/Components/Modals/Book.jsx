@@ -34,6 +34,7 @@ export default (props) => {
     const { data, setData, post, patch, processing, setError, errors, reset, transform } = useForm({
         time: times.data.find(time => time.value == item.time),
         duration: null,
+        category: null,
         service: null,
         year: year,
         day: day,
@@ -41,16 +42,25 @@ export default (props) => {
         date: date
     });
 
-    const [services, setServices] = useState(props.services ? props.services : [])
+    const [categories, setcategories] = useState(props.categories ? props.categories : [])
+    const [services, setServices] = useState(categories.services ? categories.services : [])
 
     useEffect(() => {
-        setServices(data.direction && data.direction.services.length ? data.direction.services : [])
+        console.log(data.direction)
+        setcategories(data.direction && data.direction.categories.length ? data.direction.categories : [])
     }, [data.direction])
+
+    useEffect(() => {
+        setServices(data.category && data.category.services.length ? data.category.services : [])
+        if (data.category && data.category.services && data.category.services.length === 1)
+            setData('service', data.category.services[0])
+    }, [data.category])
 
     transform((data) => ({
         ...data,
         time: data.time ? data.time.value : null,
         duration: data.duration ? data.duration.value : null,
+        category: data.category ? data.category.id : null,
         service: data.service ? data.service.id : null,
     }))
 
@@ -82,7 +92,7 @@ export default (props) => {
 
             <div className={`flex items-start`}>
                 <div className="mb-4 w-1/2">
-                    <InputLabel htmlFor="time" value="Начало приема" color={`text-gray-200`} weight={`normal`} />
+                    <InputLabel htmlFor="time" value="Начало приема" color={`text-gray-200`} weight={`font-normal`} />
                     <Select
                         styles={customStyles}
                         isSearchable={false}
@@ -146,7 +156,27 @@ export default (props) => {
                 <InputError message={errors.service} className="mt-2" />
             </div>
 
-            {services.length ? <div className="mb-4">
+            {categories.length ? <div className="mb-4">
+                <InputLabel htmlFor="service" value="Услуга" color={`text-gray-200`} weight={`normal`} />
+                <Select
+                    styles={customStyles}
+                    isSearchable={false}
+                    isClearable={false}
+                    name="service"
+                    maxMenuHeight={200}
+                    value={data.category}
+                    options={categories}
+                    placeholder={``}
+                    getOptionLabel={item => item.title}
+                    getOptionValue={item => item.id}
+                    onChange={(value) => setData('category', value)}
+                // className="basic-multi-select"
+                // classNamePrefix="select"
+                />
+                <InputError message={errors.service} className="mt-2" />
+            </div> : ``}
+
+            {services.length > 1 ? <div className="mb-4">
                 <InputLabel htmlFor="service" value="Услуга" color={`text-gray-200`} weight={`normal`} />
                 <Select
                     styles={customStyles}

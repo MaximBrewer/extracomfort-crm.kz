@@ -52,8 +52,8 @@ class Direction extends Model
     /**
      * The users that belong to the role.
      */
-    public function services(): HasMany
+    public function categories(): HasMany
     {
-        return $this->hasMany(Service::class);
+        return $this->hasMany(ServiceCategory::class);
     }
 }

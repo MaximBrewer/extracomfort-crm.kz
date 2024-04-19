@@ -77,7 +77,7 @@ export default (props) => {
                             <Link href={route('nurse.notifications', {
                                 branch: branch
                             })}
-                                className={`block rounded-t-lg py-2.5 px-6 shadow-bb font-medium text-3xl bg-blue-50 text-blue-20`}>Напоминания</Link>
+                                className={`block rounded-t-lg py-2.5 px-6 shadow-bb font-medium text-3xl bg-blue-50 text-blue-20`}>Бронь</Link>
                             <div className={`absolute top-full h-2 left-0 w-full bg-white`}></div>
                         </li>
                     </ul>

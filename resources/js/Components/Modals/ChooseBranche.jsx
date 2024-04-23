@@ -25,7 +25,7 @@ const customStyles = {
 
 export default (props) => {
 
-    const { user, localities, auth } = props
+    const { user, localities, auth, component } = props
 
     const { setModal } = useLayout()
 
@@ -60,7 +60,7 @@ export default (props) => {
             setError('branch', "Выберите филиал")
         else {
             setModal(null)
-            router.visit(route(`${auth.user.role.name}.book.branch`, {
+            router.visit(route(`${auth.user.role.name}.${component}.branch`, {
                 patient: user.id,
                 branch: data.branch.id
             }));

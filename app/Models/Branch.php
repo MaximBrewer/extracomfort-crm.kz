@@ -57,4 +57,12 @@ class Branch extends Model
     {
         return $this->hasMany(Book::class, 'branch_id');
     }
+
+    /**
+     * The users that belong to the role.
+     */
+    public function reminders(): HasMany
+    {
+        return $this->hasMany(Reminder::class, 'branch_id');
+    }
 }

@@ -9,6 +9,8 @@ import PrimaryButton from "../PrimaryButton";
 import times from "@/data/times";
 import { useState } from "react";
 import { useEffect } from "react";
+import Calendar from 'react-calendar';
+import TextInput from "../TextInput";
 
 const customStyles = {
     control: (styles, { data, isDisabled, isFocused, isSelected }) => {
@@ -27,20 +29,17 @@ const customStyles = {
 
 export default (props) => {
 
-    const { auth, branch, patient, specialist, book = null, day = null, date = null, week = null, year, item } = props
+    const { auth, branch, patient, specialist, reminder = null } = props
 
-    const { setModal } = useLayout()
+    const { setModal, moment } = useLayout()
+
+    const [openCalendar, setOpenCalendar] = useState(false)
 
     const { data, setData, post, patch, processing, setError, errors, reset, transform } = useForm({
-        time: times.data.find(time => time.value == item.time),
+        date: moment(),
         direction: null,
-        duration: null,
         category: null,
         service: null,
-        year: year,
-        day: day,
-        week: week,
-        date: date
     });
 
     const [categories, setcategories] = useState(props.categories ? props.categories : [])
@@ -58,15 +57,14 @@ export default (props) => {
 
     transform((data) => ({
         ...data,
-        time: data.time ? data.time.value : null,
-        duration: data.duration ? data.duration.value : null,
+        direction: data.direction ? data.direction.id : null,
         category: data.category ? data.category.id : null,
         service: data.service ? data.service.id : null,
     }))
 
     const submit = (e) => {
         e.preventDefault();
-        post(route(`${auth.user.role.name}.book.store`, {
+        post(route(`${auth.user.role.name}.reminder.store`, {
             branch: branch.id,
             patient: patient.id,
             specialist: specialist.id
@@ -78,62 +76,38 @@ export default (props) => {
     }
 
     return <div>
-        <h2 className={`font-bold text-xl text-center mb-4`}>Новая запись в расписании</h2>
+        <h2 className={`font-bold text-xl text-center mb-4`}>Новая бронь</h2>
         <form onSubmit={submit} className={`min-w-[32rem]`}>
 
-            <div className={`flex items-start`}>
-                <div className="mb-4 w-1/2">
-                    <InputLabel htmlFor="time" value="Начало приема" color={`text-gray-200`} weight={`font-normal`} />
-                    <Select
-                        styles={customStyles}
-                        isSearchable={false}
-                        isClearable={false}
-                        maxMenuHeight={200}
-                        name="time"
-                        value={data.time}
-                        options={times.data}
-                        placeholder={``}
-                        onChange={(value) => {
-                            setData('time', value)
-                            setError('message', null)
+            <div className="mb-4 relative">
+                <InputLabel htmlFor="date" value="Дата" color={`text-gray-200`} weight={`normal`} />
+                <input readOnly={true} value={moment(data.date).isValid() ? moment(data.date).format('DD.MM.YYYY') : moment().format('DD.MM.YYYY')}
+                    className={`pl-4 pr-5 py-2.5 bg-gray-50 border-0 w-full rounded-lg text-black text-sm`}
+                    onFocus={e => setOpenCalendar(true)} />
+                {openCalendar ? <div className="absolute top-full left-0 z-40">
+                    <Calendar
+                        value={moment(data.date).isValid() ? data.date : new Date()}
+                        onChange={(val) => {
+                            setData(prev => {
+                                return {
+                                    ...prev,
+                                    date: val
+                                }
+                            })
+                            setOpenCalendar(false)
                         }}
-                    // className="basic-multi-select"
-                    // classNamePrefix="select"
                     />
-                    <InputError message={errors.time} className="mt-2" />
-                </div>
-                <svg className={`w-3 h-auto shrink-0 mx-4 mt-9`} viewBox="0 0 11 10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fillRule="evenodd" clipRule="evenodd" d="M10.6962 4.25606L7.65722 1.21706C7.26622 0.827061 6.63322 0.827061 6.24222 1.21706C5.85222 1.60706 5.85222 2.24106 6.24222 2.63106L7.58622 3.97506H1.94922C1.39822 3.97506 0.949219 4.42306 0.949219 4.97506C0.949219 5.52606 1.39822 5.97506 1.94922 5.97506H7.58622L6.24222 7.31806C5.85222 7.70906 5.85222 8.34206 6.24222 8.73306C6.63322 9.12306 7.26622 9.12306 7.65722 8.73306L10.6962 5.69306C10.7002 5.69006 10.7042 5.68606 10.7072 5.68206C10.9032 5.48706 11.0002 5.23106 11.0002 4.97506C11.0002 4.71906 10.9032 4.46306 10.7072 4.26706C10.7042 4.26406 10.7002 4.26006 10.6962 4.25606Z" fill="#333333" />
-                </svg>
-                <div className="mb-4 w-1/2">
-                    <InputLabel htmlFor="duration" value="Длительность" color={`text-gray-200`} weight={`normal`} />
-                    <Select
-                        styles={customStyles}
-                        isSearchable={false}
-                        isClearable={false}
-                        maxMenuHeight={200}
-                        name="duration"
-                        value={data.duration}
-                        options={durations.data}
-                        placeholder={``}
-                        onChange={(value) => {
-                            setData('duration', value)
-                            setError('message', null)
-                        }}
-                    // className="basic-multi-select"
-                    // classNamePrefix="select"
-                    />
-                    <InputError message={errors.duration} className="mt-2" />
-                </div>
+                </div> : ``}
+                <InputError message={errors.date} className="mt-2" />
             </div>
 
             <div className="mb-4">
-                <InputLabel htmlFor="service" value="Направление" color={`text-gray-200`} weight={`normal`} />
+                <InputLabel htmlFor="direction" value="Направление" color={`text-gray-200`} weight={`normal`} />
                 <Select
                     styles={customStyles}
                     isSearchable={false}
                     isClearable={false}
-                    name="service"
+                    name="direction"
                     maxMenuHeight={200}
                     value={data.direction}
                     options={specialist.directions}
@@ -141,10 +115,8 @@ export default (props) => {
                     getOptionLabel={item => item.title}
                     getOptionValue={item => item.id}
                     onChange={(value) => setData('direction', value)}
-                // className="basic-multi-select"
-                // classNamePrefix="select"
                 />
-                <InputError message={errors.service} className="mt-2" />
+                <InputError message={errors.direction} className="mt-2" />
             </div>
 
             {categories.length ? <div className="mb-4">
@@ -188,8 +160,14 @@ export default (props) => {
             </div> : ``}
 
 
-            <div className={`text-center`}>
-                <InputError message={errors.message} className="mt-2" />
+            <div className={``}>
+                <InputLabel htmlFor="comment" value="Комментарий" color={`text-gray-200`} weight={`normal`} />
+                <textarea
+                    className="pl-4 pr-5 py-2.5 bg-gray-50 border-0 w-full rounded-lg text-black text-sm"
+                    onChange={(e) => setData('comment', e.target.value)}
+                    value={data.comment} />
+                <InputError message={errors.comment} className="mt-2"
+                />
             </div>
             <div className={`text-center`}>
                 <PrimaryButton className={`w-full max-w-[24rem] my-4 justify-center text-lg font-semibold`}>Отправить</PrimaryButton>

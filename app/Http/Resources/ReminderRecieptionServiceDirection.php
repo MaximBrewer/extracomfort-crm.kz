@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class Reminder extends JsonResource
+class ReminderRecieptionServiceDirection extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -14,11 +14,6 @@ class Reminder extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return [
-            'id' => $this->id,
-            'date' => $this->date,
-            'service' => new ReminderRecieptionService($this->service),
-            'patient' => new ReminderRecieptionPatient($this->patient)
-        ];
+        return parent::toArray($request);
     }
 }

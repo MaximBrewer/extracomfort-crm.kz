@@ -2,6 +2,7 @@ import ChevronLeft from '@/Components/ChevronLeft';
 import ChevronRight from '@/Components/ChevronRight';
 import BookPayment from '@/Components/Modals/BookPayment';
 import BookStatus from '@/Components/Modals/BookStatus';
+import ChooseBranche from '@/Components/Modals/ChooseBranche';
 import Pencil from '@/Components/Pencil';
 import PrimaryButton from '@/Components/PrimaryButton';
 import Trash from '@/Components/Trash';
@@ -14,47 +15,12 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import React, { Fragment, useState } from 'react';
 
-const Status = (props) => {
-    const { auth, book } = props;
-    const { setModal } = useLayout();
-    const status = statuses.data.find(s => s.code == book.status)
-
-    return <div className={`h-10 flex items-center justify-end`}>
-        <div className={`${status.color} mr-4`}>{status.title}</div>
-        <a href={`#`}
-            onClick={e => {
-                e.preventDefault();
-                setModal(<BookStatus book={book} auth={auth} />)
-            }}>
-            <Pencil className={`w-4 h-auto`} />
-        </a>
-    </div>
-}
-
-const Payment = (props) => {
-    const { auth, book } = props;
-    const { setModal, priceFormat } = useLayout();
-
-    let sum = 0;
-    for (let p of book.payments) sum = +p.sum
-
-    return <div className={`h-10 flex items-center justify-end`}>
-        <div className={`text-gray-300 mr-4`}>{sum ? priceFormat(sum) : `Оплата`}</div>
-        <a href={`#`}
-            onClick={e => {
-                e.preventDefault();
-                setModal(<BookPayment book={book} auth={auth} />)
-            }}>
-            <Pencil className={`w-4 h-auto`} />
-        </a>
-    </div>
-}
-
-
 
 export default (props) => {
 
     const { pagetitle, year, prevyear, nextyear, date, dateText, month, branch, branches, reminders } = props
+
+    const { setModal } = useLayout();
 
     const [open, setOpen] = useState(false)
 
@@ -147,14 +113,22 @@ export default (props) => {
                                         </div>
                                     </div>
                                     <div className={`text-violet-500 text-sm w-[40%]`}>
-                                        <div className={`font-medium`}>{reminder.specialist.fullName}</div>
-                                        <ul className={`flex space-x-3`}>
+                                        {/* <div className={`font-medium`}>{reminder.specialist.fullName}</div> */}
+                                        {/* <ul className={`flex space-x-3`}>
                                             {reminder.specialist.directions.map((dir, ddx) => <li key={ddx}>{dir.title}</li>)}
-                                        </ul>
+                                        </ul> */}
                                     </div>
                                     <div className={`text-sm w-[20%] flex justify-end -my-3`}>
                                         <div className={`pr-5`}>
-                                            <PrimaryButton size={`sm`} className={`min-w-[9.375rem] justify-center`}>Записать</PrimaryButton>
+                                            <div onClick={e => {
+                                                e.preventDefault()
+                                                e.stopPropagation();
+                                                setModal(<ChooseBranche {...props} user={reminder.patient} component={`book`} />)
+                                            }}>
+                                                <PrimaryButton className={`min-w-[90px] justify-center`} size={`xs`}>
+                                                    <span>Записать</span>
+                                                </PrimaryButton>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

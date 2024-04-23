@@ -1,5 +1,7 @@
+import DefaultButton from '@/Components/DefaultButton';
 import ChooseBranche from '@/Components/Modals/ChooseBranche';
 import PrimaryButton from '@/Components/PrimaryButton';
+import SecondaryButton from '@/Components/SecondaryButton';
 import TextInput from '@/Components/TextInput';
 import { useLayout } from '@/Contexts/LayoutContext';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
@@ -44,7 +46,7 @@ export default (props) => {
             <div className={`shadow-bb rounded-lg bg-white py-5 px-6 overflow-y-auto`}>
                 {patients.data.map((patient, pdx) => <Link href={route(`recieption.patient.card`, {
                     patient: patient.id
-                })} key={pdx} className={`flex space-x-5 items-center mb-5 p-5 rounded-lg bg-blue-50 hover:bg-white hover:shadow-block`} preserveState>
+                })} key={pdx} className={`flex space-x-3 items-center mb-5 p-5 rounded-lg bg-blue-50 hover:bg-white hover:shadow-block`} preserveState>
                     <div className={`w-[70%]`}>
                         <div className={`font-medium`}>{patient.fullName}</div>
                         <div className={`text-sm`}>{age(patient)}</div>
@@ -56,11 +58,22 @@ export default (props) => {
                         <div onClick={e => {
                             e.preventDefault()
                             e.stopPropagation();
-                            setModal(<ChooseBranche {...props} user={patient} />)
+                            setModal(<ChooseBranche {...props} user={patient} component={`book`} />)
                         }}>
-                            <PrimaryButton className={`min-w-[150px] justify-center`} size={`sm`}>
+                            <PrimaryButton className={`min-w-[90px] justify-center`} size={`xs`}>
                                 <span>Записать</span>
                             </PrimaryButton>
+                        </div>
+                    </div>
+                    <div className={`shrink-0`}>
+                        <div onClick={e => {
+                            e.preventDefault()
+                            e.stopPropagation();
+                            setModal(<ChooseBranche {...props} user={patient} component={`reminder`} />)
+                        }}>
+                            <SecondaryButton className={`min-w-[90px] justify-center`} size={`xs`}>
+                                <span>Бронь</span>
+                            </SecondaryButton>
                         </div>
                     </div>
                 </Link>)}

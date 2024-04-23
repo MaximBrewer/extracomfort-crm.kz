@@ -201,6 +201,13 @@ class User extends Authenticatable
     ];
 
 
+    public static $canReminder = [
+        'specialist',
+        'recieption',
+        'nurse'
+    ];
+
+
     public static $canFisioBook = [
         // 'specialist',
         'recieption',

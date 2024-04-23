@@ -1,17 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Recieption;
+namespace App\Http\Controllers\Nurse;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Branch as ResourcesBranch;
-use App\Http\Resources\Locality as ResourcesLocality;
-use App\Http\Resources\Reminder as ResourcesReminder;
 use App\Models\Branch;
-use App\Models\Locality;
-use App\Models\Reminder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class RemindersController extends Controller
@@ -36,17 +31,35 @@ class RemindersController extends Controller
         $data['month'] = $date->format('m');
         $data['dateText'] = $date->isoFormat('MMMM YYYY');
 
-        $data['localities'] = ResourcesLocality::collection(Locality::all());
-
         $data['prevyear'] = $date->format('m') < 7 ? '01.' . ($date->format('Y') - 1) : '06.' . ($date->format('Y'));
         $data['nextyear'] = $date->format('m') < 7 ? '07.' . ($date->format('Y')) : '01.' . ($date->format('Y') + 1);
 
-        DB::enableQueryLog();
 
-        $start = $date->format(DATE_ATOM);
-        $end = $date->addMonth()->format(DATE_ATOM);
+        $data['reminders']  = [
+            'data' => [
+                [
+                    'id'=> 1,
+                    'date'=> '23.03.2023',
+                    'patient'=> [
+                        'id'=> 1,
+                        'fullName'=> "Сергей Борисов",
+                        'email'=> "mail@mail.mail",
+                        'phone'=> null
+                    ],
+                    'specialist'=> [
+                        'id'=> 1,
+                        'fullName'=> "Островский Серей Алексеевич",
+                        'directions'=> [
+                            [
+                                'id'=> 1,
+                                'title'=> "Физиотерапевт"
+                                ]
+                        ]
+                        ]
+                ],
+            ]
+            ];
 
-        $data['reminders']  = ResourcesReminder::collection($branch->reminders()->whereBetween('date', [$start, $end])->get());
         return Inertia::render('Recieption/Reminders', $data);
     }
 }

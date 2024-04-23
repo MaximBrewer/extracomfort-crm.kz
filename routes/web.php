@@ -95,6 +95,12 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::patch('book/{book}/status', [Recieption\BookController::class, 'status'])->name('book.status');
     Route::post('book/{book}/payment', [Recieption\BookController::class, 'payment'])->name('book.payment');
 
+    Route::get('reminder/{patient}/{branch}', [Recieption\ReminderController::class, 'branch'])->name('reminder.branch');
+    Route::post('reminder/{patient}/{branch}/{specialist}', [Recieption\ReminderController::class, 'store'])->name('reminder.store');
+    // Route::patch('reminder/{reminder}/{patient}/{branch}/{specialist}', [Recieption\ReminderController::class, 'update'])->name('reminder.update');
+    // Route::patch('reminder/{reminder}/status', [Recieption\ReminderController::class, 'status'])->name('reminder.status');
+    // Route::post('reminder/{reminder}/payment', [Recieption\ReminderController::class, 'payment'])->name('reminder.payment');
+
     Route::get('{branch}/fisio/{date?}', [Recieption\FisioController::class, 'index'])->name('fisio.index');
     Route::post('{branch}/fisio/{date?}', [Recieption\FisioController::class, 'book'])->name('fisio.books.store');
 

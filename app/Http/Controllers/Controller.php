@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\Hear as ResourcesHear;
 use App\Http\Resources\User as ResourcesUser;
+use App\Models\Hear;
 use App\Models\TopUp;
 use App\Models\User;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -32,6 +34,7 @@ class Controller extends BaseController
         if (Session::get('message')) Inertia::share('message', Session::get('message'));
         Inertia::share('auth', $user ? ['user' => new ResourcesUser($user)] : []);
         Inertia::share('paymethods', TopUp::getMethodOptions());
+        Inertia::share('hears', ResourcesHear::collection(Hear::all()));
         return $this->{$method}(...array_values($parameters));
     }
 }

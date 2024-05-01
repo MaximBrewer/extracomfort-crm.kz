@@ -49,6 +49,7 @@ const LayoutProvider = (props) => {
     }
 
     const age = (patient) => {
+        if(!patient.age) return "";
         return patient.age + ` ` + numWord(patient.age, [`год`, `года`, `лет`])
     }
 

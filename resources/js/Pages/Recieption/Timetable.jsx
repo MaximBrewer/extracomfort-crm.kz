@@ -35,10 +35,14 @@ const Payment = (props) => {
     const { setModal, priceFormat } = useLayout();
 
     let sum = 0;
-    for (let p of book.payments) sum = +p.sum
+    let free = false;
+    for (let p of book.payments) {
+        if (p.method === 'free') free = true;
+        sum = +p.sum
+    }
 
     return <div className={`h-10 flex items-center justify-end`}>
-        <div className={`text-gray-300 mr-4`}>{sum ? priceFormat(sum) : `Оплата`}</div>
+        <div className={`text-gray-300 mr-4`}>{sum ? priceFormat(sum) : (free ? `Бесплатно` : `Оплата`)}</div>
         <a href={`#`}
             onClick={e => {
                 e.preventDefault();

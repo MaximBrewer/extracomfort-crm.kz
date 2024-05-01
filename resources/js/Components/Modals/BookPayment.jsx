@@ -19,8 +19,8 @@ export default (props) => {
     const [open, setOpen] = useState(false)
 
     const { data, setData, post, patch, processing, errors, reset, transform } = useForm({
-        method: null,
-        sum: ``,
+        method: paymethods[0],
+        sum: book.service.price,
         prepay: false
     });
 
@@ -82,33 +82,35 @@ export default (props) => {
                 </div>
                 <InputError message={errors.method} className="mt-2" />
             </div>
-            <div className="mb-4">
-                <InputLabel htmlFor="sum" value="Сумма оплаты" color={`text-gray-200`} weight={`normal`} />
-                <TextInput
-                    id="sum"
-                    type="number"
-                    name="sum"
-                    bg="bg-gray-50"
-                    value={data.sum}
-                    className="mt-1 block w-full text-xl"
-                    onChange={handleOnChange}
-                />
-                <InputError message={errors.sum} className="mt-2" />
-            </div>
-            <div className={`mb-4`}>Баланс: <span className={`text-blue-400`}>{priceFormat(book.patient.balance)}</span></div>
-            <div className="mb-4">
-                <label htmlFor="prepay" className={`flex items-center select-none cursor-pointer`}>
-                    <input type="checkbox" name="prepay" id="prepay" onChange={handleOnChange} defaultChecked={data.prepay} className={`hidden opacity-0 peer`} />
-                    <div className={`mr-2 w-5 h-5 peer-checked:hidden border-violet-500 border rounded-[6px]`}></div>
-                    <div className={`mr-2 w-5 h-5 hidden peer-checked:flex items-center justify-center border-violet-500 text-violet-500 border rounded-[6px]`}>
-                        <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M2.5 6L5 8.5L10 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
-                        </svg>
-                    </div>
-                    <div>Предоплата</div>
-                </label>
-                <InputError message={errors.prepay} className="mt-2" />
-            </div>
+            {data.method && data.method.code === 'free' ? <></> : <>
+                <div className="mb-4">
+                    <InputLabel htmlFor="sum" value="Сумма оплаты" color={`text-gray-200`} weight={`normal`} />
+                    <TextInput
+                        id="sum"
+                        type="number"
+                        name="sum"
+                        bg="bg-gray-50"
+                        value={data.sum}
+                        className="mt-1 block w-full text-xl"
+                        onChange={handleOnChange}
+                    />
+                    <InputError message={errors.sum} className="mt-2" />
+                </div>
+                <div className={`mb-4`}>Баланс: <span className={`text-blue-400`}>{priceFormat(book.patient.balance)}</span></div>
+                <div className="mb-4">
+                    <label htmlFor="prepay" className={`flex items-center select-none cursor-pointer`}>
+                        <input type="checkbox" name="prepay" id="prepay" onChange={handleOnChange} defaultChecked={data.prepay} className={`hidden opacity-0 peer`} />
+                        <div className={`mr-2 w-5 h-5 peer-checked:hidden border-violet-500 border rounded-[6px]`}></div>
+                        <div className={`mr-2 w-5 h-5 hidden peer-checked:flex items-center justify-center border-violet-500 text-violet-500 border rounded-[6px]`}>
+                            <svg className="w-3 h-3" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M2.5 6L5 8.5L10 3.5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                            </svg>
+                        </div>
+                        <div>Предоплата</div>
+                    </label>
+                    <InputError message={errors.prepay} className="mt-2" />
+                </div>
+            </>}
             <PrimaryButton className={`w-full mb-4 justify-center text-lg font-semibold`}>Отправить</PrimaryButton>
             <div className={`text-center`}>
                 <a href="#" className={`text-red-500 underline hover:no-underline`} onClick={e => {

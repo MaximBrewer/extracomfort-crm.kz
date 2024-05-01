@@ -84,6 +84,10 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::get('specialists', Recieption\SpecialistsController::class)->name('specialists');
     Route::get('finance', Recieption\FinanceController::class)->name('finance');
 
+    Route::get('{branch}/reports/common', [Recieption\ReportController::class, 'common'])->name('reports.common');
+    Route::get('{branch}/reports/detailed', [Recieption\ReportController::class, 'detailed'])->name('reports.detailed');
+    Route::get('{branch}/reports/countbalance', [Recieption\ReportController::class, 'countbalance'])->name('reports.countbalance');
+
     Route::get('specialist/{specialist}/schedule', [Recieption\SpecialistsController::class, 'schedule'])->name('specialist.schedule');
     Route::patch('specialist/{specialist}/schedule', [Recieption\SpecialistsController::class, 'updateSchedule'])->name('specialist.schedule.update');
 

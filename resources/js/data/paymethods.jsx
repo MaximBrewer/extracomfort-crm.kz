@@ -16,5 +16,9 @@ export default {
             code: `balance`,
             title: `C баланса`
         },
+        {
+            code: `free`,
+            title: `Бесплатно`
+        },
     ]
 }

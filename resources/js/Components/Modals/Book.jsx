@@ -187,6 +187,9 @@ export default (props) => {
                 <InputError message={errors.service} className="mt-2" />
             </div> : ``}
 
+            {data.service ? <div className={`text-center`}>
+                Стоимость: {data.service.price} ₸
+            </div> : <></>}
 
             <div className={`text-center`}>
                 <InputError message={errors.message} className="mt-2" />

@@ -174,14 +174,17 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 icon: <Tasks className={`w-6 h-auto`} />
             },
             {
-                title: 'Финансы',
-                route: `recieption.finance`,
-                icon: <Finance className={`w-5 h-auto`} />
-            },
-            {
                 title: 'Уведомления',
                 route: `recieption.notifications.index`,
                 icon: <Bell className={`w-6 h-auto`} />
+            },
+            {
+                title: 'Финансы',
+                route: `recieption.reports.common`,
+                params: {
+                    branch: 1
+                },
+                icon: <Finance className={`w-5 h-auto`} />
             },
         ],
         nurse: [

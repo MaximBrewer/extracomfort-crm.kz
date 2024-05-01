@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class BookRecieptionService extends JsonResource
+class DirectionReport extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,9 +16,10 @@ class BookRecieptionService extends JsonResource
     {
         return [
             'id' => $this->id,
-            'price' => $this->price,
-            'direction' => $this->direction ? new BookRecieptionServiceDirection($this->direction) : ($this->category ? new BookRecieptionServiceDirection($this->category->direction) : null),
-            'title' => $this->title
+            'title' => $this->title,
+            'categories' => ServiceCategoryReport::collection($this->categories),
+            'quantity' => $this->quantity,
+            'sum' => $this->sum,
         ];
     }
 }

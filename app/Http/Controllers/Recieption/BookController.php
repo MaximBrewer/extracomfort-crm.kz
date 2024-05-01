@@ -161,7 +161,12 @@ class BookController extends Controller
      */
     public function payment(PaymentStoreRequest $request, Book $book)
     {
-        $book->payments()->create($request->all());
+        $data = $request->all();
+        if ($data['method'] === 'free') {
+            unset($data['sum']);
+            unset($data['prepay']);
+        }
+        $book->payments()->create($data);
         return redirect()->back();
     }
     /**
@@ -174,7 +179,7 @@ class BookController extends Controller
             $specialist->save();
         }
         if (!$request->date) {
-            $date = Carbon::createFromDate($request->year . "-01-02 00:00:00");
+            $date = Carbon::createFromDate($request->year . "-01-01 00:00:00");
             $date->addWeeks($request->week - 1);
             $date->addDays($request->day);
             $date = Carbon::parse($date->format('Y-m-d' . ' ' . $request->time . ':00'));

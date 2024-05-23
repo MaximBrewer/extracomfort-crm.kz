@@ -101,36 +101,34 @@ export default (props) => {
                     <table className="mt-6 table-auto w-full mb-4 text-xs">
                         <thead>
                             <tr>
-                                <Th rowSpan={2}>Специалисты</Th>
-                                <Th colSpan={3}>Кол-во принятых пациентов</Th>
+                                <Th rowSpan={2}>дата</Th>
+                                <Th rowSpan={2}>ФИО пациента</Th>
+                                <Th rowSpan={2}>услуга</Th>
+                                <Th rowSpan={2}>перв/повт</Th>
+                                <Th colSpan={2}>статус приема</Th>
                             </tr>
                             <tr>
-                                <Th>первичные</Th>
-                                <Th>повторные</Th>
-                                <Th>всего</Th>
+                                <Th>не пришел</Th>
+                                <Th>отменил</Th>
                             </tr>
                         </thead>
                         <tbody>
-                            {results.data.map((dir, cdx) => <Fragment key={cdx}>
-                                <tr>
-                                    <Td colSpan="4"><span className='font-bold'>{dir.title}</span></Td>
-                                </tr>
-                                {dir.specialists.map((specialist, ddx) =>
-                                    <tr key={ddx}>
-                                        <Td>{specialist.fullname}</Td>
-                                        <Td>{specialist.first}</Td>
-                                        <Td>{specialist.repeat}</Td>
-                                        <Td>{specialist.total}</Td>
-                                    </tr>)}
-                                <tr>
-                                    <Td><span className='font-bold'>Итого по подразделению:</span></Td>
-                                    <Td>{dir.first}</Td>
-                                    <Td>{dir.repeat}</Td>
-                                    <Td>{dir.total}</Td>
-                                </tr>
-                            </Fragment>
-                            )}
+                            {results.data.map((result, rdx) => <tr key={rdx}>
+                                <Td>{result.date}</Td>
+                                <Td>{result.fullname}</Td>
+                                <Td>{result.service}</Td>
+                                <Td>{result.repeat}</Td>
+                                <Td>{result.status == '' ? 'x' : ''}</Td>
+                                <Td>{result.status == '' ? 'x' : ''}</Td>
+                            </tr>)}
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <Td colSpan={4}>Итого:</Td>
+                                <Td></Td>
+                                <Td></Td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div> : <></>}
             </div >

@@ -455,8 +455,22 @@ class User extends Authenticatable
     /**
      * The users that belong to the role.
      */
+    public function topUps(): HasMany
+    {
+        return $this->hasMany(TopUp::class, 'user_id');
+    }
+
+    /**
+     * The users that belong to the role.
+     */
     public function notifications(): HasMany
     {
         return $this->hasMany(Notification::class, 'user_id');
+    }
+
+    public function calcBalance()
+    {
+        $this->balance = $this->topUps()->sum('sum') / 100;
+        $this->save();
     }
 }

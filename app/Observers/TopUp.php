@@ -8,7 +8,6 @@ class TopUp
 {
     public function created(ModelsTopUp $model)
     {
-        $model->user->balance += $model->sum;
-        $model->user->saveQuietly();
+        $model->user->calcBalance();
     }
 }

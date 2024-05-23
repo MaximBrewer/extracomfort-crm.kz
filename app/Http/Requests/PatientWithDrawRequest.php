@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
-class PatientTopUpRequest extends FormRequest
+class PatientWithDrawRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,7 +23,7 @@ class PatientTopUpRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'paymethod' => ['required'],
+            // 'paymethod' => ['required'],
             'sum' => ['required', 'numeric', 'min:1', 'max:100000000'],
         ];
     }
@@ -36,7 +36,7 @@ class PatientTopUpRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'paymethod.required' => "Выберите метод пополнения",
+            // 'paymethod.required' => "Выберите метод пополнения",
             'sum.required' => "Введите сумму",
             'sum.between' => "Сумма не корректна",
             'sum.numeric' => "Сумма не корректна",

@@ -27,13 +27,10 @@ export default (props) => {
 
     const { user, role = `recieption` } = props
 
-    const paymethods = props.paymethods.filter(el => el.value !== 'free' && el.value !== 'balance')
-
     const { setModal } = useLayout()
 
     const { data, setData, post, patch, processing, errors, reset, transform } = useForm({
         user: user.id,
-        paymethod: paymethods.length ? paymethods[0] : null,
         sum: ``
     });
 
@@ -43,7 +40,7 @@ export default (props) => {
 
     const submit = (e) => {
         e.preventDefault();
-        patch(route(`${role}.patient.topup`, {
+        patch(route(`${role}.patient.withdraw`, {
             patient: user.id
         }), {
             onSuccess: () => {
@@ -53,23 +50,9 @@ export default (props) => {
     }
 
     return <form onSubmit={submit} className={`min-w-[20rem]`}>
-        <h2 className={`font-bold text-xl text-center mb-4`}>{`Пополнение`}</h2>
+        <h2 className={`font-bold text-xl text-center mb-4`}>{`Возврат`}</h2>
         <div className="mb-4">
-            <InputLabel htmlFor="paymethod" value="Выберите метод оплаты" color={`text-gray-200`} weight={`normal`} />
-            <Select
-                styles={customStyles}
-                defaultValue={data.paymethod}
-                name="paymethod"
-                options={paymethods}
-                placeholder={``}
-                onChange={(value) => setData('paymethod', value)}
-            // className="basic-multi-select"
-            // classNamePrefix="select"
-            />
-            <InputError message={errors.paymethod} className="mt-2" />
-        </div>
-        <div className="mb-4">
-            <InputLabel htmlFor="sum" value="Введите сумму пополнения" color={`text-gray-200`} weight={`normal`} />
+            <InputLabel htmlFor="sum" value="Введите сумму возврата" color={`text-gray-200`} weight={`normal`} />
             <TextInput
                 id="sum"
                 type="number"
@@ -85,7 +68,7 @@ export default (props) => {
             <InputError message={errors.sum} className="mt-2" />
         </div>
         <div className={`flex flex-col space-y-3`}>
-            <PrimaryButton type={`submit`} className={`justify-center`}>Пополнить</PrimaryButton>
+            <PrimaryButton type={`submit`} className={`justify-center`}>Возврат</PrimaryButton>
             <div className={`text-center`}>
                 <a href={`#`}
                     className={`text-red-500 underline hover:underline-none`}

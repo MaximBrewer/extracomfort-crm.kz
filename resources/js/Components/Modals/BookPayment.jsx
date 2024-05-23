@@ -19,10 +19,12 @@ export default (props) => {
     const [open, setOpen] = useState(false)
 
     const { data, setData, post, patch, processing, errors, reset, transform } = useForm({
-        method: paymethods[0],
+        method: paymethods.data[0],
         sum: book.service.price,
         prepay: false
     });
+
+    console.log(paymethods)
 
     transform((data) => ({
         ...data,

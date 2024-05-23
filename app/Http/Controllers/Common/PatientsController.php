@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Common;
 use App\Events\PatientCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\PatientStoreRequest;
-use App\Http\Requests\PatientTopUpRequest;
 use App\Http\Requests\PatientUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
 use App\Models\Direction;
 use App\Models\Locality;
-use App\Models\TopUp;
 use App\Models\User;
+use App\Traits\Balance;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -21,6 +20,7 @@ use Inertia\Inertia;
 
 class PatientsController extends Controller
 {
+    use Balance;
     /**
      * Handle the incoming request.
      */
@@ -82,21 +82,6 @@ class PatientsController extends Controller
         $data['pagetitle'] = 'Редактирование пациента';
         $data['patient'] = $patient;
         return Inertia::render(ucwords(Auth::user()->role->name) . '/Patient/Form', $data);
-    }
-
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function topup(PatientTopUpRequest $request, User $patient)
-    {
-        TopUp::create([
-            Auth::user()->role->name . '_id' => Auth::id(),
-            'user_id' => $patient->id,
-            'sum' => $request->sum,
-            'paymethod' => $request->paymethod
-        ]);
-        return redirect()->back();
     }
 
 

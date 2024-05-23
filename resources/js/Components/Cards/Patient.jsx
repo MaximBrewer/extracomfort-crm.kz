@@ -1,18 +1,17 @@
 
 import { useLayout } from '@/Contexts/LayoutContext';
-import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { usePage } from '@inertiajs/react';
 import { Link } from "@inertiajs/react";
 import Pencil from '@/Components/Pencil';
 import ChevronRight from '@/Components/ChevronRight';
 import ChevronLeft from '@/Components/ChevronLeft';
 import TopUp from '@/Components/Modals/TopUp';
-import ChooseBranche from '@/Components/Modals/ChooseBranche';
+import WithDraw from '@/Components/Modals/WithDraw';
 
 
 export default (props) => {
 
-    const { pagetitle, patient, auth, genders, errors } = usePage().props
+    const { patient, auth, genders, errors, paymethods } = usePage().props
 
     const { priceFormat, setModal, moment } = useLayout();
 
@@ -36,10 +35,18 @@ export default (props) => {
                             <span>Баланс: <span className={`text-blue-400`}>{priceFormat(patient.balance)}</span></span>
                             <a href={`#`} onClick={e => {
                                 e.preventDefault();
-                                setModal(<TopUp {...props} user={patient} />)
+                                setModal(<TopUp {...props} user={patient} paymethods={paymethods} />)
                             }} className={`w-[1.0625rem] h-[1.0625rem] rounded bg-violet-500 flex items-center justify-center text-white`}>
-                                <svg width="11" height="11" viewBox="0 0 11 11" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M4.7915 4.79199V0.541992H6.20817V4.79199H10.4582V6.20866H6.20817V10.4587H4.7915V6.20866H0.541504V4.79199H4.7915Z" fill="currentColor" />
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                                </svg>
+                            </a>
+                            <a href={`#`} onClick={e => {
+                                e.preventDefault();
+                                setModal(<WithDraw {...props} user={patient} />)
+                            }} className={`w-[1.0625rem] h-[1.0625rem] rounded bg-violet-500 flex items-center justify-center text-white`}>
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-3 h-3">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M5 12h14" />
                                 </svg>
                             </a>
                         </div>

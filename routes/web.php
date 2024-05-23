@@ -71,22 +71,36 @@ Route::group(['prefix' => 'supervisor', 'as' => 'supervisor.', 'middleware' => [
 Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => ['auth', 'recieption']],  function () {
     Route::get('{branch}/timetable/{date?}', [Recieption\TimetableController::class, 'index'])->name('timetable');
     Route::get('{branch}/reminders/{date?}', [Recieption\RemindersController::class, 'index'])->name('reminders');
-    Route::get('patients', Recieption\PatientsController::class)->name('patients');
-    Route::get('patient/create', [Recieption\PatientsController::class, 'create'])->name('patient.create');
-    Route::get('patient/edit/{patient}', [Recieption\PatientsController::class, 'edit'])->name('patient.edit');
-    Route::post('patient', [Recieption\PatientsController::class, 'store'])->name('patients.store');
-    Route::patch('patient/topup/{patient}', [Recieption\PatientsController::class, 'topup'])->name('patient.topup');
-    Route::patch('patient/{patient}', [Recieption\PatientsController::class, 'update'])->name('patients.update');
-    Route::get('patient/card/{patient}', [Recieption\PatientsController::class, 'card'])->name('patient.card');
 
+    Route::get('patients', Recieption\PatientsController::class)->name('patients');
     Route::get('search/patients', [Recieption\PatientsController::class, 'search']);
 
-    Route::get('specialists', Recieption\SpecialistsController::class)->name('specialists');
-    Route::get('finance', Recieption\FinanceController::class)->name('finance');
+    Route::group(['prefix' => 'patient', 'as' => 'patient.'],  function () {
+        Route::get('create', [Recieption\PatientsController::class, 'create'])->name('create');
+        Route::get('edit/{patient}', [Recieption\PatientsController::class, 'edit'])->name('edit');
+        Route::post('patient', [Recieption\PatientsController::class, 'store'])->name('store');
+        Route::patch('topup/{patient}', [Recieption\PatientsController::class, 'topup'])->name('topup');
+        Route::patch('withdraw/{patient}', [Recieption\PatientsController::class, 'withdraw'])->name('withdraw');
+        Route::patch('{patient}', [Recieption\PatientsController::class, 'update'])->name('update');
+        Route::get('card/{patient}', [Recieption\PatientsController::class, 'card'])->name('card');
+    });
 
-    Route::get('{branch}/reports/common', [Recieption\ReportController::class, 'common'])->name('reports.common');
-    Route::get('{branch}/reports/detailed', [Recieption\ReportController::class, 'detailed'])->name('reports.detailed');
-    Route::get('{branch}/reports/countbalance', [Recieption\ReportController::class, 'countbalance'])->name('reports.countbalance');
+
+    Route::get('specialists', Recieption\SpecialistsController::class)->name('specialists');
+
+    Route::group(['prefix' => '{branch}/reports', 'as' => 'reports.'],  function () {
+        Route::get('common', [Recieption\ReportController::class, 'common'])->name('common');
+        Route::get('detailed', [Recieption\ReportController::class, 'detailed'])->name('detailed');
+        Route::get('reception', [Recieption\ReportController::class, 'reception'])->name('reception');
+        Route::get('countbalance', [Recieption\ReportController::class, 'countbalance'])->name('countbalance');
+        Route::get('canceled', [Recieption\ReportController::class, 'canceled'])->name('canceled');
+        Route::get('debt', [Recieption\ReportController::class, 'debt'])->name('debt');
+        Route::get('bonus', [Recieption\ReportController::class, 'bonus'])->name('bonus');
+        Route::get('from', [Recieption\ReportController::class, 'from'])->name('from');
+        Route::get('activities', [Recieption\ReportController::class, 'activities'])->name('activities');
+        Route::get('actions', [Recieption\ReportController::class, 'actions'])->name('actions');
+        Route::get('attendance', [Recieption\ReportController::class, 'attendance'])->name('attendance');
+    });
 
     Route::get('specialist/{specialist}/schedule', [Recieption\SpecialistsController::class, 'schedule'])->name('specialist.schedule');
     Route::patch('specialist/{specialist}/schedule', [Recieption\SpecialistsController::class, 'updateSchedule'])->name('specialist.schedule.update');
@@ -127,6 +141,8 @@ Route::group(['prefix' => 'nurse', 'as' => 'nurse.', 'middleware' => ['auth', 'n
     Route::get('patient/edit/{patient}', [Nurse\PatientsController::class, 'edit'])->name('patient.edit');
     Route::post('patient', [Nurse\PatientsController::class, 'store'])->name('patients.store');
     Route::patch('patient/topup/{patient}', [Nurse\PatientsController::class, 'topup'])->name('patient.topup');
+    Route::patch('patient/withdraw/{patient}', [Nurse\PatientsController::class, 'withdraw'])->name('patient.withdraw');
+
     Route::patch('patient/{patient}', [Nurse\PatientsController::class, 'update'])->name('patients.update');
     Route::get('patient/card/{patient}', [Nurse\PatientsController::class, 'card'])->name('patient.card');
     Route::get('specialists', Nurse\SpecialistsController::class)->name('specialists');
@@ -202,6 +218,7 @@ Route::group(['prefix' => 'senior', 'as' => 'senior.', 'middleware' => ['auth', 
     Route::get('patient/edit/{patient}', [Senior\PatientsController::class, 'edit'])->name('patient.edit');
     Route::post('patient', [Senior\PatientsController::class, 'store'])->name('patients.store');
     Route::patch('patient/topup/{patient}', [Senior\PatientsController::class, 'topup'])->name('patient.topup');
+    Route::patch('patient/withdraw/{patient}', [Senior\PatientsController::class, 'withdraw'])->name('patient.withdraw');
     Route::patch('patient/{patient}', [Senior\PatientsController::class, 'update'])->name('patients.update');
     Route::get('patient/card/{patient}', [Senior\PatientsController::class, 'card'])->name('patient.card');
 
@@ -220,6 +237,7 @@ Route::group(['prefix' => 'sale', 'as' => 'sale.', 'middleware' => ['auth', 'sal
     Route::get('patient/edit/{patient}', [Sale\PatientsController::class, 'edit'])->name('patient.edit');
     Route::post('patient', [Sale\PatientsController::class, 'store'])->name('patients.store');
     Route::patch('patient/topup/{patient}', [Sale\PatientsController::class, 'topup'])->name('patient.topup');
+    Route::patch('patient/withdraw/{patient}', [Sale\PatientsController::class, 'withdraw'])->name('patient.withdraw');
     Route::patch('patient/{patient}', [Sale\PatientsController::class, 'update'])->name('patients.update');
     Route::get('patient/card/{patient}', [Sale\PatientsController::class, 'card'])->name('patient.card');
 

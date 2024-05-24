@@ -3,6 +3,7 @@ import { components } from 'react-select';
 import { router } from '@inertiajs/react';
 import Select from 'react-select';
 
+
 export function Navigate({ reports, title, branches, branch }) {
 
     console.log(reports)

@@ -87,6 +87,13 @@ class Book extends Model
     /**
      * Interact with the user's balance.
      */
+    public function recieption(): BelongsTo
+    {
+        return $this->belongsTo(Recieption::class, 'recieption_id');
+    }
+    /**
+     * Interact with the user's balance.
+     */
     public function payments(): HasMany
     {
         return $this->hasMany(Payment::class, 'book_id');

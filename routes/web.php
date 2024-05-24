@@ -72,6 +72,8 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::get('{branch}/timetable/{date?}', [Recieption\TimetableController::class, 'index'])->name('timetable');
     Route::get('{branch}/reminders/{date?}', [Recieption\RemindersController::class, 'index'])->name('reminders');
 
+    Route::get('{branch}/patients', [Recieption\SearchController::class, 'patients'])->name('search.patients');
+
     Route::get('patients', Recieption\PatientsController::class)->name('patients');
     Route::get('search/patients', [Recieption\PatientsController::class, 'search']);
 

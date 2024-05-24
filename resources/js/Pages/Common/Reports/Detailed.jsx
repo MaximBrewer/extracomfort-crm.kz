@@ -1,6 +1,6 @@
 import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { router, useForm, usePage } from '@inertiajs/react';
+import { useForm, usePage } from '@inertiajs/react';
 import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
 import ru from 'date-fns/locale/ru';
 import moment from 'moment';
@@ -23,7 +23,8 @@ export default (props) => {
         directions = { data: [] },
         branches = { data: [] },
         results = { data: [] },
-        reports = []
+        reports = [],
+        report
     } = usePage().props
 
     const { data, setData, get, processing, errors, reset, transform } = useForm({
@@ -41,7 +42,7 @@ export default (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        get(route(`${auth.user.role.name}.reports.detailed`, {
+        get(route(`${auth.user.role.name}.reports.${report}`, {
             branch: branch.data.id
         }), {
             onSuccess: () => {

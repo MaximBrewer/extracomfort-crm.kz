@@ -445,6 +445,14 @@ class User extends Authenticatable
     }
 
     /**
+     * Return default User Role.
+     */
+    public function hear(): BelongsTo
+    {
+        return $this->belongsTo(Hear::class);
+    }
+
+    /**
      * The users that belong to the role.
      */
     public function tasks(): HasMany

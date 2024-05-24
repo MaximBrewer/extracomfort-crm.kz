@@ -29,7 +29,8 @@ export default (props) => {
         specialist = null,
         direction = null,
         service = null,
-        reports = []
+        reports = [],
+        report
     } = usePage().props
 
     const [services, setServices] = useState([])

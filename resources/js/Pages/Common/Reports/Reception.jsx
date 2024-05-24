@@ -27,7 +27,8 @@ export default (props) => {
         directions = { data: [] },
         branches = { data: [] },
         results = { data: [] },
-        reports = []
+        reports = [],
+        report
     } = usePage().props
 
 
@@ -95,8 +96,6 @@ export default (props) => {
                         <PrimaryButton disabled={processing} size="">Сформировать отчет</PrimaryButton>
                     </div>
                 </form>
-
-
                 {results.data.length ? <div className="overflow-auto">
                     <table className="mt-6 table-auto w-full mb-4 text-xs">
                         <thead>

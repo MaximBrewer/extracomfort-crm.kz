@@ -27,7 +27,8 @@ export default (props) => {
         directions = { data: [] },
         branches = { data: [] },
         results = { data: [] },
-        reports = []
+        reports = [],
+        report
     } = usePage().props
 
 

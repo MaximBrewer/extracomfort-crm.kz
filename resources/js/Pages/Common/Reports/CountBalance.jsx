@@ -26,7 +26,8 @@ export default (props) => {
         books = { data: [] },
         specialist = null,
         direction = null,
-        reports = []
+        reports = [],
+        report
     } = usePage().props
 
 

@@ -5,6 +5,7 @@ import SuccessButton from "../SuccessButton"
 import DefaultButton from "../DefaultButton"
 import TextArea from "../TextArea"
 import Comments from "../Tasks/Comments"
+import { Link } from "@inertiajs/react"
 
 const Status = ({ status_id }) => {
     const colors = {

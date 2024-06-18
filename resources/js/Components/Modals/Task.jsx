@@ -41,7 +41,7 @@ export default (props) => {
         </div>
         <div className="mb-6">
             {task.data && task.data.link ?
-                <Link className="text-2xl font-semibold mb-3 underline hover:no-underline" href={route(task.data.link.route, task.data.link.params)}>{task.title}</Link> :
+                <Link className="block text-2xl font-semibold mb-3 underline hover:no-underline" href={route(task.data.link.route, task.data.link.params)}>{task.title}</Link> :
                 <div className="text-2xl font-semibold mb-3">{task.title}</div>}
 
             <div className="flex gap-3 items-center">

@@ -39,7 +39,10 @@ export default (props) => {
             </div>
         </div>
         <div className="mb-6">
-            <div className="text-2xl font-semibold mb-3">{task.title}</div>
+            {task.data && task.data.link ?
+                <Link className="text-2xl font-semibold mb-3 underline hover:no-underline" href={route(task.data.link.route, task.data.link.params)}></Link> :
+                <div className="text-2xl font-semibold mb-3">{task.title}</div>}
+
             <div className="flex gap-3 items-center">
                 <Status status_id={task.status_id} />
             </div>

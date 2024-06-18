@@ -77,7 +77,7 @@ export default (props) => {
 
     const canvaRef1 = useRef(null)
 
-    const { successrecieption = false, disabled = false } = usePage().props
+    const { successshop = false, successrecieption = false, disabled = false } = usePage().props
 
     const { setModal } = useLayout();
 
@@ -98,6 +98,10 @@ export default (props) => {
             }, 150)
         }
     }, [canvaRef2])
+
+    useEffect(() => {
+        successshop && setModal(<Info status={`success`} message={`Отправлено в магазин`} />)
+    }, [successshop])
 
     useEffect(() => {
         successrecieption && setModal(<Info status={`success`} message={`Отправлено на ресепшн`} />)

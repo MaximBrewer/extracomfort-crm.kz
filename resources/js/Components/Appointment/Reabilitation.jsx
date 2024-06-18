@@ -477,6 +477,12 @@ export default (props) => {
                             type: 0
                         })}>Отправить на ресепшн</Link>
                     </div>}
+                    {disabled ? <></> : <div className="flex justify-end whitespace-nowrap pb-4">
+                        <Link method="PATCH" className="inline-flex items-center bg-violet-500 border border-transparent text-white transition ease-in-out duration-150 px-4 py-2.5 rounded-lg font-bold text-sm px-4 py-3 rounded-xl font-semibold text-lg undefined " size="sm" href={route(`specialist.appointment.toshop`, {
+                            book: data.book_id,
+                            type: 0
+                        })}>Отправить в магазин</Link>
+                    </div>}
                 </div>
             </div>
         </div>

@@ -10,6 +10,7 @@ use App\Http\Resources\DirectionReceptionResource;
 use App\Http\Resources\DirectionReport;
 use App\Http\Resources\DirectionSpecialist;
 use App\Http\Resources\DirectionWoWrapTizer;
+use App\Http\Resources\Patient;
 use App\Http\Resources\ReportActvitiesResource;
 use App\Http\Resources\ReportAttendanceResource;
 use App\Http\Resources\ReportBonusResource;
@@ -20,6 +21,7 @@ use App\Http\Resources\User as ResourcesUser;
 use App\Models\Book;
 use App\Models\Branch;
 use App\Models\Direction;
+use App\Models\Hear;
 use App\Models\Service;
 use App\Models\TopUp;
 use App\Models\User;
@@ -73,14 +75,15 @@ class ReportController extends Controller
 
     public function activities(Request $request, Branch $branch)
     {
-        $directions = Direction::all();
-        $results = $directions->map(function ($direction) use ($request) {
-            $direction->specialists = $direction->specialists->filter(function ($specialist) use ($request) {
-                $specialists = (array)$request->specialists ?: [];
-                return in_array($specialist->id, $specialists);
 
-                // // $specialist->books = Boo
-            });
+        $direction = (int)$request->direction ? Direction::find((int)$request->direction) : null;
+        $directions = (int)$request->direction ? Direction::where('id', (int)$request->direction)->get() : Direction::all();
+        $results = $directions->map(function ($direction) use ($request) {
+
+            $direction->specialists = (array)$request->specialists ? $direction->specialists->filter(function ($specialist) use ($request) {
+                return in_array($specialist->id, (array)$request->specialists);
+            }) : $direction->specialists;
+
             $object = new stdClass;
             $object->title = $direction->title;
             $object->specialists = $direction->specialists->map(function ($specialist) use ($direction, $request) {
@@ -113,6 +116,7 @@ class ReportController extends Controller
 
 
         $data = array_merge($this->getCommonData($request, $branch, 'activities'), [
+            'direction' => $direction ? new DirectionWoWrapTizer($direction) : null,
             'results' => ReportActvitiesResource::collection($results),
         ]);
 
@@ -179,6 +183,7 @@ class ReportController extends Controller
 
         $data = array_merge($this->getCommonData($request, $branch, 'from'), [
             'results' => ReportFromResource::collection($results),
+            'hears' => Hear::all(),
         ]);
 
         return Inertia::render('Common/Reports/From', $data);
@@ -223,9 +228,9 @@ class ReportController extends Controller
         $end = $request->end ? Carbon::parse($request->end) : null;
 
         $books = [];
+        $patient = User::find((int)$request->patient);
 
-        if ($start && $end && (int)$request->patient) {
-            $patient = User::findOrFail($request->patient);
+        if ($start && $end && $patient) {
             $books = Book::whereRaw('start=time')
                 ->where('status', 'completed')
                 ->where('date', '>=', $start)
@@ -234,7 +239,8 @@ class ReportController extends Controller
         }
 
         $data = array_merge($this->getCommonData($request, $branch, 'attendance'), [
-            'results' => $start && $end ? ReportAttendanceResource::collection($books ? $books->orderBy('date')->get() : []) : ['data' => []]
+            'results' => $start && $end ? ReportAttendanceResource::collection($books ? $books->orderBy('date')->get() : []) : ['data' => []],
+            'patient' => $patient ? new Patient($patient) : null
         ]);
         return Inertia::render('Common/Reports/Attendance', $data);
     }
@@ -303,9 +309,13 @@ class ReportController extends Controller
 
     public function common(Request $request, Branch $branch)
     {
-        $specialist = (int)$request->specialist ?  User::find((int)$request->specialist) : null;
-        $direction = (int)$request->direction ?  Direction::find((int)$request->direction) : null;
-        $service = (int)$request->service ?  Service::find((int)$request->service) : null;
+        // $specialist = (int)$request->specialist ?  User::find((int)$request->specialist) : null;
+        // $direction = (int)$request->direction ?  Direction::find((int)$request->direction) : null;
+        // $service = (int)$request->service ?  Service::find((int)$request->service) : null;
+
+        $specialist = explode("_", $request->specialist);
+        $direction = explode("_", $request->direction);
+        $service = explode("_", $request->service);
 
         $start = $request->start ? Carbon::parse($request->start) : null;
         $end = $request->end ? Carbon::parse($request->end) : null;
@@ -320,23 +330,23 @@ class ReportController extends Controller
                 ->where('date', '<=', $end);
             $topups = TopUp::where('created_at', '>=', $start)
                 ->where('created_at', '<=', $end);
-            if ($specialist) $books = $books->where('specialist_id', $specialist->id);
+            if ($specialist) $books = $books->whereIn('specialist_id', $specialist);
 
             if ($service) {
-                $books = $books->where('service_id', $service->id);
+                $books = $books->whereIn('service_id', $service);
             } elseif ($direction) {
                 $books = $books->whereHas('service', function (Builder $query) use ($direction) {
                     $query->whereHas('category', function (Builder $query) use ($direction) {
-                        $query->where('direction_id', $direction->id);
+                        $query->whereIn('direction_id', $direction);
                     });
                 });
             }
         }
 
         $data = array_merge($this->getCommonData($request, $branch, 'common'), [
-            'direction' => $direction ? new DirectionWoWrapTizer($direction) : null,
-            'service' => $service ? new ServiceWoWrapTizer($service) : null,
-            'specialist' => $specialist ? new ResourcesUser($specialist) : null,
+            'direction' => !empty($direction) ? DirectionWoWrapTizer::collection(Direction::whereIn('id', $direction)->get()) : [],
+            'service' => !empty($service) ? ServiceWoWrapTizer::collection(Service::whereIn('id', $service)->get()) : [],
+            'specialist' => !empty($specialist) ? ResourcesUser::collection(User::whereIn('id', $specialist)->get()) : [],
             'books' => BookRecieption::collection($books ? $books->orderBy('date')->get() : []),
             'topups' => ResourcesTopUp::collection($topups ? $topups->orderBy('created_at')->get() : [])
         ]);

@@ -180,6 +180,7 @@ Route::group(['prefix' => 'specialist', 'as' => 'specialist.', 'middleware' => [
     Route::get('appointment/{book}', [Specialist\PatientsController::class, 'appointment'])->name('appointment');
     Route::post('appointment/{book}', [Specialist\PatientsController::class, 'appointmentUpdate'])->name('appointment.update');
     Route::post('appointment/{book}/file', [Specialist\PatientsController::class, 'appointmentFile'])->name('appointment.file');
+    
     Route::patch('appointment/{book}/toshop', [Specialist\PatientsController::class, 'toShop'])->name('appointment.toshop');
     Route::patch('appointment/{book}/torecieption', [Specialist\PatientsController::class, 'toRecieption'])->name('appointment.torecieption');
 

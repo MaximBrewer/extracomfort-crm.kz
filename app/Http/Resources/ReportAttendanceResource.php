@@ -18,7 +18,7 @@ class ReportAttendanceResource extends JsonResource
             'date' => $this->date,
             'specialist' => $this->specialist ? $this->specialist->fullName : "",
             'service' => $this->service->title,
-            'pay' => '', // уточнить
+            'pay' => $this->payments()->sum('sum')/100, // уточнить
             'recieption' => $this->recieption ? $this->recieption->fullName : "",
         ];
     }

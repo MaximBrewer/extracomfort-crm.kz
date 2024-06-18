@@ -18,8 +18,7 @@ class ReportActvitiesSpecialistBookResource extends JsonResource
             'date' => $this->date,
             'patient' => $this->patient ? $this->patient->fullName : "",
             'service' => $this->service ? $this->service->title : "",
-            'cost' => '', // уточнить
-            'cash' => '', // уточнить
+            'sum' => $this->payments()->sum('sum') / 100
         ];
     }
 }

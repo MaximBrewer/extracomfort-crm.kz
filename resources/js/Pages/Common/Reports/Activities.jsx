@@ -60,6 +60,15 @@ export default (props) => {
         });
     }
 
+    const sum = (books) => {
+        let sum = 0;
+        for (let b of books) {
+            console.log(b)
+            sum += b.sum
+        }
+        return sum
+    }
+
 
     return (
         <AuthenticatedLayout
@@ -95,6 +104,23 @@ export default (props) => {
                     </div>
 
                     <div className="flex flex-col gap-2">
+                        <label>Направление:</label>
+                        <Select
+                            getOptionLabel={el => el.title}
+                            getOptionValue={el => el.id}
+                            styles={customStyles}
+                            isClearable={true}
+                            components={{ DropdownIndicator }}
+                            options={directions.data}
+                            value={data.direction ? directions.data.find(el => data.direction && el.id == data.direction.id) : null}
+                            onChange={value => setData(prev => ({
+                                ...prev,
+                                direction: value
+                            }))}
+                            placeholder="Выбрать из списка"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-2">
                         <label>Специалисты:</label>
                         <Select
                             getOptionLabel={el => el.fullName}
@@ -119,7 +145,7 @@ export default (props) => {
                 </form>
 
 
-                {results.data.length ? <div className="overflow-auto">
+                {results.data.filter(dir => dir.specialists.filter(spe => spe.books.length).length).length ? <div className="overflow-auto">
                     <table className="my-6 table-auto w-full mb-16 text-xs">
                         <thead>
                             <tr>
@@ -127,29 +153,27 @@ export default (props) => {
                                 <Th rowSpan={1}>ФИО пациента</Th>
                                 <Th rowSpan={1}>оказанные услуги</Th>
                                 <Th rowSpan={1}>стоимость услуги</Th>
-                                <Th rowSpan={1}>оплачено в кассу</Th>
                             </tr>
                         </thead>
                         <tbody>
                             {results.data.map((direction, ddx) => <Fragment key={ddx}>
                                 {direction.specialists && direction.specialists.length && direction.specialists.filter(el => el.books.length).length ? <>
-                                    <tr><Th colSpan={5} className={`text-left`}>{direction.title}</Th></tr>
+                                    <tr><Th colSpan={4} className={`text-left`}>{direction.title}</Th></tr>
                                     {direction.specialists.map((specialist, sdx) => <Fragment key={sdx}>
-                                        <tr><Th colSpan={5} className={`text-left`}>{specialist.fullName}</Th></tr>
-                                        {specialist.books.map((book, bdx) => <tr key={bdx}>
-                                            <Td>{book.date}</Td>
-                                            <Td>{book.patient}</Td>
-                                            <Td>{book.service}</Td>
-                                            <Td>{book.cost}</Td>
-                                            <Td>{book.cache}</Td>
-                                        </tr>)}
-                                        <tr>
-                                            <Td>итого по специалисту: </Td>
-                                            <Td>{specialist.books.length}</Td>
-                                            <Td></Td>
-                                            <Td></Td>
-                                            <Td></Td>
-                                        </tr>
+                                        {specialist.books.length ? <><tr><Th colSpan={4} className={`text-left`}>{specialist.fullName}</Th></tr>
+                                            {specialist.books.map((book, bdx) => <tr key={bdx}>
+                                                <Td>{book.date}</Td>
+                                                <Td>{book.patient}</Td>
+                                                <Td>{book.service}</Td>
+                                                <Td>{book.sum}</Td>
+                                            </tr>)}
+                                            <tr>
+                                                <Td>итого по специалисту: </Td>
+                                                <Td>{specialist.books.length}</Td>
+                                                <Td></Td>
+                                                <Td>{sum(specialist.books)}</Td>
+                                            </tr>
+                                        </> : <></>}
                                     </Fragment>)}
                                 </> : <></>}
                             </Fragment>)}

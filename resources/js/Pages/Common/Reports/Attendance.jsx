@@ -25,6 +25,7 @@ export default (props) => {
         auth,
         start = null,
         end = null,
+        patient = null,
         direction = null,
         directions = { data: [] },
         branches = { data: [] },
@@ -69,7 +70,7 @@ export default (props) => {
             }
         });
     }
-
+    
 
     return (
         <AuthenticatedLayout
@@ -102,6 +103,42 @@ export default (props) => {
                                 onChange={(date) => setData('end', date)}
                             />
                         </div>
+
+                    <div className="flex flex-col gap-2">
+                        <label>Направление:</label>
+                        <Select
+                            getOptionLabel={el => el.title}
+                            getOptionValue={el => el.id}
+                            styles={customStyles}
+                            isClearable={true}
+                            components={{ DropdownIndicator }}
+                            options={directions.data}
+                            value={data.direction ? directions.data.find(el => data.direction && el.id == data.direction.id) : null}
+                            onChange={value => setData(prev => ({
+                                ...prev,
+                                direction: value
+                            }))}
+                            placeholder="Выбрать из списка"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label>Специалисты:</label>
+                        <Select
+                            getOptionLabel={el => el.fullName}
+                            getOptionValue={el => el.id}
+                            styles={customStyles}
+                            isClearable={true}
+                            isMulti={true}
+                            components={{ DropdownIndicator }}
+                            options={specialists.data}
+                            value={specialists.data.filter(el => !!data.specialists && data.specialists.find(sp => el.id == sp.id))}
+                            onChange={values => setData(prev => ({
+                                ...prev,
+                                specialists: values
+                            }))}
+                            placeholder="Выбрать из списка"
+                        />
+                    </div>
                         <div className="flex flex-col gap-2 grow">
                             <label>Пациент:</label>
                             <AsyncSelect
@@ -121,6 +158,9 @@ export default (props) => {
                         <PrimaryButton disabled={processing} size="">Сформировать отчет</PrimaryButton>
                     </div>
                 </form>
+                {patient ? <h2>
+                    <span className="font-bold text-xl">{patient.data.lastname} {patient.data.name} {patient.data.surname}</span>, {moment(patient.data.birthdate).format("DD.MM.YYYY")}, {patient.data.tin}, {patient.data.email}, {patient.data.phone},
+                </h2> : <></>}
                 {results.data.length ? <div className="overflow-auto">
                     <table className="mt-6 table-auto w-full mb-4 text-xs">
                         <thead>

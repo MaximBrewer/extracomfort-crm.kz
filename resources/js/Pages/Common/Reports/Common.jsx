@@ -26,9 +26,9 @@ export default (props) => {
         books = { data: [] },
         directions = { data: [] },
         topups = { data: [] },
-        specialist = null,
-        direction = null,
-        service = null,
+        specialist = [],
+        direction = [],
+        service = [],
         reports = [],
         report
     } = usePage().props
@@ -47,18 +47,18 @@ export default (props) => {
         ...data,
         start: moment(data.start).isValid() ? moment(data.start).format('YYYY-MM-DD') : null,
         end: moment(data.end).isValid() ? moment(data.end).format('YYYY-MM-DD') : null,
-        specialist: data.specialist ? data.specialist.id : null,
-        direction: data.direction ? data.direction.id : null,
-        service: data.service ? data.service.id : null
+        specialist: data.specialist ? data.specialist.map(el => el.id).join('_') : null,
+        direction: data.direction ? data.direction.map(el => el.id).join('_') : null,
+        service: data.service ? data.service.map(el => el.id).join('_') : null,
     }))
 
     useEffect(() => {
         !direction || !data.direction || (data.direction && direction.id !== data.direction.id) && setData(prev => ({
             ...prev,
-            service: null
+            service: []
         }))
 
-        setServices(data.direction && data.direction.categories ? data.direction.categories.map(cat => {
+        setServices(data.direction && data.direction.length === 1 && data.direction[0].categories ? data.direction[0].categories.map(cat => {
             if (cat.services.length > 1)
                 return {
                     label: cat.title,
@@ -72,7 +72,7 @@ export default (props) => {
                     options: []
                 }
             }
-        }) : null)
+        }) : [])
     }, [data.direction])
 
     const handleSubmit = (e) => {
@@ -100,7 +100,7 @@ export default (props) => {
 
     const countCashRegister = () => {
         let sum = 0;
-        // books.data.map(book => sum += book.payments.length ? book.payments.at(-1).sum : 0)
+        books.data.map(book => sum += book.payments.length && book.payments.at(-1).method !== 'balance' && book.payments.at(-1).method !== 'free' ? book.payments.at(-1).sum : 0)
         return sum;
     }
 
@@ -202,13 +202,17 @@ export default (props) => {
                                 getOptionValue={el => el.id}
                                 styles={customStyles}
                                 isClearable={true}
+                                isMulti={true}
                                 components={{ DropdownIndicator }}
                                 options={specialists.data}
                                 value={specialists.data.find(el => data.specialist && el.id == data.specialist.id)}
-                                onChange={value => setData(prev => ({
-                                    ...prev,
-                                    specialist: value
-                                }))}
+                                onChange={value => {
+                                    console.log(value)
+                                    setData(prev => ({
+                                        ...prev,
+                                        specialist: value
+                                    }))
+                                }}
                                 placeholder="Выбрать из списка"
                             />
                         </div>
@@ -220,6 +224,7 @@ export default (props) => {
                                 getOptionValue={el => el.id}
                                 styles={customStyles}
                                 isClearable={true}
+                                isMulti={true}
                                 components={{ DropdownIndicator }}
                                 options={directions.data}
                                 value={directions.data.find(el => data.direction && el.id == data.direction.id)}
@@ -233,13 +238,14 @@ export default (props) => {
 
                     </div>
                     <div className="flex flex-col gap-2 mb-4">
-                        {services ? <>
+                        {services.length ? <>
                             <label>Услуга:</label>
                             <Select
                                 getOptionLabel={el => el.title}
                                 getOptionValue={el => el.id}
                                 styles={customStyles}
                                 isClearable={true}
+                                isMulti={true}
                                 components={{ DropdownIndicator }}
                                 options={services}
                                 value={data.service ? services.find(el => data.service && el.id == data.service.id) : null}

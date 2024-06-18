@@ -85,6 +85,24 @@ export default (props) => {
                                 onChange={(date) => setData('end', date)}
                             />
                         </div>
+                    <div className="flex flex-col gap-2">
+                        <label>Направление:</label>
+                        <Select
+                            getOptionLabel={el => el.title}
+                            getOptionValue={el => el.id}
+                            styles={customStyles}
+                            isClearable={true}
+                            isMulti={true}
+                            components={{ DropdownIndicator }}
+                            options={directions.data}
+                            value={data.direction ? directions.data.find(el => data.direction && el.id == data.direction.id) : null}
+                            onChange={value => setData(prev => ({
+                                ...prev,
+                                direction: value
+                            }))}
+                            placeholder="Выбрать из списка"
+                        />
+                    </div>
                     </div>
                     <div className="col-span-4 flex justify-end">
                         <PrimaryButton disabled={processing} size="">Сформировать отчет</PrimaryButton>

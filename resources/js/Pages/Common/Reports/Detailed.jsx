@@ -23,6 +23,7 @@ export default (props) => {
         directions = { data: [] },
         branches = { data: [] },
         results = { data: [] },
+        specialists = { data: [] },
         reports = [],
         report
     } = usePage().props
@@ -96,6 +97,27 @@ export default (props) => {
                             />
                         </div>
                     </div>
+                    <div className="flex flex-col gap-2">
+                        <label>Cпециалист:</label>
+                        <Select
+                            getOptionLabel={el => el.fullName}
+                            getOptionValue={el => el.id}
+                            styles={customStyles}
+                            isClearable={true}
+                            isMulti={true}
+                            components={{ DropdownIndicator }}
+                            options={specialists.data}
+                            value={specialists.data.find(el => data.specialist && el.id == data.specialist.id)}
+                            onChange={value => {
+                                console.log(value)
+                                setData(prev => ({
+                                    ...prev,
+                                    specialist: value
+                                }))
+                            }}
+                            placeholder="Выбрать из списка"
+                        />
+                    </div>
 
                     <div className="flex flex-col gap-2">
                         <label>Направление:</label>
@@ -104,6 +126,7 @@ export default (props) => {
                             getOptionValue={el => el.id}
                             styles={customStyles}
                             isClearable={true}
+                            isMulti={true}
                             components={{ DropdownIndicator }}
                             options={directions.data}
                             value={data.direction ? directions.data.find(el => data.direction && el.id == data.direction.id) : null}

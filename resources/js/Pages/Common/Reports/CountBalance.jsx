@@ -23,6 +23,7 @@ export default (props) => {
         end = null,
         branches = { data: [] },
         specialists = { data: [] },
+        directions = { data: [] },
         books = { data: [] },
         specialist = null,
         direction = null,
@@ -160,41 +161,45 @@ export default (props) => {
                             />
                         </div>
                     </div>
-
                     <div className="flex flex-col gap-2">
                         <label>Cпециалист:</label>
                         <Select
                             getOptionLabel={el => el.fullName}
                             getOptionValue={el => el.id}
                             styles={customStyles}
+                            isClearable={true}
+                            isMulti={true}
                             components={{ DropdownIndicator }}
                             options={specialists.data}
                             value={specialists.data.find(el => data.specialist && el.id == data.specialist.id)}
-                            onChange={value => setData(prev => ({
-                                ...prev,
-                                specialist: value
-                            }))}
+                            onChange={value => {
+                                console.log(value)
+                                setData(prev => ({
+                                    ...prev,
+                                    specialist: value
+                                }))
+                            }}
                             placeholder="Выбрать из списка"
                         />
                     </div>
 
                     <div className="flex flex-col gap-2">
-                        {data.specialist ? <>
-                            <label>Направление:</label>
-                            <Select
-                                getOptionLabel={el => el.title}
-                                getOptionValue={el => el.id}
-                                styles={customStyles}
-                                components={{ DropdownIndicator }}
-                                options={data.specialist.directions}
-                                value={data.direction ? data.specialist.directions.find(el => data.direction && el.id == data.direction.id) : null}
-                                onChange={value => setData(prev => ({
-                                    ...prev,
-                                    direction: value
-                                }))}
-                                placeholder="Выбрать из списка"
-                            />
-                        </> : <></>}
+                        <label>Направление:</label>
+                        <Select
+                            getOptionLabel={el => el.title}
+                            getOptionValue={el => el.id}
+                            styles={customStyles}
+                            isClearable={true}
+                            isMulti={true}
+                            components={{ DropdownIndicator }}
+                            options={directions.data}
+                            value={data.direction ? directions.data.find(el => data.direction && el.id == data.direction.id) : null}
+                            onChange={value => setData(prev => ({
+                                ...prev,
+                                direction: value
+                            }))}
+                            placeholder="Выбрать из списка"
+                        />
                     </div>
                     <div className="col-span-4 flex justify-end">
                         <PrimaryButton disabled={processing} size="">Сформировать отчет</PrimaryButton>

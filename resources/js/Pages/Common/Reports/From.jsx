@@ -26,9 +26,12 @@ export default (props) => {
         direction = null,
         directions = { data: [] },
         specialists = { data: [] },
+        hears = [],
         results = { data: [] },
         report
     } = usePage().props
+
+    console.log(hears)
 
     const { data, setData, get, processing, errors, reset, transform } = useForm({
         ...props.data,
@@ -112,11 +115,14 @@ export default (props) => {
                             </tr>)}
                         </tbody>
                         <tfoot>
-                            {/* <tr>
-                                <Td colSpan={3} className={`text-right font-bold text-sm`}>Итого по филиалу:</Td>
-                                <Td colSpan={1} className={`text-center`}>{getQuantity()}</Td>
-                                <Td colSpan={1} className={`text-center`}>{getSum()}</Td>
-                            </tr> */}
+                            <tr>
+                                <Td colSpan={3} className={`text-right font-bold text-sm align-top`}>Итого:</Td>
+                                <Td colSpan={1} className={``}>
+                                    {hears.map((hear, hdx) => <div key={hdx}>
+                                        {hear.name} - {results.data.filter(book => book.hear == hear.name).length}
+                                    </div>)}
+                                </Td>
+                            </tr>
                         </tfoot>
                     </table>
                 </div> : <></>}

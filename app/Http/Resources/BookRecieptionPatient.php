@@ -16,6 +16,7 @@ class BookRecieptionPatient extends JsonResource
     {
         return [
             'id' => $this->id,
+            'fio' => $this->fio,
             'fullName' => $this->fullName,
             'email' => $this->email,
             'balance' => $this->balance,

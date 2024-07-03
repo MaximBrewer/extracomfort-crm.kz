@@ -16,7 +16,7 @@ class ReportFromResource extends JsonResource
     {
         return [
             'date' => $this->date,
-            'patient' => $this->patient ? $this->patient->fullName : "",
+            'patient' => $this->patient ? $this->patient->fio : "",
             'service' => $this->service ? $this->service->title : "",
             'hear' => $this->patient && $this->patient->hear ? $this->patient->hear->name : "",
         ];

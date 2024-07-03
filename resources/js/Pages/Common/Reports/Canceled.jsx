@@ -6,8 +6,20 @@ export default (props) => {
 
     const {
         pagetitle,
-        results = { data: [] }
+        books = { data: [] }
     } = props
+
+    const countLost = () => {
+        let sum = 0;
+        books.data.map(el => el.status === 'lost' && ++sum)
+        return sum;
+    }
+
+    const countCanceled = () => {
+        let sum = 0;
+        books.data.map(el => el.status === 'canceled' && ++sum)
+        return sum;
+    }
 
     return (
         <AuthenticatedLayout
@@ -19,9 +31,7 @@ export default (props) => {
             <div className="rounded-lg shadow-block bg-white pb-12 pt-5 px-8">
                 <Navigate {...props} />
                 <Filter />
-
-
-                {results.data.length ? <div className="overflow-auto">
+                {books.data.length ? <div className="overflow-auto">
                     <table className="mt-6 table-auto w-full mb-4 text-xs">
                         <thead>
                             <tr>
@@ -37,25 +47,26 @@ export default (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {results.data.map((result, rdx) => <tr key={rdx}>
-                                <Td>{result.date}</Td>
-                                <Td>{result.fullname}</Td>
-                                <Td>{result.service}</Td>
-                                <Td>{result.repeat}</Td>
-                                <Td>{result.status == '' ? 'x' : ''}</Td>
-                                <Td>{result.status == '' ? 'x' : ''}</Td>
+                            {books.data.map((book, rdx) => <tr key={rdx}>
+                                <Td className={`text-center`}>{book.date}</Td>
+                                <Td>{book.patient.fio}</Td>
+                                <Td>{book.service.title}</Td>
+                                <Td className={`text-center`}>{book.repeated ? `перв` : `повт`}</Td>
+                                <Td className={`text-center`}>{book.status == 'lost' ? 'x' : ''}</Td>
+                                <Td className={`text-center`}>{book.status == 'canceled' ? 'x' : ''}</Td>
                             </tr>)}
                         </tbody>
+                        {/* ENUM('none', 'confirmed', 'lost', 'canceled', 'completed') */}
                         <tfoot>
                             <tr>
-                                <Td colSpan={4}>Итого:</Td>
-                                <Td></Td>
-                                <Td></Td>
+                                <Td colSpan={4} className={`text-right`}>Итого:</Td>
+                                <Td className={`text-center`}>{countLost()}</Td>
+                                <Td className={`text-center`}>{countCanceled()}</Td>
                             </tr>
                         </tfoot>
                     </table>
                 </div> : <></>}
-            </div >
+            </div>
         </AuthenticatedLayout >
     );
 }

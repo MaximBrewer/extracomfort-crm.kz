@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Common\Report;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\BookCanceled;
+use App\Http\Resources\BookDebt;
 use App\Http\Resources\DirectionWoWrapTizer;
 use App\Http\Resources\ServiceWoWrapTizer;
 use App\Http\Resources\User as ResourcesUser;
@@ -18,7 +18,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
-class CanceledController extends Controller
+class DebtController extends Controller
 {
     use CommonDataReport;
     /**
@@ -44,9 +44,15 @@ class CanceledController extends Controller
 
         if ($filter['start'] && $filter['end']) {
             $books = Book::whereRaw('start=time')
+                ->where('status', 'completed')
+                ->where(function (Builder $query) {
+                    $query->whereDoesntHave('payment')
+                        ->orWhereHas('payment', function (Builder $q) {
+                            $q->whereRaw('price <> sum');
+                        });
+                })
                 ->where('date', '>=', $filter['start'])
                 ->where('date', '<=', $filter['end'])
-                ->whereIn('status', ['canceled', 'lost'])
                 ->where('branch_id', $branch->id);
             if (!empty($filter['specialist'])) $books = $books->whereIn('specialist_id', $filter['specialist']);
             if (!empty($filter['patient'])) $books = $books->where('patient_id', $filter['patient']);
@@ -61,7 +67,7 @@ class CanceledController extends Controller
             }
         }
 
-        $data = array_merge($this->getCommonData($request, $branch, 'canceled'), [
+        $data = array_merge($this->getCommonData($request, $branch, 'debt'), [
             'direction' => DirectionWoWrapTizer::collection(!empty($filter['direction']) ? Direction::whereIn('id', $filter['direction'])->get() : []),
             'service' => ServiceWoWrapTizer::collection(!empty($filter['service']) ? Service::whereIn('id', $filter['service'])->get() : []),
             'specialist' => ResourcesUser::collection(!empty($filter['specialist']) ? User::whereIn('id', $filter['specialist'])->get() : []),
@@ -71,9 +77,9 @@ class CanceledController extends Controller
                     'label' => trim($patient->fio . ($patient->birthdate ? (' ' . Carbon::parse($patient->birthdate)->format('d.m.Y')) : '') . ($patient->tin ? (' ' . $patient->tin) : ''))
                 ] : null
             ],
-            'books' => BookCanceled::collection($books ? $books->orderBy('date')->with('service')->with('patient')->with('payments')->get() : []),
+            'books' => BookDebt::collection($books ? $books->orderBy('date')->with('service')->with('patient')->with('payment')->get() : []),
         ]);
 
-        return Inertia::render('Common/Reports/Canceled', $data);
+        return Inertia::render('Common/Reports/Debt', $data);
     }
 }

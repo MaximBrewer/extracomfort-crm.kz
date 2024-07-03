@@ -32,6 +32,7 @@ class DirectionCanceledResource extends JsonResource
 
             if ($filter['start'] && $filter['end']) {
                 $books = Book::whereRaw('start=time')
+                    ->where('date', '>=', $filter['start'])->where('date', '<=', $filter['end'])
                     ->where('status', 'completed')
                     ->where('branch_id', $filter['branch'])
                     ->where('specialist_id', $specialist->id);
@@ -47,24 +48,14 @@ class DirectionCanceledResource extends JsonResource
                 }
             }
             $booksf = $books->clone();
-            $first = 0;
-            $repeat = 0;
-            foreach ($books->where('date', '>=', $filter['start'])->where('date', '<=', $filter['end'])->get() as $book) {
-                if ($booksf->where('patient_id', $book->patient_id)->where('id', '<', $book->id)->exists()) {
-                    $repeat++;
-                } else {
-                    $first++;
-                }
-            }
-
-            $total = $books->where('date', '>=', $filter['start'])->where('date', '<=', $filter['end'])->count();
+            $booksr = $books->clone();
 
             $specialists[] = [
                 'id' => $specialist->id,
                 'fullname' => $specialist->fullname,
-                'first' => $first,
-                'repeat' => $repeat,
-                'total' => $total,
+                'first' => $booksf->where('repeated', false)->count(),
+                'repeat' => $booksr->where('repeated', true)->count(),
+                'total' => $books->count(),
             ];
         }
 

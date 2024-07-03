@@ -14,6 +14,7 @@ use App\Models\Direction;
 use App\Models\Service;
 use App\Models\TopUp;
 use App\Models\User;
+use App\Traits\CommonDataReport;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -21,10 +22,11 @@ use Inertia\Inertia;
 
 class CountbalanceController extends Controller
 {
+    use CommonDataReport;
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, Branch $branch, $commondata)
+    public function __invoke(Request $request, Branch $branch)
     {
         global $filter;
 
@@ -58,9 +60,9 @@ class CountbalanceController extends Controller
                 });
             }
         }
-        
+
         $patient = User::find($filter['patient']);
-        $data = array_merge($commondata, [
+        $data = array_merge($this->getCommonData($request, $branch, 'countbalance'), [
             'direction' => DirectionWoWrapTizer::collection(!empty($filter['direction']) ? Direction::whereIn('id', $filter['direction'])->get() : []),
             'service' => ServiceWoWrapTizer::collection(!empty($filter['service']) ? Service::whereIn('id', $filter['service'])->get() : []),
             'specialist' => ResourcesUser::collection(!empty($filter['specialist']) ? User::whereIn('id', $filter['specialist'])->get() : []),
@@ -70,7 +72,7 @@ class CountbalanceController extends Controller
                     'label' => trim($patient->fio . ($patient->birthdate ? (' ' . Carbon::parse($patient->birthdate)->format('d.m.Y')) : '') . ($patient->tin ? (' ' . $patient->tin) : ''))
                 ] : null
             ],
-            'books' => BookRecieption::collection($books ? $books->orderBy('date')->get() : []),
+            'books' => BookRecieption::collection($books ? $books->orderBy('date')->with('service')->with('patient')->with('payments')->get() : []),
         ]);
 
         return Inertia::render('Common/Reports/CountBalance', $data);

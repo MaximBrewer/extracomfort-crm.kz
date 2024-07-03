@@ -51,8 +51,7 @@ export default (props) => {
                                     <Td>{dir.repeat}</Td>
                                     <Td>{dir.total}</Td>
                                 </tr>
-                            </Fragment>
-                            )}
+                            </Fragment>)}
                         </tbody>
                     </table>
                 </div> : <></>}

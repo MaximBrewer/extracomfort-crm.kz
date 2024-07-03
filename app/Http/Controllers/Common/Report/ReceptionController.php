@@ -12,16 +12,18 @@ use App\Models\Branch;
 use App\Models\Direction;
 use App\Models\Service;
 use App\Models\User;
+use App\Traits\CommonDataReport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
 class ReceptionController extends Controller
 {
+    use CommonDataReport;
     /**
      * Handle the incoming request.
      */
-    public function __invoke(Request $request, Branch $branch, $commondata)
+    public function __invoke(Request $request, Branch $branch)
     {
         global $filter;
 
@@ -36,7 +38,7 @@ class ReceptionController extends Controller
 
         $patient = User::find($filter['patient']);
 
-        $data = array_merge($commondata, [
+        $data = array_merge($this->getCommonData($request, $branch, 'reception'), [
             'direction' => DirectionWoWrapTizer::collection(!empty($filter['direction']) ? Direction::whereIn('id', $filter['direction'])->get() : []),
             'service' => ServiceWoWrapTizer::collection(!empty($filter['service']) ? Service::whereIn('id', $filter['service'])->get() : []),
             'specialist' => ResourcesUser::collection(!empty($filter['specialist']) ? User::whereIn('id', $filter['specialist'])->get() : []),

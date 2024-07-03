@@ -6,6 +6,11 @@ use App\Models\Payment as ModelsPayment;
 
 class Payment
 {
+    public function creating(ModelsPayment $model)
+    {
+        $model->price = $model->book->service->price;
+    }
+
     public function created(ModelsPayment $model)
     {
         if ($model->method === 'balance') {

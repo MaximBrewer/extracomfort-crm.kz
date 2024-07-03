@@ -101,6 +101,13 @@ class Book extends Model
     /**
      * Interact with the user's balance.
      */
+    public function payment(): HasOne
+    {
+        return $this->hasOne(Payment::class, 'book_id')->orderBy('created_at', 'desc');
+    }
+    /**
+     * Interact with the user's balance.
+     */
     public function appointment(): HasOne
     {
         return $this->hasOne(Appointment::class);

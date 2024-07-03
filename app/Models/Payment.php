@@ -10,7 +10,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Payment extends Model
 {
     use HasFactory;
-    protected $fillable = ['book_id', 'sum', 'method', 'prepay'];
+    protected $fillable = ['book_id', 'sum', 'method', 'prepay', 'price'];
+
+    /**
+     * Interact with the user's balance.
+     */
+    protected function price(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => (int)$value / 100,
+            set: fn ($value) => (float)$value * 100,
+        );
+    }
 
     /**
      * Interact with the user's balance.

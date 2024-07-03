@@ -40,19 +40,23 @@ class Service extends Model
      */
     protected function quantity(): Attribute
     {
+
         return Attribute::make(
             get: function () {
-
-                $books = $this->books()->whereRaw('start=time')
-                    ->where('status', 'completed');
-                if (request()->get('start') && request()->get('end') && request()->branch) {
-                    $start = Carbon::parse(request()->get('start'));
-                    $end = Carbon::parse(request()->get('end'));
-                    $books =  $books->where('date', '>=', $start)
-                        ->where('date', '<=', $end)
-                        ->where('branch_id', request()->branch->id);
+                global $filter;
+                if ($filter && $filter['start'] && $filter['end'] && $filter['branch']) {
+                    $books = $this->books()->whereRaw('start=time')
+                        ->where('status', 'completed')
+                        ->where('date', '>=', $filter['start'])
+                        ->where('date', '<=', $filter['end'])
+                        ->where('branch_id', $filter['branch'])
+                        ->where('status', 'completed');
+                    if (!empty($filter['specialist'])) $books = $books->whereIn('specialist_id', $filter['specialist']);
+                    if (!empty($filter['patient'])) $books = $books->where('patient_id', $filter['patient']);
+                    if (!empty($filter['service'])) $books = $books->whereIn('service_id', $filter['service']);
+                    return $books->count();
                 }
-                return $books->count();
+                return 0;
             }
         );
     }
@@ -64,21 +68,23 @@ class Service extends Model
     {
         return Attribute::make(
             get: function () {
-                $books = $this->books()->whereRaw('start=time')
-                    ->where('status', 'completed')->with('payments');
-                if (request()->get('start') && request()->get('end') && request()->branch) {
-                    $start = Carbon::parse(request()->get('start'));
-                    $end = Carbon::parse(request()->get('end'));
-                    $books =  $books->where('date', '>=', $start)
-                        ->where('date', '<=', $end)
-                        ->where('branch_id', request()->branch->id);
-                }
+                global $filter;
                 $sum = 0;
-                foreach ($books->get() as $book) {
-                    foreach ($book->payments as $payment) {
-                        $sum += $payment->sum;
-                    }
+                if ($filter && $filter['start'] && $filter['end'] && $filter['branch']) {
+                    $books = $this->books()->whereRaw('start=time')
+                        ->where('status', 'completed')
+                        ->where('date', '>=', $filter['start'])
+                        ->where('date', '<=', $filter['end'])
+                        ->where('branch_id', $filter['branch'])
+                        ->where('status', 'completed');
+                    if (!empty($filter['specialist'])) $books = $books->whereIn('specialist_id', $filter['specialist']);
+                    if (!empty($filter['patient'])) $books = $books->where('patient_id', $filter['patient']);
+                    if (!empty($filter['service'])) $books = $books->whereIn('service_id', $filter['service']);
+                    foreach ($books->with('payments')->get() as $book)
+                        foreach ($book->payments as $payment)
+                            $sum += $payment->sum;
                 }
+
                 return $sum;
             }
         );

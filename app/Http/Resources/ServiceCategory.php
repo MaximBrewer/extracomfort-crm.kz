@@ -18,6 +18,7 @@ class ServiceCategory extends JsonResource
             'id' => $this->id,
             'sort' => $this->sort,
             'title' => $this->title,
+            'direction_id' => $this->direction_id,
             'services' => Service::collection($this->services),
         ];
     }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Common;
 use App\Http\Controllers\Client;
 use App\Http\Controllers\Specialist;
 use App\Http\Controllers\Recieption;
@@ -72,10 +73,9 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::get('{branch}/timetable/{date?}', [Recieption\TimetableController::class, 'index'])->name('timetable');
     Route::get('{branch}/reminders/{date?}', [Recieption\RemindersController::class, 'index'])->name('reminders');
 
-    Route::get('{branch}/patients', [Recieption\SearchController::class, 'patients'])->name('search.patients');
+    Route::get('search/patients', [Common\SearchController::class, 'patients'])->name('search.patients');
 
     Route::get('patients', Recieption\PatientsController::class)->name('patients');
-    Route::get('search/patients', [Recieption\PatientsController::class, 'search']);
 
     Route::group(['prefix' => 'patient', 'as' => 'patient.'],  function () {
         Route::get('create', [Recieption\PatientsController::class, 'create'])->name('create');

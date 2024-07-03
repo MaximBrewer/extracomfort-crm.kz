@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Recieption;
+namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 
 class SearchController extends Controller
 {
@@ -25,7 +26,7 @@ class SearchController extends Controller
         return ['options' => $patients->map(function ($patient) {
             return [
                 'value' => $patient->id,
-                'label' => $patient->lastname . ' ' . $patient->name . ' ' . $patient->surname . ' ' . $patient->phone
+                'label' => trim($patient->fio . ($patient->birthdate ? (' ' . Carbon::parse($patient->birthdate)->format('d.m.Y')) : '') . ($patient->tin ? (' ' . $patient->tin) : ''))
             ];
         })];
     }

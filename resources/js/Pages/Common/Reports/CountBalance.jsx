@@ -1,71 +1,14 @@
-import PrimaryButton from '@/Components/PrimaryButton';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, router, useForm, usePage } from '@inertiajs/react';
-import { forwardRef } from 'react';
-import DatePicker, { registerLocale, setDefaultLocale } from "react-datepicker";
-import ru from 'date-fns/locale/ru';
-import moment from 'moment';
-import Select, { components } from 'react-select';
-import { useEffect } from 'react';
 import paymethods from '@/data/paymethods';
-import { customStyles, Th, Td, CustomInput, DropdownIndicator, Navigate } from './Components';
-
-setDefaultLocale(ru);
-registerLocale('ru', ru);
+import { Th, Td, Navigate } from './Components';
+import Filter from './Filter';
 
 export default (props) => {
 
     const {
-        branch,
         pagetitle,
-        auth,
-        start = null,
-        end = null,
-        branches = { data: [] },
-        specialists = { data: [] },
-        directions = { data: [] },
-        books = { data: [] },
-        specialist = null,
-        direction = null,
-        reports = [],
-        report
-    } = usePage().props
-
-
-    console.log(books)
-
-    const { data, setData, get, processing, errors, reset, transform } = useForm({
-        start: start && moment(start).isValid() ? new Date(start) : null,
-        end: end && moment(end).isValid() ? new Date(end) : null,
-        specialist: specialist,
-        direction: direction
-    });
-
-    transform(data => ({
-        ...data,
-        start: moment(data.start).isValid() ? moment(data.start).format('YYYY-MM-DD') : null,
-        end: moment(data.end).isValid() ? moment(data.end).format('YYYY-MM-DD') : null,
-        specialist: data.specialist ? data.specialist.id : null,
-        direction: data.direction ? data.direction.id : null
-    }))
-
-    useEffect(() => {
-        !specialist || (data.specialist && specialist.id !== data.specialist.id) && setData(prev => ({
-            ...prev,
-            direction: null
-        }))
-    }, [data.specialist])
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        get(route(`${auth.user.role.name}.reports.countbalance`, {
-            branch: branch.data.id
-        }), {
-            onSuccess: () => {
-
-            }
-        });
-    }
+        books = { data: [] }
+    } = props
 
     const countServicePrice = () => {
         let sum = 0;
@@ -132,82 +75,14 @@ export default (props) => {
 
     return (
         <AuthenticatedLayout
+            scrollpage={true}
             auth={props.auth}
             errors={props.errors}
             heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
         >
             <div className="rounded-lg shadow-block bg-white pb-12 pt-5 px-8">
                 <Navigate {...props} />
-                <form className={`my-6 grid grid-cols-3 gap-4`} action="" onSubmit={handleSubmit}>
-                    <div className="grid grid-cols-2 gap-4">
-                        <div className="flex flex-col gap-2">
-                            <label>Начало периода:</label>
-                            <DatePicker
-                                customInput={<CustomInput />}
-                                selected={data.start}
-                                placeholderText="__.__.____"
-                                dateFormat={`dd.MM.yyyy`}
-                                onChange={(date) => setData('start', date)}
-                            />
-                        </div>
-                        <div className="flex flex-col gap-2">
-                            <label>Конец периода:</label>
-                            <DatePicker
-                                customInput={<CustomInput />}
-                                selected={data.end}
-                                placeholderText="__.__.____"
-                                dateFormat={`dd.MM.yyyy`}
-                                onChange={(date) => setData('end', date)}
-                            />
-                        </div>
-                    </div>
-                    <div className="flex flex-col gap-2">
-                        <label>Cпециалист:</label>
-                        <Select
-                            getOptionLabel={el => el.fullName}
-                            getOptionValue={el => el.id}
-                            styles={customStyles}
-                            isClearable={true}
-                            isMulti={true}
-                            components={{ DropdownIndicator }}
-                            options={specialists.data}
-                            value={specialists.data.find(el => data.specialist && el.id == data.specialist.id)}
-                            onChange={value => {
-                                console.log(value)
-                                setData(prev => ({
-                                    ...prev,
-                                    specialist: value
-                                }))
-                            }}
-                            placeholder="Выбрать из списка"
-                        />
-                    </div>
-
-                    <div className="flex flex-col gap-2">
-                        <label>Направление:</label>
-                        <Select
-                            getOptionLabel={el => el.title}
-                            getOptionValue={el => el.id}
-                            styles={customStyles}
-                            isClearable={true}
-                            isMulti={true}
-                            components={{ DropdownIndicator }}
-                            options={directions.data}
-                            value={data.direction ? directions.data.find(el => data.direction && el.id == data.direction.id) : null}
-                            onChange={value => setData(prev => ({
-                                ...prev,
-                                direction: value
-                            }))}
-                            placeholder="Выбрать из списка"
-                        />
-                    </div>
-                    <div className="col-span-4 flex justify-end">
-                        <PrimaryButton disabled={processing} size="">Сформировать отчет</PrimaryButton>
-                    </div>
-
-                </form>
-
-
+                <Filter />
                 {books.data.length ? <div className="overflow-auto">
                     <table className="my-6 table-auto w-full mb-16 text-xs">
                         <thead>

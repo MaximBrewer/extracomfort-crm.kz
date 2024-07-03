@@ -6,7 +6,6 @@ import Select from 'react-select';
 
 export function Navigate({ reports, title, branches, branch }) {
 
-    console.log(reports)
     return <>
         <div className="grid grid-cols-2 gap-6">
             <Select

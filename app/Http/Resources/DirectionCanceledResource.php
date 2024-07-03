@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class DirectionReceptionResource extends JsonResource
+class DirectionCanceledResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

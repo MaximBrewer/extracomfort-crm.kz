@@ -180,7 +180,7 @@ class PatientsController extends Controller
 
     public function toShop(Request $request, Book $book)
     {
-        $task = Auth::user()->tasks()->create([
+        $task = User::find(Auth::id())->tasks()->create([
             'title' => $request->type == 0 ? 'Изготовление обуви' : 'Изготовление стелеек',
             'user_id' => Auth::id(),
             'entity_type' => Book::class,
@@ -204,7 +204,7 @@ class PatientsController extends Controller
 
     public function toRecieption(Request $request, Book $book)
     {
-        $task = Auth::user()->tasks()->create([
+        $task = User::find(Auth::id())->tasks()->create([
             'title' => 'План реабилитации',
             'user_id' => Auth::id(),
             'entity_type' => Book::class,

@@ -14,11 +14,13 @@ class ServiceCategoryReport extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        global $filter;
+
         return [
             'id' => $this->id,
             'sort' => $this->sort,
             'title' => $this->title,
-            'services' => ServiceReport::collection($this->services),
+            'services' => ServiceReport::collection(!empty($filter['services']) ? $this->services()->whereIn('id', $filter['services'])->get() : $this->services),
             'quantity' => $this->quantity,
             'sum' => $this->sum,
         ];

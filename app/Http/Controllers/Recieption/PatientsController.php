@@ -128,10 +128,4 @@ class PatientsController extends Controller
         $data['directions'] = ResourcesDirection::collection(Direction::all());
         $data['localities'] = ResourcesLocality::collection(Locality::all());
     }
-
-
-    public function search(Request $request)
-    {
-        return ['patients' => Patient::collection(ModelsPatient::where('lastname', 'like', '%' . $request->get('query') . '%')->limit(10)->get())];
-    }
 }

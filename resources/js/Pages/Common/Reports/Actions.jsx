@@ -99,6 +99,7 @@ export default (props) => {
                         </div>
                     </div>
 
+   
                     <div className="flex flex-col gap-2">
                         <label>Направление:</label>
                         <Select
@@ -112,6 +113,24 @@ export default (props) => {
                             onChange={value => setData(prev => ({
                                 ...prev,
                                 direction: value
+                            }))}
+                            placeholder="Выбрать из списка"
+                        />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                        <label>Специалисты:</label>
+                        <Select
+                            getOptionLabel={el => el.fullName}
+                            getOptionValue={el => el.id}
+                            styles={customStyles}
+                            isClearable={true}
+                            isMulti={true}
+                            components={{ DropdownIndicator }}
+                            options={specialists.data}
+                            value={specialists.data.filter(el => !!data.specialists && data.specialists.find(sp => el.id == sp.id))}
+                            onChange={values => setData(prev => ({
+                                ...prev,
+                                specialists: values
                             }))}
                             placeholder="Выбрать из списка"
                         />

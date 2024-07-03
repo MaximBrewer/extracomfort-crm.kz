@@ -64,7 +64,7 @@ const monthes = [
 
 export default () => {
 
-    const { auth, genders, localities, hears, patient = null } = usePage().props
+    const { auth, genders, localities, hears, consultants, patient = null } = usePage().props
 
     const { zeroPad } = useLayout();
 
@@ -85,6 +85,7 @@ export default () => {
         gender: patient && patient.gender ? patient.gender : `male`,
         locality_id: patient && patient.locality_id ? patient.locality_id : localities.data[0].id,
         hear_id: patient && patient.hear_id ? patient.hear_id : hears.data[0].id,
+        consultant_id: patient && patient.consultant_id ? patient.consultant_id : consultants.data[0].id,
     });
 
     useEffect(() => {
@@ -98,7 +99,7 @@ export default () => {
     const submit = (e) => {
         e.preventDefault();
         if (patient && patient.id)
-            patch(route(`${auth.user.role.name}.patients.update`, {
+            patch(route(`${auth.user.role.name}.patient.update`, {
                 patient: patient.id
             }), {
                 onSuccess: () => {
@@ -106,7 +107,7 @@ export default () => {
                 }
             });
         else
-            post(route(`${auth.user.role.name}.patients.store`), {
+            post(route(`${auth.user.role.name}.patient.store`), {
                 onSuccess: () => {
 
                 }
@@ -258,7 +259,7 @@ export default () => {
                         <InputError message={errors.birthdate} className="mt-2" />
                     </div>
                     <div className="mb-4">
-                        <div className={`grid grid-cols-3 gap-8`}>
+                        <div className={`grid grid-cols-2 gap-8`}>
                             <div className="">
                                 <InputLabel htmlFor="gender" value="Пол*" color={`text-gray-200`} weight={`normal`} />
                                 <select value={data.gender} onChange={e => setData(`gender`, e.target.value)} className={`w-full rounded bg-white border border-gray-900 border-opacity-[.12] ring-0 mt-1 block w-full`}>
@@ -273,12 +274,23 @@ export default () => {
                                 </select>
                                 <InputError message={errors.locality_id} className="mt-2" />
                             </div>
+                        </div>
+                    </div>
+                    <div className="mb-4">
+                        <div className={`grid grid-cols-2 gap-8`}>
                             <div className="">
                                 <InputLabel htmlFor="hear_id" value="Откуда о нас узнали" color={`text-gray-200`} weight={`normal`} />
                                 <select value={data.hear_id} onChange={e => setData('hear_id', e.target.value)} className={`w-full rounded bg-white border border-gray-900 border-opacity-[.12] ring-0 mt-1 block w-full`}>
                                     {hears.data.map((hear, hdx) => <option value={hear.id} key={hdx}>{hear.name}</option>)}
                                 </select>
-                                <InputError message={errors.locality_id} className="mt-2" />
+                                <InputError message={errors.hear_id} className="mt-2" />
+                            </div>
+                            <div className="">
+                                <InputLabel htmlFor="consultant_id" value="Консультант" color={`text-gray-200`} weight={`normal`} />
+                                <select value={data.consultant_id} onChange={e => setData('consultant_id', e.target.value)} className={`w-full rounded bg-white border border-gray-900 border-opacity-[.12] ring-0 mt-1 block w-full`}>
+                                    {consultants.data.map((consultant, hdx) => <option value={consultant.id} key={hdx}>{consultant.fullName}</option>)}
+                                </select>
+                                <InputError message={errors.consultant_id} className="mt-2" />
                             </div>
                         </div>
                     </div>

@@ -69,7 +69,14 @@ class EventServiceProvider extends ServiceProvider
         ],
         PatientCreated::class => [
             SendPatientCreatedNotification::class
-        ]
+        ],
+        \Bigperson\Exchange1C\Events\AfterOffersSync::class => [
+            \App\Listeners\AfterOffersSync::class,
+        ],
+        \Bigperson\Exchange1C\Events\AfterProductsSync::class => [
+            \App\Listeners\AfterProductsSync::class,
+        ],
+
     ];
 
     /**

@@ -35,6 +35,7 @@ class Controller extends BaseController
         Inertia::share('auth', $user ? ['user' => new ResourcesUser($user)] : []);
         Inertia::share('paymethods', TopUp::getMethodOptions());
         Inertia::share('hears', ResourcesHear::collection(Hear::all()));
+        Inertia::share('consultants', ResourcesUser::collection(User::where('role_id', 7)->get()));
         return $this->{$method}(...array_values($parameters));
     }
 }

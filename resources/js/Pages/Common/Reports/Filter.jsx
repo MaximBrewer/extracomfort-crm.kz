@@ -26,6 +26,7 @@ const Filter = () => {
         direction = { data: [] },
         service = { data: [] },
         patient = { data: [] },
+        consultant = { data: [] },
         report
     } = usePage().props
 
@@ -37,7 +38,8 @@ const Filter = () => {
         specialist: specialist.data,
         direction: direction.data,
         service: service.data,
-        patient: patient.data
+        patient: patient.data,
+        consultant: consultant.data
     });
 
     transform(data => ({
@@ -48,6 +50,7 @@ const Filter = () => {
         direction: data.direction ? data.direction.map(el => el.id).join('_') : null,
         service: data.service ? data.service.map(el => el.id).join('_') : null,
         patient: data.patient ? data.patient.value : null,
+        consultant: data.consultant ? data.consultant.value : null,
     }))
 
     useEffect(() => {
@@ -115,6 +118,18 @@ const Filter = () => {
             resolve(filterPatients(inputValue))
         });
 
+    const filterConsultants = async (inputValue) => {
+        const response = await axios.get(route(`${auth.user.role.name}.search.consultants`, {
+            query: inputValue
+        }))
+        return response.data.options;
+    };
+
+    const promiseConsultants = (inputValue) =>
+        new Promise((resolve) => {
+            resolve(filterConsultants(inputValue))
+        });
+
     return <form className={`my-6`} action="" onSubmit={handleSubmit}>
         <div className="grid grid-cols-12 gap-4 mb-4">
             <div className="flex flex-col gap-2 col-span-2">
@@ -137,67 +152,89 @@ const Filter = () => {
                     onChange={(date) => setData('end', date)}
                 />
             </div>
-            <div className="flex flex-col gap-2 col-span-4">
-                <label>Cпециалист:</label>
-                <Select
-                    getOptionLabel={el => el.fullName}
-                    getOptionValue={el => el.id}
-                    styles={customStyles}
-                    isClearable={true}
-                    isMulti={true}
-                    components={{ DropdownIndicator }}
-                    options={specialists.data}
-                    value={data.specialist}
-                    onChange={value => {
-                        setData(prev => ({
+            {report !== 'bonus' ? <>
+                <div className="flex flex-col gap-2 col-span-4">
+                    <label>Cпециалист:</label>
+                    <Select
+                        getOptionLabel={el => el.fullName}
+                        getOptionValue={el => el.id}
+                        styles={customStyles}
+                        isClearable={true}
+                        isMulti={true}
+                        components={{ DropdownIndicator }}
+                        options={specialists.data}
+                        value={data.specialist}
+                        onChange={value => {
+                            setData(prev => ({
+                                ...prev,
+                                specialist: value
+                            }))
+                        }}
+                        placeholder="Выбрать из списка"
+                    />
+                </div>
+
+                <div className="flex flex-col gap-2 col-span-4">
+                    <label>Направление:</label>
+                    <Select
+                        getOptionLabel={el => el.title}
+                        getOptionValue={el => el.id}
+                        styles={customStyles}
+                        isClearable={true}
+                        isMulti={true}
+                        components={{ DropdownIndicator }}
+                        options={directions.data}
+                        value={data.direction}
+                        onChange={value => setData(prev => ({
                             ...prev,
-                            specialist: value
-                        }))
-                    }}
-                    placeholder="Выбрать из списка"
-                />
-            </div>
+                            direction: value
+                        }))}
+                        placeholder="Выбрать из списка"
+                    />
+                </div>
 
-            <div className="flex flex-col gap-2 col-span-4">
-                <label>Направление:</label>
-                <Select
-                    getOptionLabel={el => el.title}
-                    getOptionValue={el => el.id}
-                    styles={customStyles}
-                    isClearable={true}
-                    isMulti={true}
-                    components={{ DropdownIndicator }}
-                    options={directions.data}
-                    value={data.direction}
-                    onChange={value => setData(prev => ({
-                        ...prev,
-                        direction: value
-                    }))}
-                    placeholder="Выбрать из списка"
-                />
-            </div>
-
-            {services.length ? <div className="flex flex-col gap-2 col-span-12">
-                <label>Услуга:</label>
-                {data.service.title}
-                <Select
-                    getOptionLabel={el => el.title}
-                    getOptionValue={el => el.id}
-                    styles={customStyles}
-                    isClearable={true}
-                    isMulti={true}
-                    components={{ DropdownIndicator }}
-                    options={services}
-                    value={data.service}
-                    onChange={value => setData(prev => ({
-                        ...prev,
-                        service: value
-                    }))}
-                    placeholder="Выбрать из списка"
-                />
-            </div> : <></>}
-            <div className="flex flex-col gap-2 col-span-12">
-                <label>Пациент:</label>
+                {services.length ? <div className="flex flex-col gap-2 col-span-12">
+                    <label>Услуга:</label>
+                    {data.service.title}
+                    <Select
+                        getOptionLabel={el => el.title}
+                        getOptionValue={el => el.id}
+                        styles={customStyles}
+                        isClearable={true}
+                        isMulti={true}
+                        components={{ DropdownIndicator }}
+                        options={services}
+                        value={data.service}
+                        onChange={value => setData(prev => ({
+                            ...prev,
+                            service: value
+                        }))}
+                        placeholder="Выбрать из списка"
+                    />
+                </div> : <></>}
+                <div className="flex flex-col gap-2 col-span-12">
+                    <label>Пациент:</label>
+                    <AsyncSelect
+                        className="w-full mb-4"
+                        styles={customStyles}
+                        components={{ DropdownIndicator }}
+                        cacheOptions
+                        defaultOptions
+                        isClearable={true}
+                        isMulti={false}
+                        value={data.patient}
+                        loadOptions={promiseOptions}
+                        // getOptionLabel={p => `${p.lastname} ${p.name} ${p.surname} ${p.phone ? `(${p.phone})` : `${p.email ? `(${p.email})` : ``}`}`}
+                        // getOptionValue={p => p.id}
+                        onChange={value => setData(prev => ({
+                            ...prev,
+                            patient: value
+                        }))}
+                        placeholder="Введите имя, телефон или e-mail"
+                    />
+                </div>
+            </> : <div className="flex flex-col gap-2 col-span-12">
+                <label>Констультант:</label>
                 <AsyncSelect
                     className="w-full mb-4"
                     styles={customStyles}
@@ -206,17 +243,20 @@ const Filter = () => {
                     defaultOptions
                     isClearable={true}
                     isMulti={false}
-                    value={data.patient}
-                    loadOptions={promiseOptions}
+                    value={data.consultant}
+                    loadOptions={promiseConsultants}
                     // getOptionLabel={p => `${p.lastname} ${p.name} ${p.surname} ${p.phone ? `(${p.phone})` : `${p.email ? `(${p.email})` : ``}`}`}
                     // getOptionValue={p => p.id}
                     onChange={value => setData(prev => ({
                         ...prev,
-                        patient: value
+                        consultant: value
                     }))}
                     placeholder="Введите имя, телефон или e-mail"
                 />
-            </div>
+            </div>}
+
+
+
 
         </div>
         <div className="flex justify-end">

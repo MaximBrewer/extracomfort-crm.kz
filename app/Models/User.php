@@ -169,6 +169,8 @@ class User extends Authenticatable
         'locality_id',
         'ais_id',
         'external_id',
+        'hear_id',
+        'consultant_id',
         'branch_id',
     ];
 
@@ -261,6 +263,15 @@ class User extends Authenticatable
         static::addGlobalScope('withDirections', function (Builder $builder) {
             $builder->with('directions')->with('locality');
         });
+    }
+    /**
+     * Interact with the user's balance.
+     */
+    protected function createdAt(): Attribute
+    {
+        return Attribute::make(
+            get: fn ($value) => Carbon::parse($value)->format('d.m.Y')
+        );
     }
 
     /**

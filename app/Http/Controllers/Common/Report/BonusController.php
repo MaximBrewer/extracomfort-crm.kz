@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Common\Report;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Bonus;
 use App\Http\Resources\BookDebt;
 use App\Http\Resources\DirectionWoWrapTizer;
 use App\Http\Resources\ServiceWoWrapTizer;
@@ -31,6 +32,7 @@ class BonusController extends Controller
         $filter = [];
         $filter['specialist'] = $request->specialist ? explode("_", $request->specialist) : [];
         $filter['patient'] = (int)$request->patient;
+        $filter['consultant'] = (int)$request->consultant;
         $filter['service'] = $request->service ? explode("_", $request->service) : [];
         $filter['direction'] = $request->direction ? explode("_", $request->direction) : [];
         $filter['start'] = $request->start ? Carbon::parse($request->start) : null;
@@ -38,33 +40,15 @@ class BonusController extends Controller
         $filter['branch'] = $branch->id;
 
         $patient = User::find($filter['patient']);
+        $consultant = User::find($filter['consultant']);
 
+        $users = null;
 
-        $books = null;
-
-        if ($filter['start'] && $filter['end']) {
-            $books = Book::whereRaw('start=time')
-                ->where('status', 'completed')
-                ->where(function (Builder $query) {
-                    $query->whereDoesntHave('payment')
-                        ->orWhereHas('payment', function (Builder $q) {
-                            $q->whereRaw('price <> sum');
-                        });
-                })
-                ->where('date', '>=', $filter['start'])
-                ->where('date', '<=', $filter['end'])
-                ->where('branch_id', $branch->id);
-            if (!empty($filter['specialist'])) $books = $books->whereIn('specialist_id', $filter['specialist']);
-            if (!empty($filter['patient'])) $books = $books->where('patient_id', $filter['patient']);
-            if (!empty($filter['service'])) $books = $books->whereIn('service_id', $filter['service']);
-            if (!empty($filter['direction'])) {
-                $direction = $filter['direction'];
-                $books = $books->whereHas('service', function (Builder $query) use ($direction) {
-                    $query->whereHas('category', function (Builder $query) use ($direction) {
-                        $query->whereIn('direction_id', $direction);
-                    });
-                });
-            }
+        if ($filter['start'] && $filter['end'] && $filter['consultant']) {
+            $users = User::where('role_id', 2)
+                ->where('created_at', '>=', $filter['start'])
+                ->where('created_at', '<=', $filter['end'])
+                ->where('consultant_id', $filter['consultant']);
         }
 
         $data = array_merge($this->getCommonData($request, $branch, 'bonus'), [
@@ -77,7 +61,19 @@ class BonusController extends Controller
                     'label' => trim($patient->fio . ($patient->birthdate ? (' ' . Carbon::parse($patient->birthdate)->format('d.m.Y')) : '') . ($patient->tin ? (' ' . $patient->tin) : ''))
                 ] : null
             ],
-            'results' => BookDebt::collection($books ? $books->orderBy('date')->with('service')->with('patient')->with('payment')->get() : []),
+            'consultant' => [
+                'data' => $consultant ? [
+                    'value' => $consultant->id,
+                    'label' => trim($consultant->fio . ($consultant->birthdate ? (' ' . Carbon::parse($consultant->birthdate)->format('d.m.Y')) : '') . ($consultant->tin ? (' ' . $consultant->tin) : ''))
+                ] : null
+            ],
+            'results' => Bonus::collection($users ? $users->orderBy('created_at')->with('booksPatient', function ($query) use ($filter) {
+                $query->whereRaw('start=time')
+                    ->where('status', 'completed')
+                    ->where('date', '>=', $filter['start'])
+                    ->where('date', '<=', $filter['end'])
+                    ->where('branch_id', $filter['branch']);;
+            })->get() : []),
         ]);
 
         return Inertia::render('Common/Reports/Bonus', $data);

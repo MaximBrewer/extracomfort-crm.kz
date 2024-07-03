@@ -74,6 +74,7 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::get('{branch}/reminders/{date?}', [Recieption\RemindersController::class, 'index'])->name('reminders');
 
     Route::get('search/patients', [Common\SearchController::class, 'patients'])->name('search.patients');
+    Route::get('search/consultants', [Common\SearchController::class, 'consultants'])->name('search.consultants');
 
     Route::get('patients', Recieption\PatientsController::class)->name('patients');
 
@@ -180,7 +181,7 @@ Route::group(['prefix' => 'specialist', 'as' => 'specialist.', 'middleware' => [
     Route::get('appointment/{book}', [Specialist\PatientsController::class, 'appointment'])->name('appointment');
     Route::post('appointment/{book}', [Specialist\PatientsController::class, 'appointmentUpdate'])->name('appointment.update');
     Route::post('appointment/{book}/file', [Specialist\PatientsController::class, 'appointmentFile'])->name('appointment.file');
-    
+
     Route::patch('appointment/{book}/toshop', [Specialist\PatientsController::class, 'toShop'])->name('appointment.toshop');
     Route::patch('appointment/{book}/torecieption', [Specialist\PatientsController::class, 'toRecieption'])->name('appointment.torecieption');
 

@@ -45,19 +45,18 @@ export default (props) => {
                             </tr>
                         </thead>
                         <tbody>
-                            {results.data.map((book, bdx) => <tr key={bdx}>
-                                {/* <Td>{book.date}</Td>
-                                <Td>{book.patient}</Td>
-                                <Td>{book.service}</Td> */}
+                            {results.data.map((user, bdx) => <tr key={bdx}>
+                                <Td>{user.created_at}</Td>
+                                <Td className={`w-1/2`}>{user.full_name}</Td>
+                                <Td className={`w-1/2`}>{user.books.map(el => el.service.title).join(', ')}</Td>
+                                {/* <Td>{book.service}</Td> */}
                             </tr>)}
                         </tbody>
-                        {/* <tfoot>
+                        <tfoot>
                             <tr>
-                                <Td colSpan={3} className={`text-right font-bold text-sm`}>Итого по филиалу:</Td>
-                                <Td colSpan={1} className={`text-center`}>{getQuantity()}</Td>
-                                <Td colSpan={1} className={`text-center`}>{getSum()}</Td>
+                                <Td colSpan={3} className={`text-right font-bold text-sm`}>Итого: {results.data.length}</Td>
                             </tr>
-                        </tfoot> */}
+                        </tfoot>
                     </table>
                 </div> : <></>}
             </div >

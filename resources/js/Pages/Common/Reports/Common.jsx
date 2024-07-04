@@ -157,6 +157,11 @@ export default (props) => {
                                     <Td>{countDuty()}</Td>
                                     <Td>{countFree()}</Td>
                                 </tr>
+                                <tr>
+                                    <Td colSpan={4} className={`text-right`}>Средний чек:</Td>
+                                    <Td className={`font-bold`}>{Math.round(countServiceDiscoutPrice() / books.data.length)}</Td>
+                                    <Td colSpan={8}></Td>
+                                </tr>
                             </tfoot>
                         </table>
                     </div> : <></>

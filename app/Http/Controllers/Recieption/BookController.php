@@ -11,7 +11,8 @@ use App\Http\Resources\BookSpecialist;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\DirectionSpecialist;
 use App\Http\Resources\Locality as ResourcesLocality;
-use App\Http\Resources\Specialist;
+use App\Http\Resources\Specialist as ResourcesSpecialist;
+use App\Models\Specialist;
 use App\Models\Book;
 use App\Models\Branch;
 use App\Models\Direction;
@@ -86,7 +87,7 @@ class BookController extends Controller
         $data['books'] = BookSpecialist::collection($specialist->booksSpecialist()->where('date', '>=', $startOfWeek)->where('date', '<=', $endOfWeek)->get());
         $data['specialists'] = Specialist::all();
         $data['pagetitle'] = 'Расписание специалиста';
-        $data['specialist'] = new Specialist($specialist);
+        $data['specialist'] = new ResourcesSpecialist($specialist);
         $data['patient'] = $patient;
         $data['branch'] = $branch;
         $data['week'] = $week;

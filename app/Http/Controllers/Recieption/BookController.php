@@ -84,7 +84,7 @@ class BookController extends Controller
 
         $this->getCommonData($data);
         $data['books'] = BookSpecialist::collection($specialist->booksSpecialist()->where('date', '>=', $startOfWeek)->where('date', '<=', $endOfWeek)->get());
-        $data['specialists'] = $branch->specialists;
+        $data['specialists'] = Specialist::all();
         $data['pagetitle'] = 'Расписание специалиста';
         $data['specialist'] = new Specialist($specialist);
         $data['patient'] = $patient;
@@ -110,7 +110,6 @@ class BookController extends Controller
 
         $this->getCommonData($data);
         $data['specialists'] = DirectionSpecialist::collection($direction->specialists()
-            ->where('branch_id', $branch->id)
             ->with(['booksSpecialist' => function (HasMany $hasMany) use ($date) {
                 $hasMany->where('date', $date);
             }])

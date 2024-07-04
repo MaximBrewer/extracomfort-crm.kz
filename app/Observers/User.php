@@ -25,6 +25,14 @@ class User
         return true;
     }
 
+    public function deleting(ModelsUser $model)
+    {
+        $model->phone = null;
+        $model->email = null;
+        $model->saveQuietly();
+        return true;
+    }
+
     private function sendUserTo1c(ModelsUser $model)
     {
         sleep(1);

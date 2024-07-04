@@ -25,7 +25,7 @@ export default (props) => {
     transform((data) => ({
         ...data,
         service: data.service ? data.service.id : null,
-        patient: data.patient ? data.patient.id : null,
+        patient: data.patient ? data.patient.value : null,
     }))
 
     const submit = (e) => {

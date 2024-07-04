@@ -40,7 +40,7 @@ class BookController extends Controller
         $data['patient'] = $patient;
         $data['branch'] = $branch;
         $data['week'] = Carbon::now()->startOfWeek()->format('W');
-        $data['specialists'] = Specialist::all();
+        $data['specialists'] = Specialist::with('directions')->get();
         return Inertia::render('Recieption/Book/Branch/Index', $data);
     }
 
@@ -85,7 +85,7 @@ class BookController extends Controller
 
         $this->getCommonData($data);
         $data['books'] = BookSpecialist::collection($specialist->booksSpecialist()->where('date', '>=', $startOfWeek)->where('date', '<=', $endOfWeek)->get());
-        $data['specialists'] = Specialist::all();
+        $data['specialists'] = Specialist::with('directions')->get();
         $data['pagetitle'] = 'Расписание специалиста';
         $data['specialist'] = new ResourcesSpecialist($specialist);
         $data['patient'] = $patient;

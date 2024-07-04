@@ -102,6 +102,7 @@ class Offer extends Model implements OfferInterface
                 'quantity' => (float)$offer->Количество,
             ]
         );
+        if (strstr($offer->id, '1fd5839a-47e1-11ee-9605-a8a159d9f0dc')) var_dump($offer->Количество);
         if (!$offer->wasRecentlyCreated && $offer->quantity !== (float)$offer->Количество) {
             $offer->quantity = (float)$offer->Количество;
             $offer->save();

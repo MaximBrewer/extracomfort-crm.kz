@@ -110,6 +110,7 @@ class BookController extends Controller
 
         $this->getCommonData($data);
         $data['specialists'] = DirectionSpecialist::collection($direction->specialists()
+            ->where('branch_id', $branch->id)
             ->with(['booksSpecialist' => function (HasMany $hasMany) use ($date) {
                 $hasMany->where('date', $date);
             }])

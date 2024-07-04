@@ -39,7 +39,7 @@ class BookController extends Controller
         $data['patient'] = $patient;
         $data['branch'] = $branch;
         $data['week'] = Carbon::now()->startOfWeek()->format('W');
-        $data['specialists'] = $branch->specialists;
+        $data['specialists'] = Specialist::all();
         return Inertia::render('Recieption/Book/Branch/Index', $data);
     }
 

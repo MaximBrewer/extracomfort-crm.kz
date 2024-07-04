@@ -64,7 +64,8 @@ class FisioController extends Controller
         } catch (\Throwable $e) {
             DB::rollBack();
             return redirect()->back()->withErrors([
-                'message' => 'На это время записать нельзя!'
+                'message' => 'На это время записать нельзя!',
+                'error' => $e->getMessage()
             ]);
         }
         DB::commit();

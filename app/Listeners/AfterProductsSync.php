@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Models\Product;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -20,6 +21,8 @@ class AfterProductsSync
      */
     public function handle(object $event): void
     {
-        $event->ids;
+        foreach (Product::whereNotIn('id', $event->ids)->where()->get() as $product) {
+            // $product->delete();
+        }
     }
 }

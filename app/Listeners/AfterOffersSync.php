@@ -2,6 +2,7 @@
 
 namespace App\Listeners;
 
+use App\Models\Offer;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 
@@ -20,6 +21,8 @@ class AfterOffersSync
      */
     public function handle(object $event): void
     {
-        $event->ids;
+        foreach (Offer::whereNotIn('id', $event->ids)->get() as $offer) {
+            $offer->delete();
+        }
     }
 }

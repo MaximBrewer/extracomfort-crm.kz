@@ -10,7 +10,6 @@ class Offer
 {
     public function created(ModelsOffer $model)
     {
-        
     }
 
     public function updated(ModelsOffer $model)
@@ -28,14 +27,16 @@ class Offer
     private function setMinPrice(ModelsOffer $model)
     {
         $minPrice = 1000000000;
-        foreach ($model->product->offers as $offer) {
-            foreach ($offer->prices as $price) {
-                $minPrice = $minPrice > $price->value ? $price->value : $minPrice;
+        if ($model->product) {
+            foreach ($model->product->offers as $offer) {
+                foreach ($offer->prices as $price) {
+                    $minPrice = $minPrice > $price->value ? $price->value : $minPrice;
+                }
             }
-        }
-        if ($minPrice < 1000000000) {
-            $model->product->min_price = $minPrice;
-            $model->product->saveQuietly();
+            if ($minPrice < 1000000000) {
+                $model->product->min_price = $minPrice;
+                $model->product->saveQuietly();
+            }
         }
     }
 

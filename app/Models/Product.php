@@ -19,13 +19,10 @@ class Product extends Model implements \Bigperson\Exchange1C\Interfaces\ProductI
 {
     use HasFactory;
 
-
-
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'product_category');
     }
-
 
     public function requisites(): BelongsToMany
     {

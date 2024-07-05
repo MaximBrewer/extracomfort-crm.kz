@@ -57,6 +57,20 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'a
             Route::resource('comments', Admin\CommentsController::class);
         });
     });
+
+    Route::group(['prefix' => '{branch}/reports', 'as' => 'reports.'],  function () {
+        Route::get('common', [Common\ReportController::class, 'common'])->name('common');
+        Route::get('detailed', [Common\ReportController::class, 'detailed'])->name('detailed');
+        Route::get('reception', [Common\ReportController::class, 'reception'])->name('reception');
+        Route::get('countbalance', [Common\ReportController::class, 'countbalance'])->name('countbalance');
+        Route::get('canceled', [Common\ReportController::class, 'canceled'])->name('canceled');
+        Route::get('debt', [Common\ReportController::class, 'debt'])->name('debt');
+        Route::get('bonus', [Common\ReportController::class, 'bonus'])->name('bonus');
+        Route::get('from', [Common\ReportController::class, 'from'])->name('from');
+        Route::get('activities', [Common\ReportController::class, 'activities'])->name('activities');
+        Route::get('actions', [Common\ReportController::class, 'actions'])->name('actions');
+        Route::get('attendance', [Common\ReportController::class, 'attendance'])->name('attendance');
+    });
 });
 
 Route::group(['prefix' => 'supervisor', 'as' => 'supervisor.', 'middleware' => ['auth', 'supervisor']],  function () {
@@ -92,17 +106,17 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::get('specialists', Recieption\SpecialistsController::class)->name('specialists');
 
     Route::group(['prefix' => '{branch}/reports', 'as' => 'reports.'],  function () {
-        Route::get('common', [Recieption\ReportController::class, 'common'])->name('common');
-        Route::get('detailed', [Recieption\ReportController::class, 'detailed'])->name('detailed');
-        Route::get('reception', [Recieption\ReportController::class, 'reception'])->name('reception');
-        Route::get('countbalance', [Recieption\ReportController::class, 'countbalance'])->name('countbalance');
-        Route::get('canceled', [Recieption\ReportController::class, 'canceled'])->name('canceled');
-        Route::get('debt', [Recieption\ReportController::class, 'debt'])->name('debt');
-        Route::get('bonus', [Recieption\ReportController::class, 'bonus'])->name('bonus');
-        Route::get('from', [Recieption\ReportController::class, 'from'])->name('from');
-        Route::get('activities', [Recieption\ReportController::class, 'activities'])->name('activities');
-        Route::get('actions', [Recieption\ReportController::class, 'actions'])->name('actions');
-        Route::get('attendance', [Recieption\ReportController::class, 'attendance'])->name('attendance');
+        Route::get('common', [Common\ReportController::class, 'common'])->name('common');
+        Route::get('detailed', [Common\ReportController::class, 'detailed'])->name('detailed');
+        Route::get('reception', [Common\ReportController::class, 'reception'])->name('reception');
+        Route::get('countbalance', [Common\ReportController::class, 'countbalance'])->name('countbalance');
+        Route::get('canceled', [Common\ReportController::class, 'canceled'])->name('canceled');
+        Route::get('debt', [Common\ReportController::class, 'debt'])->name('debt');
+        Route::get('bonus', [Common\ReportController::class, 'bonus'])->name('bonus');
+        Route::get('from', [Common\ReportController::class, 'from'])->name('from');
+        Route::get('activities', [Common\ReportController::class, 'activities'])->name('activities');
+        Route::get('actions', [Common\ReportController::class, 'actions'])->name('actions');
+        Route::get('attendance', [Common\ReportController::class, 'attendance'])->name('attendance');
     });
 
     Route::get('specialist/{specialist}/schedule', [Recieption\SpecialistsController::class, 'schedule'])->name('specialist.schedule');

@@ -108,6 +108,14 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 active: `admin.directions`,
                 icon: <Academic className={`w-6 h-auto`} />
             },
+            {
+                title: 'Финансы',
+                route: `admin.reports.common`,
+                params: {
+                    branch: 1
+                },
+                icon: <Finance className={`w-5 h-auto`} />
+            },
         ],
         supervisor: [
             // {

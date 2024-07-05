@@ -108,8 +108,20 @@ export default (props) => {
                                 <div className={`flex space-x-5 items-center mb-5 rounded-lg overflow-hidden py-3 bg-blue-50 hover:bg-white hover:shadow-block`}>
                                     <div className={`w-[40%] flex space-x-5 items-center pl-5`}>
                                         <div className={`grow`}>
+                                            {console.log(reminder)}
                                             <div className={`font-medium`}>{reminder.patient.fullName}</div>
                                             <div className={``}>{reminder.patient.phone ? reminder.patient.phone : reminder.patient.email}</div>
+                                            {reminder.specialist ? <div className={`text-sm font-medium`}>{reminder.specialist.fio}</div> : <></>}
+                                            {reminder.service ? <>
+                                                <div className={`text-sm font-medium flex gap-2`}>
+                                                    {reminder.service.category ? <>
+                                                        {reminder.service.category.direction ? <span className={``}>{reminder.service.category.direction.title}</span> : <></>}
+                                                        {reminder.service.category.title != reminder.service.title ?
+                                                            <span className={``}>{reminder.service.category.title}</span> : <></>}
+                                                    </> : <></>}
+                                                    <span>{reminder.service.title}</span>
+                                                </div>
+                                            </> : <></>}
                                         </div>
                                     </div>
                                     <div className={`text-violet-500 text-sm w-[40%]`}>

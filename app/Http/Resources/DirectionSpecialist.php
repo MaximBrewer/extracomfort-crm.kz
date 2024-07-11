@@ -18,6 +18,7 @@ class DirectionSpecialist extends JsonResource
         $array['books'] = BookSpecialist::collection($array['books_specialist']);
         unset($array['books_specialist']);
         $array['fio'] = $this->fio;
+        $array['directions'] = Direction::collection($this->directions);
         return $array;
     }
 }

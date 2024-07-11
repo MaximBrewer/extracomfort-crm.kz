@@ -27,7 +27,7 @@ const customStyles = {
 
 export default (props) => {
 
-    const { auth, branch, patient, specialist, book = null, day = null, date = null, week = null, year, item } = props
+    const { auth, branch, patient, specialist, direction = null, book = null, day = null, date = null, week = null, year, item } = props
 
     const { setModal } = useLayout()
 
@@ -47,7 +47,7 @@ export default (props) => {
     const [services, setServices] = useState(categories.services ? categories.services : [])
 
     useEffect(() => {
-        setcategories(data.direction && data.direction.categories.length ? data.direction.categories : [])
+        setcategories(data.direction && data.direction.categories && data.direction.categories.length ? data.direction.categories : [])
     }, [data.direction])
 
     useEffect(() => {

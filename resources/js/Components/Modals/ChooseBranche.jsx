@@ -25,7 +25,7 @@ const customStyles = {
 
 export default (props) => {
 
-    const { user, localities, auth, component } = props
+    const { user, localities, auth, component = 'book' } = props
 
     const { setModal } = useLayout()
 

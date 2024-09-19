@@ -230,7 +230,7 @@ const Filter = () => {
                             ...prev,
                             patient: value
                         }))}
-                        placeholder="Введите имя, телефон или e-mail"
+                        placeholder="Введите имя, телефон, тин или e-mail"
                     />
                 </div>
             </> : <div className="flex flex-col gap-2 col-span-12">
@@ -251,7 +251,7 @@ const Filter = () => {
                         ...prev,
                         consultant: value
                     }))}
-                    placeholder="Введите имя, телефон или e-mail"
+                    placeholder="Введите имя, телефон, тин или e-mail"
                 />
             </div>}
 

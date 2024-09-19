@@ -15,6 +15,12 @@ class User
         return true;
     }
 
+    public function updating(ModelsUser $model)
+    {
+        $model->searchcontent = $model->name . ' ' . $model->email . ' ' . $model->phone . ' ' . $model->lastname . ' ' . $model->surname . ' ' .
+            $model->tin . ' ' . $model->name . ' ' . $model->name . ' ' . $model->name;
+    }
+
     public function updated(ModelsUser $model)
     {
         if ($model->role && $model->role->name === 'client') {

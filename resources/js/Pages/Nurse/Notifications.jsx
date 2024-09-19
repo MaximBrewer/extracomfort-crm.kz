@@ -263,7 +263,7 @@ export default (props) => {
                                 className={`block rounded-t-lg py-2.5 px-6 shadow-bb font-medium text-3xl bg-white`}
                                 onClick={e => {
                                     e.preventDefault();
-                                }}>Напоминания</a>
+                                }}>Брони</a>
                             <div className={`absolute top-full h-2 left-0 w-full bg-white`}></div>
                         </li>
                     </ul>

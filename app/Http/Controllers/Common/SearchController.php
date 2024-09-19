@@ -14,19 +14,12 @@ class SearchController extends Controller
     {
         $q = $request->get('query');
 
-        $patients = User::where(function (Builder $query) use ($q) {
-            $query
-                ->where('name', 'like',  $q . '%')
-                ->orWhere('email', 'like', $q . '%')
-                ->orWhere('phone', 'like', $q . '%')
-                ->orWhere('lastname', 'like', $q . '%')
-                ->orWhere('surname', 'like', $q . '%');
-        })->where('role_id', 2)->limit(20)->get();
+        $patients = User::whereFullText('searchcontent', $q)->where('role_id', 2)->limit(20)->get();
 
         return ['options' => $patients->map(function ($patient) {
             return [
                 'value' => $patient->id,
-                'label' => trim($patient->fio . ($patient->birthdate ? (' ' . Carbon::parse($patient->birthdate)->format('d.m.Y')) : '') . ($patient->tin ? (' ' . $patient->tin) : ''))
+                'label' => trim($patient->fullName . ($patient->tin ? (' ' . $patient->tin) : ''))
             ];
         })];
     }

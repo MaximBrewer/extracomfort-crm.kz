@@ -22,8 +22,8 @@ return new class extends Migration
             $table->unsignedBigInteger('patient_id');
             $table->unsignedBigInteger('specialist_id');
             $table->unsignedBigInteger('recieption_id')->nullable();
-            $table->unique(['date', 'time', 'specialist_id']);
-            $table->unique(['date', 'time', 'patient_id']);
+            $table->unique(['date', 'time', 'specialist_id', 'canceled']);
+            $table->unique(['date', 'time', 'patient_id', 'canceled']);
             $table->timestamps();
         });
     }

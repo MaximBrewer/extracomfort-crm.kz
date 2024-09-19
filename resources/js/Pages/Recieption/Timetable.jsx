@@ -12,6 +12,67 @@ import ArrowDown from '@/Icons/ArrowDown';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import { Fragment, useState } from 'react';
+import Select, { components } from 'react-select';
+
+import Filter from '../Common/Filter.jsx'
+
+const customStyles = {
+    control: (styles, { data, isDisabled, isFocused, isSelected }) => {
+        return ({
+            ...styles,
+            borderRadius: `.25rem`,
+            minHeight: `1.125rem`,
+            outline: `none`,
+            borderColor: `transparent`,
+            boxShadow: `none`,
+            flexWrap: `nowrap`
+        })
+    },
+    placeholder: (styles, { data, isDisabled, isFocused, isSelected }) => {
+        return ({
+            ...styles,
+            whiteSpace: `nowrap`,
+        })
+    },
+    singleValue: (styles, { data, isDisabled, isFocused, isSelected }) => {
+        return ({
+            ...styles,
+            fontWeight: 500,
+        })
+    },
+    indicatorContainer: (styles, { data, isDisabled, isFocused, isSelected }) => {
+        return ({
+            ...styles,
+            padding: 2
+        })
+    },
+    ValueContainer2: (styles, { data, isDisabled, isFocused, isSelected }) => {
+        return ({
+            ...styles,
+            padding: 0
+        })
+    },
+    option: (styles, { data, isDisabled, isFocused, isSelected }) => {
+        return ({
+            ...styles,
+            paddingTop: `2px`,
+            paddingBottom: `2px`,
+        })
+    },
+    indicatorSeparator: (styles, { data, isDisabled, isFocused, isSelected }) => ({
+        ...styles,
+        backgroundColor: `transparent`
+    }),
+};
+const DropdownIndicator = (props) => {
+    return (
+        <components.DropdownIndicator {...props}>
+            <svg width="16" height="6" className="text-purple-900" viewBox="0 0 16 6" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M6.63656 5.35044L0.214103 0.86339C-0.241616 0.545002 0.0811491 0.000608444 0.725521 0.000608444L14.5935 0.000608444C15.238 0.000608444 15.5607 0.545002 15.105 0.86339L8.68252 5.35044C8.11757 5.74517 7.2015 5.74517 6.63656 5.35044Z" fill="currentColor" />
+            </svg>
+        </components.DropdownIndicator>
+    );
+};
 
 const Status = (props) => {
     const { auth, book } = props;
@@ -56,7 +117,10 @@ const Payment = (props) => {
 
 export default (props) => {
 
-    const { pagetitle, dateText, weekdays, prevweek, nextweek, books, branch, branches, auth } = props
+    const { pagetitle, dateText, weekdays, prevweek, nextweek, books, branch, branches, auth,
+        specialists = { data: [] },
+        directions = { data: [] },
+    } = props
 
     const [open, setOpen] = useState(false)
 
@@ -67,7 +131,8 @@ export default (props) => {
             heading={false}
         >
             <div className="pb-12 overflow-hidden flex flex-col">
-                <div className={`flex items-center justify-between`}>
+                <Filter />
+                <div className={`flex items-center justify-between gap-4`}>
                     <ul className={`flex z-1 relative`}>
                         <li className={`relative`}>
                             <a href="#"

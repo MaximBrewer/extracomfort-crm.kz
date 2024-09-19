@@ -60,7 +60,7 @@ export default (props) => {
             // getOptionLabel={p => `${p.lastname} ${p.name} ${p.surname} ${p.phone ? `(${p.phone})` : `${p.email ? `(${p.email})` : ``}`}`}
             // getOptionValue={p => p.id}
             onChange={value => setData('patient', value)}
-            placeholder="Введите имя, телефон или e-mail"
+            placeholder="Введите имя, телефон, тин или e-mail"
         />
         <div className="flex gap-4 justify-end w-full items-center">
             <SecondaryButton size="sm" className="px-4 pt-2.5 pb-2.5" onClick={e => setModal(null)}><span>Отменить</span></SecondaryButton>

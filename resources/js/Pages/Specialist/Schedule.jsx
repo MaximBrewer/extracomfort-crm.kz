@@ -174,7 +174,7 @@ export default (props) => {
         errors={props.errors}
         heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
     >
-        <div className={`shadow-block rounded-lg bg-white text-sm text-center overflow-hidden flex flex-col p-1 mb-3`}>
+        <div className={`shadow-block rounded-lg bg-white text-sm text-center overflow-hidden flex flex-col p-1 mb-3 relative`}>
             <div className='overflow-auto'>
                 <div ref={rootRef}>
                     <div className={`inline-flex bg-slate-100`}>
@@ -184,7 +184,7 @@ export default (props) => {
                         <div className={`p-5 border-l border-b border-violet-500 w-[56rem] shrink-0`}>+2 недели</div>
                         <div className={`p-5 border-l border-b border-violet-500 w-[56rem] shrink-0`}>+3 недели</div>
                     </div>
-                    <div className={`inline-flex bg-slate-100`}>
+                    <div className={`inline-flex bg-slate-100  sticky top-0 z-20`}>
                         <div className={`w-24 shrink-0`}>&nbsp;</div>
                         {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>
                             <div>{weekday.title}</div>

@@ -15,6 +15,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head, Link } from '@inertiajs/react';
 import React, { Fragment, useState } from 'react';
 
+import Filter from '../Common/Filter.jsx'
+
 
 export default (props) => {
 
@@ -31,6 +33,7 @@ export default (props) => {
             heading={false}
         >
             <div className="pb-12 overflow-hidden flex flex-col">
+                <Filter />
                 <div className={`flex items-center justify-between`}>
                     <ul className={`flex z-1 relative`}>
                         <li className={`relative`}>
@@ -45,7 +48,7 @@ export default (props) => {
                                 className={`block rounded-t-lg py-2.5 px-6 shadow-bb font-medium text-3xl bg-white`}
                                 onClick={e => {
                                     e.preventDefault();
-                                }}>Напоминания</a>
+                                }}>Брони</a>
                             <div className={`absolute top-full h-2 left-0 w-full bg-white`}></div>
                         </li>
                     </ul>

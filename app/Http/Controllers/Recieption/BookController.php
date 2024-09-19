@@ -84,7 +84,8 @@ class BookController extends Controller
         } while ($cnt < 8);
 
         $this->getCommonData($data);
-        $data['books'] = BookSpecialist::collection($specialist->booksSpecialist()->where('date', '>=', $startOfWeek)->where('date', '<=', $endOfWeek)->get());
+        $books = $specialist->booksSpecialist()->where('date', '>=', $startOfWeek)->where('status', '<>', 'canceled')->where('date', '<=', $endOfWeek)->get();
+        $data['books'] = BookSpecialist::collection($books);
         $data['specialists'] = Specialist::with('directions')->get();
         $data['pagetitle'] = 'Расписание специалиста';
         $data['specialist'] = new ResourcesSpecialist($specialist);
@@ -136,7 +137,8 @@ class BookController extends Controller
             [
                 'value' => 'male',
                 'label' => 'Мужской',
-            ], [
+            ],
+            [
                 'value' => 'female',
                 'label' => 'Женский'
             ]
@@ -149,11 +151,14 @@ class BookController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function status(Request $request, Book $book)
+    public function status(Request $request, $book)
     {
-        $book->update([
-            'status' => $request->status
-        ]);
+        $book = Book::where('id', $book)->first();
+        if ($book) {
+            $book->canceled = $request->status === 'canceled';
+            $book->status = $request->status;
+            $book->save();
+        }
         return redirect()->back();
     }
 
@@ -230,7 +235,5 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function update(BookUpdateRequest $request, Book $book, User $patient, Branch $branch, User $specialist)
-    {
-    }
+    public function update(BookUpdateRequest $request, Book $book, User $patient, Branch $branch, User $specialist) {}
 }

@@ -23,7 +23,7 @@ class RemindersController extends Controller
             abort(404);
         }
 
-        $data['pagetitle'] = 'Напоминания';
+        $data['pagetitle'] = 'Брони';
         $data['year'] = $date->format('Y');
         $data['date'] = $date->format('m.Y');
         $data['branches'] = ResourcesBranch::collection(Branch::all());

@@ -36,9 +36,7 @@ class PatientsController extends Controller
         $users =  User::where('role_id', 2);
 
         if ($request->get('q')) {
-            $users->where('name', 'like', $request->get('q') . '%')
-                ->orWhere('lastname', 'like', $request->get('q') . '%')
-                ->orWhere('surname', 'like', $request->get('q') . '%');
+            $users->whereFullText('searchcontent', $request->get('q'));
         }
 
         $data['patients'] = ResourcesUser::collection($users->paginate(50)->appends($request->only(['q'])));
@@ -119,7 +117,8 @@ class PatientsController extends Controller
             [
                 'value' => 'male',
                 'label' => 'Мужской',
-            ], [
+            ],
+            [
                 'value' => 'female',
                 'label' => 'Женский'
             ]

@@ -22,6 +22,7 @@ class BookRecieption extends JsonResource
             'date' => $this->date,
             'time' => $this->time,
             'service' => new BookRecieptionService($this->service),
+            'specialist' => new BookRecieptionSpecialist($this->specialist),
             'patient' => new BookRecieptionPatient($this->patient),
             'payments' => BookRecieptionPayment::collection($this->payments)
         ];

@@ -49,7 +49,7 @@ class TimetableController extends Controller
             $weekday->addDay();
         }
 
-        $books = $branch->books()->withTrashed()->where('date', $date->format('Y-m-d'))->orderBy('time', 'asc');
+        $books = $branch->books()->where('date', $date->format('Y-m-d'))->orderBy('time', 'asc');
 
         if (!empty($filter['specialist'])) $books = $books->whereIn('specialist_id', $filter['specialist']);
         if (!empty($filter['direction'])) {

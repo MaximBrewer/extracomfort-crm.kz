@@ -10,13 +10,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Carbon;
 
 class Book extends Model
 {
-    use HasFactory, SoftDeletes;
-    protected $fillable = ['date', 'status', 'time', 'service_id', 'branch_id', 'patient_id', 'specialist_id', 'recieption_id', 'duration', 'start'];
+    use HasFactory;
+    protected $fillable = ['date', 'status', 'time', 'service_id', 'branch_id', 'patient_id', 'specialist_id', 'recieption_id', 'duration', 'start', 'canceled'];
 
     /**
      * Get the parent imageable model (user or post).
@@ -43,7 +42,7 @@ class Book extends Model
     protected function date(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('d.m.Y')
+            get: fn($value) => Carbon::parse($value)->format('d.m.Y')
         );
     }
     /**
@@ -52,7 +51,7 @@ class Book extends Model
     protected function time(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => substr($value, 0, 5)
+            get: fn($value) => substr($value, 0, 5)
         );
     }
     /**
@@ -61,7 +60,7 @@ class Book extends Model
     protected function start(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => substr($value, 0, 5)
+            get: fn($value) => substr($value, 0, 5)
         );
     }
     /**

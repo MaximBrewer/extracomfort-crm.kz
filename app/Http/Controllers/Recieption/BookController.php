@@ -151,14 +151,32 @@ class BookController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function status(Request $request, $book)
+    public function status(Request $request, Book $book)
     {
-        $book = Book::where('id', $book)->first();
-        if ($book) {
-            $book->canceled = $request->status === 'canceled';
-            $book->status = $request->status;
-            $book->save();
+        try {
+            $date = Carbon::parse($book->date)->format("Y-m-d H:i:s");
+            $books = Book::where('date', $date)
+                ->where('start', $book->start)
+                ->where('created_at', $book->created_at)
+                ->where('branch_id', $book->branch_id)
+                ->where('service_id', $book->service_id)
+                ->where('patient_id', $book->patient_id)
+                ->where('specialist_id', $book->specialist_id)
+                ->get();
+            foreach ($books as $b) {
+                $b->update([
+                    'canceled' => $request->status === 'canceled' ? time() : 0,
+                    'status' => $request->status
+                ]);
+            }
+        } catch (\Throwable $e) {
+            DB::rollBack();
+            return redirect()->back()->withErrors([
+                'message' => 'На это время уже есть запись!',
+                'error' => $e->getMessage()
+            ]);
         }
+        DB::commit();
         return redirect()->back();
     }
 

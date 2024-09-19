@@ -10,7 +10,7 @@ import TextInput from "../TextInput"
 
 export default (props) => {
 
-    const { book, auth } = props
+    const { book, auth, message=`` } = props
 
     const actionRoute = `${auth.user.role.name}.book.status`;
 
@@ -76,7 +76,7 @@ export default (props) => {
                         </li>)}
                     </ul> : ``}
                 </div>
-                <InputError message={errors.status} className="mt-2" />
+                <InputError message={errors.message} className="mt-2" />
             </div>
             <PrimaryButton className={`w-full my-4 justify-center text-lg font-semibold`}>Изменить</PrimaryButton>
             <div className={`text-center`}>

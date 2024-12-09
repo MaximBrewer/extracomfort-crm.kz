@@ -47,7 +47,7 @@ export default function Login({ status, canResetPassword, pagetitle = `` }) {
                 </Link>
             </div>
             <h1 className={`text-2xl font-bold text-center`}>Добро пожаловать!</h1>
-            <p className={`mb-4`}>Для продолжения введите номер телефона и пароль!</p>
+            <p className={`mb-4`}>Для продолжения введите номер E-mail и пароль!</p>
             <div className="w-full max-w-md px-6 pb-6 pt-12 bg-white overflow-hidden shadow-[0px_1px_8px_rgba(0,0,0,.1)] rounded-xl">
 
                 {status && <div className="mb-4 font-medium text-sm text-green-600">{status}</div>}

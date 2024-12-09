@@ -8,6 +8,7 @@ use App\Http\Requests\PatientStoreRequest;
 use App\Http\Requests\PatientUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
+use App\Http\Resources\User as ResourcesUser;
 use App\Models\Direction;
 use App\Models\Locality;
 use App\Models\User;

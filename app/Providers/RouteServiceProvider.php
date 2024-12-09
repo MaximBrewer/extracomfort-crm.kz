@@ -26,6 +26,7 @@ class RouteServiceProvider extends ServiceProvider
     public const HOME_SENIOR = '/senior/patients';
     public const HOME_CLIENT = '/client/timetable';
     public const HOME_SPECIALST = '/specialist/timetable';
+    public const HOME_ACCOUNTANT = '/accountant/tasks';
     public const HOME_RECIEPTION = '/recieption/timetable';
     public const HOME_ADMIN = '/admin/recieptions';
     public const LOGIN = '/login';

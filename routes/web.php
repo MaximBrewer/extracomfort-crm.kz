@@ -273,14 +273,20 @@ Route::group(['prefix' => 'sale', 'as' => 'sale.', 'middleware' => ['auth', 'sal
 
 
 Route::group(['prefix' => 'accountant', 'as' => 'accountant.', 'middleware' => ['auth', 'accountant']],  function () {
-    Route::get('patients', Accountant\PatientsController::class)->name('patients');
-    Route::get('patient/create', [Accountant\PatientsController::class, 'create'])->name('patient.create');
-    Route::get('patient/edit/{patient}', [Accountant\PatientsController::class, 'edit'])->name('patient.edit');
-    Route::post('patient', [Accountant\PatientsController::class, 'store'])->name('patients.store');
-    Route::patch('patient/topup/{patient}', [Accountant\PatientsController::class, 'topup'])->name('patient.topup');
-    Route::patch('patient/withdraw/{patient}', [Accountant\PatientsController::class, 'withdraw'])->name('patient.withdraw');
-    Route::patch('patient/{patient}', [Accountant\PatientsController::class, 'update'])->name('patients.update');
-    Route::get('patient/card/{patient}', [Accountant\PatientsController::class, 'card'])->name('patient.card');
+
+    Route::group(['prefix' => '{branch}/reports', 'as' => 'reports.'],  function () {
+        Route::get('common', [Common\ReportController::class, 'common'])->name('common');
+        Route::get('detailed', [Common\ReportController::class, 'detailed'])->name('detailed');
+        Route::get('reception', [Common\ReportController::class, 'reception'])->name('reception');
+        Route::get('countbalance', [Common\ReportController::class, 'countbalance'])->name('countbalance');
+        Route::get('canceled', [Common\ReportController::class, 'canceled'])->name('canceled');
+        Route::get('debt', [Common\ReportController::class, 'debt'])->name('debt');
+        Route::get('bonus', [Common\ReportController::class, 'bonus'])->name('bonus');
+        Route::get('from', [Common\ReportController::class, 'from'])->name('from');
+        Route::get('activities', [Common\ReportController::class, 'activities'])->name('activities');
+        Route::get('actions', [Common\ReportController::class, 'actions'])->name('actions');
+        Route::get('attendance', [Common\ReportController::class, 'attendance'])->name('attendance');
+    });
 
     Route::resource('tasks', Accountant\TasksController::class);
     Route::group(['prefix' => 'tasks', 'as' => 'tasks.'],  function () {

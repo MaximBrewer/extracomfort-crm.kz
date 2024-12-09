@@ -34,6 +34,7 @@ class RedirectIfAuthenticated
                 if (Auth::user()->role->name === 'nurse') return redirect(RouteServiceProvider::HOME_NURSE);
                 if (Auth::user()->role->name === 'senior') return redirect(RouteServiceProvider::HOME_SENIOR);
                 if (Auth::user()->role->name === 'specialist') return redirect(RouteServiceProvider::HOME_SPECIALST);
+                if (Auth::user()->role->name === 'accountant') return redirect(RouteServiceProvider::HOME_ACCOUNTANT);
                 return redirect(RouteServiceProvider::HOME_CLIENT);
             }
         }

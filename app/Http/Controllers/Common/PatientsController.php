@@ -28,7 +28,11 @@ class PatientsController extends Controller
     {
         $this->getCommonData($data);
         $data['pagetitle'] = 'Пациенты';
-        $data['patients'] = User::where('role_id', 2)->paginate(50);
+        $data['request'] = $request->only('q');
+        $users = User::where('role_id', 2);
+        if ($request->get('q'))
+            $users->whereFullText('searchcontent', $request->get('q'));
+        $data['patients'] = ResourcesUser::collection($users->paginate(50)->appends($request->only(['q'])));
         return Inertia::render(ucwords(Auth::user()->role->name) . '/Patients', $data);
     }
 

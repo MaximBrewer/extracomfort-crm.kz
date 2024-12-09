@@ -7,6 +7,7 @@ use App\Http\Controllers\Recieption;
 use App\Http\Controllers\Admin;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\Sale;
+use App\Http\Controllers\Accountant;
 use App\Http\Controllers\Senior;
 use App\Http\Controllers\Nurse;
 use App\Http\Controllers\Supervisor;
@@ -270,6 +271,25 @@ Route::group(['prefix' => 'sale', 'as' => 'sale.', 'middleware' => ['auth', 'sal
 });
 
 
+
+Route::group(['prefix' => 'accountant', 'as' => 'accountant.', 'middleware' => ['auth', 'accountant']],  function () {
+    Route::get('patients', Accountant\PatientsController::class)->name('patients');
+    Route::get('patient/create', [Accountant\PatientsController::class, 'create'])->name('patient.create');
+    Route::get('patient/edit/{patient}', [Accountant\PatientsController::class, 'edit'])->name('patient.edit');
+    Route::post('patient', [Accountant\PatientsController::class, 'store'])->name('patients.store');
+    Route::patch('patient/topup/{patient}', [Accountant\PatientsController::class, 'topup'])->name('patient.topup');
+    Route::patch('patient/withdraw/{patient}', [Accountant\PatientsController::class, 'withdraw'])->name('patient.withdraw');
+    Route::patch('patient/{patient}', [Accountant\PatientsController::class, 'update'])->name('patients.update');
+    Route::get('patient/card/{patient}', [Accountant\PatientsController::class, 'card'])->name('patient.card');
+
+    Route::resource('tasks', Accountant\TasksController::class);
+    Route::group(['prefix' => 'tasks', 'as' => 'tasks.'],  function () {
+        Route::patch('{task}/status', [Accountant\TasksController::class, 'status'])->name('status');
+        Route::group(['prefix' => '{task}'],  function () {
+            Route::resource('comments', Accountant\CommentsController::class);
+        });
+    });
+});
 
 
 

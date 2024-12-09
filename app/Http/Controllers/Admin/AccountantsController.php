@@ -25,7 +25,7 @@ class AccountantsController extends Controller
      */
     public function index()
     {
-        $data['accountants'] = ResourcesUser::collection(User::where('role_id', 10)->get());
+        $data['accountants'] = ResourcesUser::collection(User::where('role_id', 11)->get());
         $data['pagetitle'] = 'Бухгалтер';
         return Inertia::render('Admin/Accountants', $data);
     }
@@ -51,7 +51,7 @@ class AccountantsController extends Controller
         $data = $request->all();
         $data['password'] = Hash::make(Str::random(8));
         $supervisor = User::create($data);
-        $supervisor->role_id = 10;
+        $supervisor->role_id = 11;
         $supervisor->save();
         $supervisor->directions()->sync($request->directions);
         event(new SupervisorCreated($supervisor));

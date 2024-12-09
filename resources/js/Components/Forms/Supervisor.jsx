@@ -197,7 +197,7 @@ export default (props) => {
                         </div>
                         <div className="col-span-3">
                             <select onChange={e => setYear(e.target.value)} defaultValue={year} className={`w-full rounded bg-white border border-gray-900 border-opacity-[.12] ring-0 mt-1 block w-full`}>
-                                {(new Array(130).fill(null)).map((item, ydx) => <option value={ydx + 1924} key={ydx + 1924}>{ydx + 1924}</option>)}
+                                {(new Array(131).fill(null)).map((item, ydx) => <option value={ydx + 1924} key={ydx + 1924}>{ydx + 1924}</option>)}
                             </select>
                         </div>
                     </div>

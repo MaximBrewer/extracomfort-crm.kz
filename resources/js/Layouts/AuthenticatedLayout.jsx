@@ -181,11 +181,11 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 active: `recieption.tasks`,
                 icon: <Tasks className={`w-6 h-auto`} />
             },
-            {
-                title: 'Уведомления',
-                route: `recieption.notifications.index`,
-                icon: <Bell className={`w-6 h-auto`} />
-            },
+            // {
+            //     title: 'Уведомления',
+            //     route: `recieption.notifications.index`,
+            //     icon: <Bell className={`w-6 h-auto`} />
+            // },
             {
                 title: 'Финансы',
                 route: `recieption.reports.common`,

@@ -42,6 +42,7 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'middleware' => ['auth', 'admin']],  function () {
     Route::resource('supervisors', Admin\SupervisorsController::class);
+    Route::resource('accountants', Admin\AccountantsController::class);
     Route::resource('seniors', Admin\SeniorsController::class);
     Route::resource('sales', Admin\SalesController::class);
     Route::resource('recieptions', Admin\RecieptionsController::class);

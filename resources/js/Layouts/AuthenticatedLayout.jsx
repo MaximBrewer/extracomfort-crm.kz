@@ -16,6 +16,7 @@ import Notifications from './Notifications';
 import Branch from '@/Components/Branch';
 import Tasks from '@/Components/Tasks';
 import Supervisor from '@/Components/Menu/Supervisor';
+import Accountant from '@/Components/Menu/Accountant';
 import Senior from '@/Components/Menu/Senior';
 import Sale from '@/Components/Menu/Sale';
 import Nurse from '@/Components/Menu/Nurse';
@@ -77,6 +78,12 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 route: `admin.seniors.index`,
                 active: `admin.seniors`,
                 icon: <Senior className={`w-6 h-auto ml-px`} />
+            },
+            {
+                title: 'Бухгалтер',
+                route: `admin.accountants.index`,
+                active: `admin.accountants`,
+                icon: <Accountant className={`w-6 h-auto ml-px`} />
             },
             {
                 title: 'Продавцы-консультанты',

@@ -281,6 +281,7 @@ export default () => {
                             <div className="">
                                 <InputLabel htmlFor="hear_id" value="Откуда о нас узнали" color={`text-gray-200`} weight={`normal`} />
                                 <select value={data.hear_id} onChange={e => setData('hear_id', e.target.value)} className={`w-full rounded bg-white border border-gray-900 border-opacity-[.12] ring-0 mt-1 block w-full`}>
+                                    <option></option>
                                     {hears.data.map((hear, hdx) => <option value={hear.id} key={hdx}>{hear.name}</option>)}
                                 </select>
                                 <InputError message={errors.hear_id} className="mt-2" />
@@ -288,6 +289,7 @@ export default () => {
                             <div className="">
                                 <InputLabel htmlFor="consultant_id" value="Консультант" color={`text-gray-200`} weight={`normal`} />
                                 <select value={data.consultant_id} onChange={e => setData('consultant_id', e.target.value)} className={`w-full rounded bg-white border border-gray-900 border-opacity-[.12] ring-0 mt-1 block w-full`}>
+                                    <option></option>
                                     {consultants.data.map((consultant, hdx) => <option value={consultant.id} key={hdx}>{consultant.fullName}</option>)}
                                 </select>
                                 <InputError message={errors.consultant_id} className="mt-2" />

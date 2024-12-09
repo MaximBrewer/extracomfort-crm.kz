@@ -155,6 +155,22 @@ export default function Authenticated({ auth, children, heading = false, scrollp
             //     icon: <Finance className={`w-5 h-auto`} />
             // },
         ],
+        accountant: [
+            {
+                title: 'Задачи',
+                route: `accountant.tasks.index`,
+                active: `accountant.tasks`,
+                icon: <Tasks className={`w-6 h-auto`} />
+            },
+            {
+                title: 'Финансы',
+                route: `accountant.reports.common`,
+                params: {
+                    branch: 1
+                },
+                icon: <Finance className={`w-5 h-auto`} />
+            },
+        ],
         recieption: [
             {
                 title: 'Записи на прием',

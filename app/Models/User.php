@@ -238,6 +238,9 @@ class User extends Authenticatable
             'nurse',
             'specialist',
         ],
+        'accountant' => [
+            'sale',
+        ],
         'senior' => [
             'sale',
             'specialist',

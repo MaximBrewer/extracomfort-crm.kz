@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Events\SupervisorCreated;
+use App\Events\AccountantCreated;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AccountantStoreRequest;
-use App\Http\Requests\SupervisorUpdateRequest;
+use App\Http\Requests\AccountantUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
 use App\Http\Resources\User as ResourcesUser;
@@ -38,9 +38,9 @@ class AccountantsController extends Controller
         $data = [];
         $this->getCommonData($data);
         $data['pagetitle'] = 'Новый бухгалтер';
-        $data['supervisor'] = null;
+        $data['accountant'] = null;
         $data['directions'] = ResourcesDirection::collection(Direction::all());
-        return Inertia::render('Admin/Supervisor', $data);
+        return Inertia::render('Admin/Accountant', $data);
     }
 
     /**
@@ -50,55 +50,55 @@ class AccountantsController extends Controller
     {
         $data = $request->all();
         $data['password'] = Hash::make(Str::random(8));
-        $supervisor = User::create($data);
-        $supervisor->role_id = 11;
-        $supervisor->save();
-        $supervisor->directions()->sync($request->directions);
-        event(new SupervisorCreated($supervisor));
+        $accountant = User::create($data);
+        $accountant->role_id = 11;
+        $accountant->save();
+        $accountant->directions()->sync($request->directions);
+        event(new AccountantCreated($accountant));
         return redirect()->route('admin.accountants.index');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(User $supervisor)
+    public function show(User $accountant)
     {
         $data['pagetitle'] = 'Бухгалтер';
-        $data['supervisor'] = $supervisor;
-        return Inertia::render('Admin/Supervisor', $data);
+        $data['accountant'] = $accountant;
+        return Inertia::render('Admin/Accountant', $data);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $supervisor)
+    public function edit(User $accountant)
     {
         $data = [];
         $this->getCommonData($data);
         $data['pagetitle'] = 'Бухгалтер';
-        $data['supervisor'] = $supervisor;
+        $data['accountant'] = $accountant;
         $data['directions'] = ResourcesDirection::collection(Direction::all());
-        return Inertia::render('Admin/Supervisor', $data);
+        return Inertia::render('Admin/Accountant', $data);
     }
 
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(SupervisorUpdateRequest $request, User $supervisor)
+    public function update(AccountantUpdateRequest $request, User $accountant)
     {
         $data = $request->all();
-        $supervisor->update($data);
-        $supervisor->directions()->sync($request->directions);
+        $accountant->update($data);
+        $accountant->directions()->sync($request->directions);
         return redirect()->route('admin.accountants.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(User $supervisor)
+    public function destroy(User $accountant)
     {
-        $supervisor->delete();
+        $accountant->delete();
         return redirect()->route('admin.accountants.index');
     }
 

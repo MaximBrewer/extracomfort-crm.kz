@@ -16,7 +16,8 @@ class Reminder extends Model
         'service_id',
         'patient_id',
         'specialist_id',
-        'recieption_id'
+        'recieption_id',
+        'comment'
     ];
     /**
      * Interact with the user's balance.

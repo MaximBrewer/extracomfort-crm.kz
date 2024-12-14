@@ -111,7 +111,6 @@ export default (props) => {
                                 <div className={`flex space-x-5 items-center mb-5 rounded-lg overflow-hidden py-3 bg-blue-50 hover:bg-white hover:shadow-block`}>
                                     <div className={`w-[40%] flex space-x-5 items-center pl-5`}>
                                         <div className={`grow`}>
-                                            {console.log(reminder)}
                                             <div className={`font-medium`}>{reminder.patient.fullName}</div>
                                             <div className={``}>{reminder.patient.phone ? reminder.patient.phone : reminder.patient.email}</div>
                                             {reminder.specialist ? <div className={`text-sm font-medium`}>{reminder.specialist.fio}</div> : <></>}
@@ -125,6 +124,7 @@ export default (props) => {
                                                     <span>{reminder.service.title}</span>
                                                 </div>
                                             </> : <></>}
+                                            {reminder.comment ? <div className={`text-sm my-2`}>{reminder.comment}</div> : <></>}
                                         </div>
                                     </div>
                                     <div className={`text-violet-500 text-sm w-[40%]`}>

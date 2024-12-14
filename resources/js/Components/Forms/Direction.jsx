@@ -71,6 +71,7 @@ export default (props) => {
             <TextInput
                 id="title"
                 type="text"
+                name="title"
                 bg="bg-white"
                 border="border border-gray-900 border-opacity-[.12]"
                 className="mt-1 block w-full"

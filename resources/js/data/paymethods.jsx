@@ -10,7 +10,7 @@ export default {
         },
         {
             code: `qr`,
-            title: `Kaspi QR`
+            title: `QR`
         },
         {
             code: `balance`,

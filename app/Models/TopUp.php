@@ -16,7 +16,7 @@ class TopUp extends Model
     public static $paymethods = [
         'cash' => 'Наличными',
         'card' => 'Картой',
-        'qr' => 'Kaspi QR',
+        'qr' => 'QR',
         'balance' => 'C баланса',
         'free' => 'Бесплатно'
     ];

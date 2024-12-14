@@ -110,9 +110,11 @@ class ReminderController extends Controller
 
         $this->getCommonData($data);
         $data['specialists'] = DirectionSpecialist::collection($direction->specialists()
-            ->with(['booksSpecialist' => function (HasMany $hasMany) use ($date) {
-                $hasMany->where('date', $date);
-            }])
+            ->with([
+                'booksSpecialist' => function (HasMany $hasMany) use ($date) {
+                    $hasMany->where('date', $date);
+                }
+            ])
             ->get());
         $data['pagetitle'] = 'Расписание направления';
         $data['patient'] = $patient;
@@ -135,7 +137,8 @@ class ReminderController extends Controller
             [
                 'value' => 'male',
                 'label' => 'Мужской',
-            ], [
+            ],
+            [
                 'value' => 'female',
                 'label' => 'Женский'
             ]
@@ -174,6 +177,7 @@ class ReminderController extends Controller
             'date' => Carbon::parse($request->date),
             'service_id' => $request->service,
             'duration' => $request->duration,
+            'comment' => $request->comment,
             'branch_id' => $request->branch->id,
             'patient_id' => $patient->id,
             'specialist_id' => $specialist->id,

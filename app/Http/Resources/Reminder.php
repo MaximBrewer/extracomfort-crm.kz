@@ -17,6 +17,7 @@ class Reminder extends JsonResource
         return [
             'id' => $this->id,
             'date' => $this->date,
+            'comment' => $this->comment,
             'service' => new ReminderRecieptionService($this->service),
             'specialist' => new ReminderRecieptionSpecialist($this->specialist),
             'patient' => new ReminderRecieptionPatient($this->patient)

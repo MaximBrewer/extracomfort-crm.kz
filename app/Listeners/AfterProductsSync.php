@@ -21,7 +21,7 @@ class AfterProductsSync
      */
     public function handle(object $event): void
     {
-        foreach (Product::whereNotIn('id', $event->ids)->where()->get() as $product) {
+        foreach (Product::whereNotIn('id', $event->ids)->get() as $product) {
             // $product->delete();
         }
     }

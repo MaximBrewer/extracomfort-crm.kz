@@ -22,7 +22,7 @@ class AfterOffersSync
     public function handle(object $event): void
     {
         foreach (Offer::whereNotIn('id', $event->ids)->get() as $offer) {
-            $offer->delete();
+            // $offer->delete();
         }
     }
 }

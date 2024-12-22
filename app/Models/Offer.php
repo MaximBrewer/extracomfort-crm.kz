@@ -92,20 +92,16 @@ class Offer extends Model implements OfferInterface
      */
     public static function createByMl($offer): Offer
     {
-        $xmlId = (string)$offer->owner->offerPackage->xpath('//c:ИдКаталога')[0];
-        $offerModel = Offer::firstOrCreate(
+        $xmlId = (string) $offer->owner->offerPackage->xpath('//c:ИдКаталога')[0];
+        $offerModel = Offer::updateOrCreate(
             [
                 'accounting_id' => $xmlId . '#' . $offer->id,
             ],
             [
-                'title' => (string)$offer->name,
-                'quantity' => (float)$offer->Количество,
+                'title' => (string) $offer->name,
+                'quantity' => (float) $offer->Количество,
             ]
         );
-        if (!$offerModel->wasRecentlyCreated && $offerModel->quantity !== (float)$offer->Количество) {
-            $offerModel->quantity = (float)$offer->Количество;
-            $offerModel->save();
-        }
         return $offerModel;
     }
 
@@ -113,8 +109,8 @@ class Offer extends Model implements OfferInterface
     protected function quantity(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => floatVal($value / 100),
-            set: fn ($value) => intVal($value * 100),
+            get: fn($value) => floatVal($value / 100),
+            set: fn($value) => intVal($value * 100),
         );
     }
 
@@ -138,7 +134,7 @@ class Offer extends Model implements OfferInterface
     public function setSpecification1c($specification)
     {
         $specificationModel = Specification::createByMl($specification);
-        $this->specifications()->syncWithoutDetaching([$specificationModel->id => ['value' => (string)$specification->Значение]]);
+        $this->specifications()->syncWithoutDetaching([$specificationModel->id => ['value' => (string) $specification->Значение]]);
     }
 
     public function prices(): BelongsToMany

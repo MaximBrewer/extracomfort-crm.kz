@@ -44,13 +44,12 @@ class Offer extends Model implements OfferInterface
         return 'id';
     }
     /**
-     * @return GroupInterface
+     * @return \Bigperson\Exchange1C\Interfaces\GroupInterface
      */
 
     public function getGroup1c()
     {
-        return null;
-        // return $this->product->category;
+        return $this->product->category;
     }
 
     /**
@@ -86,9 +85,9 @@ class Offer extends Model implements OfferInterface
     }
 
     /**
-     * @param @param \Zenwalker\CommerceML\Model\Offer $offer
+     * @param \Zenwalker\CommerceML\Model\Offer $offer
      *
-     * @return \App\Moels\Offer
+     * @return \App\Models\Offer
      */
     public static function createByMl($offer): Offer
     {

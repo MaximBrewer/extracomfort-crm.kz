@@ -46,13 +46,13 @@ export default (props) => {
                         <tbody>
                             {results.data.map((result, rdx) => <Fragment key={rdx}>
                                 <tr><Th colSpan={5}>{result.title}</Th></tr>
-                                {result.categories ? result.categories.map((cetagory, cdx) => <Fragment key={cdx}>{cetagory.services.map((service, sdx) => <tr key={sdx}>
+                                {result.categories ? result.categories.map((cetagory, cdx) => <Fragment key={cdx}>{cetagory.services.map((service, sdx) => service.quantity ? <tr key={sdx}>
                                     <Td>{service.id}</Td>
                                     <Td>{service.title}</Td>
                                     <Td className={`text-center`}>{service.price}</Td>
                                     <Td className={`text-center`}>{service.quantity}</Td>
                                     <Td className={`text-center`}>{service.sum}</Td>
-                                </tr>)}</Fragment>) : <></>}
+                                </tr> : '')}</Fragment>) : <></>}
                                 <tr>
                                     <Td colSpan={3} className={`text-right font-bold text-sm`}>Итого:</Td>
                                     <Td colSpan={1} className={`text-center`}>{result.quantity}</Td>

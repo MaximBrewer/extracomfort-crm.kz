@@ -11,6 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
+use Illuminate\Support\Facades\Log;
 
 class Offer extends Model implements OfferInterface
 {
@@ -44,12 +45,13 @@ class Offer extends Model implements OfferInterface
         return 'id';
     }
     /**
-     * @return \Bigperson\Exchange1C\Interfaces\GroupInterface
+     * @return GroupInterface
      */
 
     public function getGroup1c()
     {
-        return $this->product->category;
+        return null;
+        // return $this->product->category;
     }
 
     /**
@@ -85,12 +87,13 @@ class Offer extends Model implements OfferInterface
     }
 
     /**
-     * @param \Zenwalker\CommerceML\Model\Offer $offer
+     * @param @param \Zenwalker\CommerceML\Model\Offer $offer
      *
-     * @return \App\Models\Offer
+     * @return \App\Moels\Offer
      */
     public static function createByMl($offer): Offer
     {
+        Log::info($offer->id);
         $xmlId = (string) $offer->owner->offerPackage->xpath('//c:ИдКаталога')[0];
         $offerModel = Offer::updateOrCreate(
             [

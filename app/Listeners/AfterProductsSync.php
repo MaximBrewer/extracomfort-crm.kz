@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Models\Product;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Support\Facades\Log;
 
 class AfterProductsSync
 {
@@ -21,8 +22,9 @@ class AfterProductsSync
      */
     public function handle(object $event): void
     {
-        foreach (Product::whereNotIn('id', $event->ids)->get() as $product) {
-            // $product->delete();
-        }
+        Log::info(print_r($event, 1));
+        // foreach (Product::whereNotIn('id', $event->ids)->get() as $product) {
+        //     // $product->delete();
+        // }
     }
 }

@@ -93,7 +93,6 @@ class Offer extends Model implements OfferInterface
      */
     public static function createByMl($offer): Offer
     {
-        Log::info($offer->id);
         $xmlId = (string) $offer->owner->offerPackage->xpath('//c:ИдКаталога')[0];
         $offerModel = Offer::updateOrCreate(
             [

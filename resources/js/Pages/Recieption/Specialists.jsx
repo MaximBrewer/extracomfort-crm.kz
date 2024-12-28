@@ -6,11 +6,9 @@ import { useState } from 'react';
 
 export default (props) => {
 
-    const { pagetitle, specialists, week, directions } = props
+    const { pagetitle, specialists, branch } = props
 
-    console.log(specialists)
-
-    const [tab, setTab] = useState(`specialists`)
+    console.log(branch)
 
     return (
         <AuthenticatedLayout
@@ -30,7 +28,8 @@ export default (props) => {
                         </div>
                         <div>
                             <Link href={route('recieption.specialist.schedule', {
-                                specialist: specialist.id
+                                specialist: specialist.id,
+                                branch: branch.id
                             })} className={`text-violet-500`}>
                                 <PrimaryButton className={`min-w-[150px] justify-center`} size={`sm`}>
                                     <span>Расписание</span>

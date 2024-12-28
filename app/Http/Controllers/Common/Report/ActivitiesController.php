@@ -18,6 +18,7 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Collection;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use stdClass;
 
@@ -32,7 +33,7 @@ class ActivitiesController extends Controller
         global $filter;
 
         $filter = [];
-        $filter['specialist'] = $request->specialist ? explode("_", $request->specialist) : [];
+        $filter['specialist'] = Auth::user()->role->name === 'specialist' ? [Auth::id()] : ($request->specialist ? explode("_", $request->specialist) : []);
         $filter['patient'] = (int)$request->patient;
         $filter['service'] = $request->service ? explode("_", $request->service) : [];
         $filter['direction'] = $request->direction ? explode("_", $request->direction) : [];

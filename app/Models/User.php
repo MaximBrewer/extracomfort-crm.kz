@@ -20,134 +20,6 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    public static $dayShedule = [
-        '09:00' => 'free',
-        '09:05' => 'free',
-        '09:10' => 'free',
-        '09:15' => 'free',
-        '09:20' => 'free',
-        '09:25' => 'free',
-        '09:30' => 'free',
-        '09:35' => 'free',
-        '09:40' => 'free',
-        '09:45' => 'free',
-        '09:50' => 'free',
-        '09:55' => 'free',
-        '10:00' => 'free',
-        '10:05' => 'free',
-        '10:10' => 'free',
-        '10:15' => 'free',
-        '10:20' => 'free',
-        '10:25' => 'free',
-        '10:30' => 'free',
-        '10:35' => 'free',
-        '10:40' => 'free',
-        '10:45' => 'free',
-        '10:50' => 'free',
-        '10:55' => 'free',
-        '11:00' => 'free',
-        '11:05' => 'free',
-        '11:10' => 'free',
-        '11:15' => 'free',
-        '11:20' => 'free',
-        '11:25' => 'free',
-        '11:30' => 'free',
-        '11:35' => 'free',
-        '11:40' => 'free',
-        '11:45' => 'free',
-        '11:50' => 'free',
-        '11:55' => 'free',
-        '12:00' => 'free',
-        '12:05' => 'free',
-        '12:10' => 'free',
-        '12:15' => 'free',
-        '12:20' => 'free',
-        '12:25' => 'free',
-        '12:30' => 'free',
-        '12:35' => 'free',
-        '12:40' => 'free',
-        '12:45' => 'free',
-        '12:50' => 'free',
-        '12:55' => 'free',
-        '13:00' => 'free',
-        '13:05' => 'free',
-        '13:10' => 'free',
-        '13:15' => 'free',
-        '13:20' => 'free',
-        '13:25' => 'free',
-        '13:30' => 'free',
-        '13:35' => 'free',
-        '13:40' => 'free',
-        '13:45' => 'free',
-        '13:50' => 'free',
-        '13:55' => 'free',
-        '14:00' => 'free',
-        '14:05' => 'free',
-        '14:10' => 'free',
-        '14:15' => 'free',
-        '14:20' => 'free',
-        '14:25' => 'free',
-        '14:30' => 'free',
-        '14:35' => 'free',
-        '14:40' => 'free',
-        '14:45' => 'free',
-        '14:50' => 'free',
-        '14:55' => 'free',
-        '15:00' => 'free',
-        '15:05' => 'free',
-        '15:10' => 'free',
-        '15:15' => 'free',
-        '15:20' => 'free',
-        '15:25' => 'free',
-        '15:30' => 'free',
-        '15:35' => 'free',
-        '15:40' => 'free',
-        '15:45' => 'free',
-        '15:50' => 'free',
-        '15:55' => 'free',
-        '16:00' => 'free',
-        '16:05' => 'free',
-        '16:10' => 'free',
-        '16:15' => 'free',
-        '16:20' => 'free',
-        '16:25' => 'free',
-        '16:30' => 'free',
-        '16:35' => 'free',
-        '16:40' => 'free',
-        '16:45' => 'free',
-        '16:50' => 'free',
-        '16:55' => 'free',
-        '17:00' => 'free',
-        '17:05' => 'free',
-        '17:10' => 'free',
-        '17:15' => 'free',
-        '17:20' => 'free',
-        '17:25' => 'free',
-        '17:30' => 'free',
-        '17:35' => 'free',
-        '17:40' => 'free',
-        '17:45' => 'free',
-        '17:50' => 'free',
-        '17:55' => 'free',
-        '18:00' => 'free',
-        '18:05' => 'free',
-        '18:10' => 'free',
-        '18:15' => 'free',
-        '18:20' => 'free',
-        '18:25' => 'free',
-        '18:30' => 'free',
-        '18:35' => 'free',
-        '18:40' => 'free',
-        '18:45' => 'free',
-        '18:50' => 'free',
-        '18:55' => 'free',
-        '19:00' => 'free',
-        '19:05' => 'free',
-        '19:10' => 'free',
-        '19:15' => 'free',
-        '19:20' => 'free',
-        '19:25' => 'free'
-    ];
     /**
      * The attributes that are mass assignable.
      *
@@ -165,7 +37,6 @@ class User extends Authenticatable
         'balance',
         'gender',
         'birthdate',
-        'schedule',
         'locality_id',
         'ais_id',
         'external_id',
@@ -191,8 +62,7 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'birthdate' => 'date',
-        'schedule' => 'array'
+        'birthdate' => 'date'
     ];
 
 
@@ -273,52 +143,8 @@ class User extends Authenticatable
     protected function createdAt(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('d.m.Y')
+            get: fn($value) => Carbon::parse($value)->format('d.m.Y')
         );
-    }
-
-    /**
-     * The "booted" method of the model.
-     */
-    public static function getDayArray($rest = false): array
-    {
-        $times = [];
-        foreach (self::$dayShedule as $time => $status) {
-            $times[] = [
-                'time' => $time,
-                'days' => [
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    'rest',
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    'rest',
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    'rest',
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    $status,
-                    'rest',
-                ]
-            ];
-        }
-        return $times;
     }
 
     /**
@@ -327,8 +153,8 @@ class User extends Authenticatable
     protected function balance(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => (int)$value / 100,
-            set: fn ($value) => (float)$value * 100,
+            get: fn($value) => (int) $value / 100,
+            set: fn($value) => (float) $value * 100,
         );
     }
 
@@ -363,7 +189,8 @@ class User extends Authenticatable
     {
         return Attribute::make(
             get: function ($value) {
-                if (!$value) return $value;
+                if (!$value)
+                    return $value;
                 $date = Carbon::parse($value)->subCenturies(10);
                 return $date;
             },
@@ -480,6 +307,65 @@ class User extends Authenticatable
     public function topUps(): HasMany
     {
         return $this->hasMany(TopUp::class, 'user_id');
+    }
+
+    /**
+     * The users that belong to the role.
+     */
+    public function schedules(): HasMany
+    {
+        return $this->hasMany(Schedule::class, 'user_id');
+    }
+
+    /**
+     * The users that belong to the role.
+     */
+    public function getSchedule(Branch $branch)
+    {
+        $schedule = $this->schedules()->firstOrCreate([
+            'branch_id' => $branch->id,
+        ]);
+
+        $lastDay = $schedule->datetimes()->where([
+            'datetime' => now()->startOfWeek()->addDays(27)->addHours(9),
+        ])->first();
+
+        if (!$lastDay) {
+            $end = now()->startOfWeek()->addDays(28);
+            $date = now()->startOfWeek();
+            $date->addHours(9);
+            do {
+                $schedule->datetimes()->firstOrCreate([
+                    'datetime' => $date,
+                ], [
+                    'status' => 'free'
+                ]);
+                $date->addMinutes(5);
+                if ($date->format('H:i') === "19:35") {
+                    $date->addDay()->startOfDay()->addHours(9);
+                }
+            } while ($date < $end);
+        }
+
+        $times = [];
+        foreach ($schedule->datetimes as $time) {
+            if (!isset($times[$time->datetime->format('H:i')]))
+                $times[$time->datetime->format('H:i')] = [
+                    'time' => $time->datetime->format('H:i'),
+                    'days' => []
+                ];
+            $times[$time->datetime->format('H:i')]['days'][$time->datetime->format('d.m.Y')] = [
+                'id' => $time->id,
+                'date' => $time->datetime->format('d.m.Y'),
+                'status' => $time->status
+            ];
+        }
+        foreach ($times as &$time) {
+            $time['days'] = array_values($time['days']);
+        }
+        $times = array_values($times);
+
+        return $times;
     }
 
     /**

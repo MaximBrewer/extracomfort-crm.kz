@@ -49,9 +49,16 @@ const menu = {
 
 export default (props) => {
 
-    const { pagetitle, appointment } = props
+    const { pagetitle, appointment, auth } = props
 
-    const [tab, setTab] = useState(appointment.data.current ? menu.data.find(el => el.code === appointment.data.current) : menu.data[0])
+    console.log(auth.user.role.name)
+
+    let tabstate = appointment.data.current ? menu.data.find(el => el.code === appointment.data.current) : menu.data[0];
+
+    if (auth.user.role.name === 'recieption') tabstate = menu.data.find(el => el.code === `reabilitation`);
+    else if (auth.user.role.name === 'sale') tabstate = menu.data.find(el => el.code === `podiatry`);
+
+    const [tab, setTab] = useState(tabstate)
 
     return (
         <AuthenticatedLayout

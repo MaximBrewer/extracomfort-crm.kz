@@ -17,6 +17,7 @@ use App\Traits\CommonDataReport;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class BonusController extends Controller
@@ -31,8 +32,9 @@ class BonusController extends Controller
 
         $filter = [];
         $filter['specialist'] = $request->specialist ? explode("_", $request->specialist) : [];
-        $filter['patient'] = (int)$request->patient;
-        $filter['consultant'] = (int)$request->consultant;
+        $filter['patient'] = (int) $request->patient;
+        $filter['consultant'] = Auth::user()->role->name === 'sale' ? Auth::id() : (int) $request->consultant;
+
         $filter['service'] = $request->service ? explode("_", $request->service) : [];
         $filter['direction'] = $request->direction ? explode("_", $request->direction) : [];
         $filter['start'] = $request->start ? Carbon::parse($request->start) : null;
@@ -72,7 +74,8 @@ class BonusController extends Controller
                     ->where('status', 'completed')
                     ->where('date', '>=', $filter['start'])
                     ->where('date', '<=', $filter['end'])
-                    ->where('branch_id', $filter['branch']);;
+                    ->where('branch_id', $filter['branch']);
+                ;
             })->get() : []),
         ]);
 

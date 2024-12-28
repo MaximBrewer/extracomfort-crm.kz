@@ -44,5 +44,3 @@ class SearchController extends Controller
         })];
     }
 }
-// id, role_id, name, email, phone, avatar, email_verified_at, password, remember_token, settings, created_at, updated_at, lastname,
-// surname, tin, balance, locality_id, birthdate, gender, addon, branch_id, schedule, external_id, ais_id

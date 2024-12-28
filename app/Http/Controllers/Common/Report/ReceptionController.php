@@ -4,7 +4,6 @@ namespace App\Http\Controllers\Common\Report;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DirectionReceptionResource;
-use App\Http\Resources\DirectionReport;
 use App\Http\Resources\DirectionWoWrapTizer;
 use App\Http\Resources\ServiceWoWrapTizer;
 use App\Http\Resources\User as ResourcesUser;
@@ -13,6 +12,7 @@ use App\Models\Direction;
 use App\Models\Service;
 use App\Models\User;
 use App\Traits\CommonDataReport;
+use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
@@ -28,8 +28,10 @@ class ReceptionController extends Controller
         global $filter;
 
         $filter = [];
-        $filter['specialist'] = $request->specialist ? explode("_", $request->specialist) : [];
-        $filter['patient'] = (int)$request->patient;
+
+
+        $filter['specialist'] = Auth::user()->role->name === 'specialist' ? [Auth::id()] : ($request->specialist ? explode("_", $request->specialist) : []);
+        $filter['patient'] = (int) $request->patient;
         $filter['service'] = $request->service ? explode("_", $request->service) : [];
         $filter['direction'] = $request->direction ? explode("_", $request->direction) : [];
         $filter['start'] = $request->start ? Carbon::parse($request->start) : null;

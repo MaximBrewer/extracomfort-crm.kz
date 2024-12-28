@@ -149,11 +149,14 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 active: `supervisor.tasks`,
                 icon: <Tasks className={`w-6 h-auto`} />
             },
-            // {
-            //     title: 'Финансы',
-            //     route: `supervisor.finance`,
-            //     icon: <Finance className={`w-5 h-auto`} />
-            // },
+            {
+                title: 'Финансы',
+                route: `supervisor.reports.common`,
+                params: {
+                    branch: 1
+                },
+                icon: <Finance className={`w-5 h-auto`} />
+            },
         ],
         accountant: [
             {
@@ -196,6 +199,9 @@ export default function Authenticated({ auth, children, heading = false, scrollp
             {
                 title: 'Специалисты',
                 route: `recieption.specialists`,
+                params: {
+                    branch: 1
+                },
                 icon: <Spec className={`w-4 h-auto`} />
             },
             {
@@ -235,6 +241,9 @@ export default function Authenticated({ auth, children, heading = false, scrollp
             {
                 title: 'Специалисты',
                 route: `nurse.specialists`,
+                params: {
+                    branch: 1
+                },
                 icon: <Spec className={`w-4 h-auto`} />
             },
             {
@@ -253,6 +262,9 @@ export default function Authenticated({ auth, children, heading = false, scrollp
             {
                 title: 'Расписание',
                 route: `specialist.schedule`,
+                params: {
+                    branch: 1
+                },
                 icon: <Calendar className={`w-6 h-auto`} />
             },
             {
@@ -260,11 +272,6 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 route: `specialist.patients`,
                 icon: <Patients className={`w-5 h-auto`} />
             },
-            // {
-            //     title: 'Специалисты',
-            //     route: `specialist.specialists`,
-            //     icon: <Spec className={`w-4 h-auto`} />
-            // },
             {
                 title: 'Задачи',
                 route: `specialist.tasks.index`,
@@ -273,7 +280,10 @@ export default function Authenticated({ auth, children, heading = false, scrollp
             },
             {
                 title: 'Финансы',
-                route: `specialist.finance`,
+                route: `specialist.reports.reception`,
+                params: {
+                    branch: 1
+                },
                 icon: <Finance className={`w-5 h-auto`} />
             },
         ],
@@ -289,6 +299,14 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 active: `senior.tasks`,
                 icon: <Tasks className={`w-6 h-auto`} />
             },
+            {
+                title: 'Финансы',
+                route: `senior.reports.bonus`,
+                params: {
+                    branch: 1
+                },
+                icon: <Finance className={`w-5 h-auto`} />
+            },
         ],
         sale: [
             {
@@ -301,6 +319,14 @@ export default function Authenticated({ auth, children, heading = false, scrollp
                 route: `sale.tasks.index`,
                 active: `sale.tasks`,
                 icon: <Tasks className={`w-6 h-auto`} />
+            },
+            {
+                title: 'Финансы',
+                route: `sale.reports.bonus`,
+                params: {
+                    branch: 1
+                },
+                icon: <Finance className={`w-5 h-auto`} />
             },
         ],
         client: [
@@ -317,13 +343,16 @@ export default function Authenticated({ auth, children, heading = false, scrollp
             {
                 title: 'Специалисты',
                 route: `client.specialists`,
+                params: {
+                    branch: 1
+                },
                 icon: <Spec className={`w-4 h-auto`} />
             },
-            {
-                title: 'Финансы',
-                route: `client.finance`,
-                icon: <Finance className={`w-5 h-auto`} />
-            },
+            // {
+            //     title: 'Финансы',
+            //     route: `client.finance`,
+            //     icon: <Finance className={`w-5 h-auto`} />
+            // },
         ],
     }
 

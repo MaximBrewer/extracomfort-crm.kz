@@ -153,7 +153,7 @@ const Filter = () => {
                 />
             </div>
             {report !== 'bonus' ? <>
-                <div className="flex flex-col gap-2 col-span-4">
+                <div className={`flex flex-col gap-2 col-span-4 ${auth.user.role.name === `specialist` ? `hidden` : ``}`}>
                     <label>Cпециалист:</label>
                     <Select
                         getOptionLabel={el => el.fullName}
@@ -233,7 +233,7 @@ const Filter = () => {
                         placeholder="Введите имя, телефон, тин или e-mail"
                     />
                 </div>
-            </> : <div className="flex flex-col gap-2 col-span-12">
+            </> : <div className={`flex flex-col gap-2 col-span-12  ${auth.user.role.name === `sale` ? `hidden` : ``}`}>
                 <label>Констультант:</label>
                 <AsyncSelect
                     className="w-full mb-4"

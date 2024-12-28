@@ -24,12 +24,12 @@ export default (props) => {
                             <div className={`absolute top-full h-2 left-0 w-full bg-white`}></div>
                         </li>
                     </ul>
-                    <div>
+                    {/* <div>
                         <SuccessButton className="pt-2 pb-2 rounded-[.5rem]">
                             <Archive className={`w-5 h-auto shrink-0 mr-2`} />
                             <span className="text-base leading-none">Архив задач</span>
                         </SuccessButton>
-                    </div>
+                    </div> */}
                 </div>
                 <div className={`shadow-bb rounded-lg bg-white py-5 px-4 overflow-hidden flex flex-col`}>
                     <TasksProvider lists={lists} executors={executors.data} auth={props.auth}>

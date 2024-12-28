@@ -40,7 +40,7 @@ const SpecialistOption = (props) => {
 
 export default (props) => {
 
-    const { pagetitle, specialist, week, weeks, patient, branch, specialists } = props
+    const { pagetitle, specialist, week, weeks, patient, branch, specialists, schedule } = props
 
     const currentWeek = weeks.find(item => item.value == week)
     const [openWeeks, setOpenWeeks] = useState(false)
@@ -136,7 +136,7 @@ export default (props) => {
                     {[0, 1, 2, 3, 4, 5, 6].map(day => <div key={day} className={`h-8 border-l border-violet-500`}></div>)}
                 </div>
                 <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr] leading-tight border-violet-500`}>
-                    {specialist.schedule.map((item, tdx) => <React.Fragment key={tdx}>
+                    {schedule.map((item, tdx) => <React.Fragment key={tdx}>
                         <div className={`relative flex items-center justify-center border-t border-dashed`}>
                             <div className={`absolute px-3 bg-white -translate-y-full`}>{item.time}</div>
                             <div>&nbsp;<br />&nbsp;</div>

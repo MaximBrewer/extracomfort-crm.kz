@@ -26,6 +26,6 @@ class Specialist extends User
      */
     public function directions(): BelongsToMany
     {
-        return $this->belongsToMany(Direction::class, 'user_direction', 'direction_id', 'user_id');
+        return $this->belongsToMany(Direction::class, 'user_direction', 'user_id', 'direction_id');
     }
 }

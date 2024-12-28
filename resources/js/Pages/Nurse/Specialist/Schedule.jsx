@@ -6,7 +6,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const Day = (props) => {
 
-    const { item, day, specialist } = props
+    const { item, day, specialist, branch } = props
     const [open, setOpen] = useState(false)
 
     const { data, setData, patch, transform } = useForm({
@@ -27,7 +27,8 @@ const Day = (props) => {
     useEffect(() => {
         if (data.status) {
             patch(route(`nurse.specialist.schedule.update`, {
-                specialist: specialist.id
+                specialist: specialist.id,
+                branch: branch.id
             }), {
                 onSuccess: () => {
                     setOpen(false)
@@ -65,7 +66,7 @@ const Day = (props) => {
 
 export default (props) => {
 
-    const { pagetitle, specialist } = props
+    const { pagetitle, specialist, schedule } = props
 
     let times = [];
     for (let i in specialist.monday) {
@@ -87,7 +88,7 @@ export default (props) => {
                     <div className={`h-8`}></div>
                     {[0, 1, 2, 3, 4, 5, 6].map(day => <div key={day} className={`h-8 border-l border-violet-500`}></div>)}
                 </div>
-                {specialist.schedule.map((item, tdx) => <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr] leading-tight border-t border-violet-500 border-dashed`} key={tdx}>
+                {schedule.map((item, tdx) => <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr] leading-tight border-t border-violet-500 border-dashed`} key={tdx}>
                     <div className={`relative flex items-center justify-center`}>
                         <div className={`absolute px-3 bg-white -translate-y-full`}>{item.time}</div>
                         <div>&nbsp;<br />&nbsp;</div>

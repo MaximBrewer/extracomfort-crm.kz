@@ -7,7 +7,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 const Day = (props) => {
 
-    const { item, day, specialist, lastChecked, rootRef, checkedArr } = props
+    const { item, day, specialist, lastChecked, rootRef, checkedArr, branch } = props
     const [open, setOpen] = useState(false)
 
     const { data, setData, patch, transform } = useForm({
@@ -25,7 +25,8 @@ const Day = (props) => {
     useEffect(() => {
         if (data.status) {
             patch(route(`specialist.schedule.update`, {
-                specialist: specialist.id
+                specialist: specialist.id,
+                branch: branch.id
             }), {
                 onSuccess: () => {
                     setOpen(false)
@@ -143,7 +144,7 @@ const Day = (props) => {
 
 export default (props) => {
 
-    const { pagetitle, specialist, startOfWeek } = props
+    const { pagetitle, specialist, startOfWeek, branch } = props
     console.log(moment(startOfWeek))
 
     let times = [];
@@ -160,6 +161,7 @@ export default (props) => {
     const setStatus = (status) => {
         router.patch(route(`specialist.schedule.update`, {
             specialist: specialist.id,
+            branch: branch.id,
             items: checkedArr.current,
             status,
         }))

@@ -3,18 +3,11 @@
 namespace App\Http\Controllers\Specialist;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TaskStatusRequest;
-use App\Http\Requests\TaskStoreRequest;
-use App\Http\Requests\TaskUpdateRequest;
-use App\Http\Resources\ExecutorOpton;
-use App\Http\Resources\Task as ResourcesTask;
-use App\Models\Task;
 use App\Models\User;
-use App\Traits\TaskTrait;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 
 class ScheduleController extends Controller
@@ -25,7 +18,6 @@ class ScheduleController extends Controller
     public function index()
     {
         $specialist = Auth::user();
-
         $data['pagetitle'] = 'Расписание специалиста ' . $specialist->fullName;
         if (!$specialist->schedule || $specialist->schedule === "null") {
             $specialist->schedule = User::getDayArray();

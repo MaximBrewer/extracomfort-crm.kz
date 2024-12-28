@@ -9,6 +9,7 @@ use App\Events\SaleCreated;
 use App\Events\SeniorCreated;
 use App\Events\SupervisorCreated;
 use App\Events\SpecialistCreated;
+use App\Models\DateTime;
 use App\Models\User;
 use App\Listeners\SendNurseCreatedNotification;
 use App\Listeners\SendPatientCreatedNotification;
@@ -25,7 +26,7 @@ use App\Models\Product;
 use App\Models\Reminder;
 use App\Models\Task;
 use App\Models\TopUp;
-use App\Models\WithDraw;
+use App\Observers\DateTime as ObserversDateTime;
 use App\Observers\CallIn as ObserversCallIn;
 use App\Observers\Notification as ObserversNotification;
 use App\Observers\Offer as ObserversOffer;
@@ -35,11 +36,7 @@ use App\Observers\Reminder as ObserversReminder;
 use App\Observers\Task as ObserversTask;
 use App\Observers\TopUp as ObserversTopUp;
 use App\Observers\User as ObserversUser;
-use App\Observers\WithDraw as ObserversWithDraw;
-use Illuminate\Auth\Events\Registered;
-use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Event;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -90,6 +87,7 @@ class EventServiceProvider extends ServiceProvider
         TopUp::observe(ObserversTopUp::class);
         User::observe(ObserversUser::class);
         Payment::observe(ObserversPayment::class);
+        DateTime::observe(ObserversDateTime::class);
         Notification::observe(ObserversNotification::class);
         Reminder::observe(ObserversReminder::class);
         CallIn::observe(ObserversCallIn::class);

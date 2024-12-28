@@ -1,18 +1,19 @@
 import timestatuses from '@/data/timestatuses';
-import weekdays from '@/data/weekdays';
+import ArrowDown from "@/Icons/ArrowDown";
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Head, router, useForm } from '@inertiajs/react';
+import { router, useForm, usePage, Link } from '@inertiajs/react';
 import moment from 'moment';
 import React, { useEffect, useRef, useState } from 'react';
 
 const Day = (props) => {
 
-    const { item, day, specialist, lastChecked, rootRef, checkedArr } = props
+    const { branch, specialist, auth } = usePage().props
+    const { day, lastChecked, rootRef, checkedArr } = props
+
     const [open, setOpen] = useState(false)
 
     const { data, setData, patch, transform } = useForm({
-        day: day,
-        time: item.time,
+        id: day.id,
         status: null
     })
 
@@ -24,8 +25,9 @@ const Day = (props) => {
 
     useEffect(() => {
         if (data.status) {
-            patch(route(`recieption.specialist.schedule.update`, {
-                specialist: specialist.id
+            patch(route(`${auth.user.role.name}.specialist.schedule.update`, {
+                specialist: specialist.id,
+                branch: branch.id
             }), {
                 onSuccess: () => {
                     setOpen(false)
@@ -117,14 +119,14 @@ const Day = (props) => {
         }
     }, [])
 
-    return <div className={`relative border-l w-32 shrink-0 border-violet-500 ${timestatuses.find(ts => ts.code === item.days[day]).color}`}
+    return <div className={`relative border-l w-32 shrink-0 border-violet-500 ${timestatuses.find(ts => ts.code === day.status).color}`}
         onClick={e => {
             e.stopPropagation();
             document.dispatchEvent(new Event('closedaysmenu'));
             setOpen(true)
         }}>
         <div>&nbsp;<br />&nbsp;</div>
-        {open ? <div className={`absolute border bg-white shadow-block z-10 text-left right-0`}>
+        {open ? <div className={`absolute border bg-white shadow-block z-30 text-left right-0`}>
             <ul className={`whitespace-nowrap`}>
                 {['free', 'cfree', 'rest'].map((status, sdx) => <li key={sdx}>
                     <label htmlFor={status} className={`flex items-center hover:bg-slate-100 cursor-pointer p-1`}>
@@ -143,14 +145,9 @@ const Day = (props) => {
 
 export default (props) => {
 
-    const { pagetitle, specialist, startOfWeek } = props
-    console.log(moment(startOfWeek))
+    const { pagetitle, specialist, branches, branch, schedule, auth } = props
 
-    let times = [];
-    for (let i in specialist.monday) {
-        times.push()
-    }
-
+    const [open, setOpen] = useState(false)
     const rootRef = useRef()
 
     const chooseDay = (day, checked) => {
@@ -158,8 +155,9 @@ export default (props) => {
     }
 
     const setStatus = (status) => {
-        router.patch(route(`recieption.specialist.schedule.update`, {
+        router.patch(route(`${auth.user.role.name}.specialist.schedule.update`, {
             specialist: specialist.id,
+            branch: branch.id,
             items: checkedArr.current,
             status,
         }))
@@ -172,7 +170,27 @@ export default (props) => {
     return <AuthenticatedLayout
         auth={props.auth}
         errors={props.errors}
-        heading={<h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>}
+        heading={<div className={`flex gap-6 justify-between items-start`}>
+            <h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>
+            <div className={`relative my-1`} onClick={e => e.stopPropagation()}>
+                <a href={`#`} onClick={e => setOpen(prev => !prev)}
+                    className={`flex itens-center justify-between rounded-lg bg-blue-50 px-4 py-2 min-w-[22.125rem]`}
+                >
+                    <span>{branch.title}</span>
+                    <ArrowDown className={`w-3 h-auto text-blue-200`} />
+                </a>
+                {open ? <ul className={`absolute top-full left-0 w-full rounded-lg bg-blue-50 z-40`}>
+                    {branches.data.map((m, mdx) => <li key={mdx}>
+                        <Link href={route(`${auth.user.role.name}.specialist.schedule`, {
+                            branch: m.id,
+                            specialist: specialist.id
+                        })}
+                            className={`block px-4 py-2 hover:text-violet-500`}
+                            onClick={e => setOpen(false)}>{m.title}</Link>
+                    </li>)}
+                </ul> : ``}
+            </div>
+        </div>}
     >
         <div className={`shadow-block rounded-lg bg-white text-sm text-center overflow-hidden flex flex-col p-1 mb-3 relative`}>
             <div className='overflow-auto'>
@@ -186,42 +204,30 @@ export default (props) => {
                     </div>
                     <div className={`inline-flex bg-slate-100 sticky top-0 z-20`}>
                         <div className={`w-24 shrink-0`}>&nbsp;</div>
-                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>
-                            <div>{weekday.title}</div>
-                            <div>{moment(startOfWeek).add(wdx, 'days').format('DD.MM.YYYY')}</div>
-                        </div>)}
-                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>
-                            <div>{weekday.title}</div>
-                            <div>{moment(startOfWeek).add(wdx + 7, 'days').format('DD.MM.YYYY')}</div>
-                        </div>)}
-                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>
-                            <div>{weekday.title}</div>
-                            <div>{moment(startOfWeek).add(wdx + 14, 'days').format('DD.MM.YYYY')}</div>
-                        </div>)}
-                        {weekdays.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>
-                            <div>{weekday.title}</div>
-                            <div>{moment(startOfWeek).add(wdx + 21, 'days').format('DD.MM.YYYY')}</div>
+                        {schedule[0].days.map((day, tdx) => <div key={tdx} className={`p-5 border-l border-violet-500 w-32 shrink-0`}>
+                            <div>{moment(day.date, 'DD.MM.YYYY').format('dddd')}</div>
+                            <div>{day.date}</div>
                         </div>)}
                     </div>
                     <div className={`flex`}>
                         <div className={`h-8 w-24 shrink-0`}></div>
-                        {Array(28).fill(null).map((el, day) => <div key={day} className={`h-8 border-l border-violet-500 w-32 shrink-0 relative`}>
-                            <input className="absolute bottom-1 right-1" type="checkbox" onClick={e => chooseDay(day, e.target.checked)} />
+                        {schedule[0].days.map((day, tdx) => <div key={tdx} className={`h-8 border-l border-violet-500 w-32 shrink-0 relative`}>
+                            <input className="absolute bottom-1 right-1" value={day.date} type="checkbox" onClick={e => chooseDay(day, e.target.checked)} />
                         </div>)}
                     </div>
-                    {specialist.schedule.map((item, tdx) => <div className={`inline-flex leading-tight border-t border-violet-500 border-dashed`} key={tdx}>
-                        <div className={`relative flex items-center justify-center w-24 shrink-0`}>
+                    {schedule.map((item, tdx) => <div className={`inline-flex leading-tight border-t border-violet-500 border-dashed`} key={tdx}>
+                        <div className={`flex items-center justify-center w-24 shrink-0 sticky left-0 z-20`}>
                             <div className={`absolute px-3 bg-white -translate-y-full`}>{item.time}</div>
                             <div>&nbsp;<br />&nbsp;</div>
                         </div>
-                        {Array(28).fill(null).map((el, day) => <Day key={day} day={day} item={item} specialist={specialist} lastChecked={lastChecked} rootRef={rootRef} checkedArr={checkedArr} />)}
+                        {item.days.map((day, tdx) => <Day key={tdx} day={day} specialist={specialist} lastChecked={lastChecked} rootRef={rootRef} checkedArr={checkedArr} />)}
                     </div>)}
                     <div className={`inline-flex border-t border-violet-500 border-dashed`}>
                         <div className={`relative flex items-center justify-center w-24 shrink-0`}>
                             <div className={`absolute px-3 bg-white -translate-y-full`}>19:30</div>
                             <div>&nbsp;<br />&nbsp;</div>
                         </div>
-                        {Array(28).fill(null).map((el, day) => <div key={day} className={`h-8 border-l border-violet-500 w-32 shrink-0`}></div>)}
+                        {schedule[0].days.map((el, tdx) => <div key={tdx} className={`h-8 border-l border-violet-500 w-32 shrink-0`}></div>)}
                     </div>
                 </div>
             </div>

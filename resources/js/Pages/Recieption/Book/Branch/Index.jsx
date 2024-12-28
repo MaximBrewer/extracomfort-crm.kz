@@ -9,6 +9,8 @@ export default (props) => {
 
     const { pagetitle, patient, branch, week, specialists, directions } = props
 
+    console.log(specialists)
+
     const { moment } = useLayout();
 
     const [tab, setTab] = useState(`specialists`)

@@ -27,12 +27,12 @@ const customStyles = {
 
 export default (props) => {
 
-    const { auth, branch, patient, specialist, direction = null, book = null, day = null, date = null, week = null, year, item } = props
+    const { auth, branch, patient, specialist, direction = null, book = null, day = null, date = null, week = null, time = null, year, item } = props
 
     const { setModal } = useLayout()
 
     const { data, setData, post, patch, processing, setError, errors, reset, transform } = useForm({
-        time: times.data.find(time => time.value == item.time),
+        time: times.data.find(t => t.value == time),
         direction: null,
         duration: null,
         category: null,

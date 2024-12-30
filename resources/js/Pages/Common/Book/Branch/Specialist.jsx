@@ -15,13 +15,17 @@ const Day = (props) => {
     const { item, day, books, currentWeek, specialist } = props
     const { setModal } = useLayout()
 
-    let book = books.data.find(book => book.date == currentWeek.days[day].date && book.time == item.time);
+    // let book = false;
+
+    // console.log(currentWeek.days)
+
+    let book = books.data.find(book => book.date == day.date && book.time == item.time);
 
     let show = !book || book.start === book.time;
 
     return <>
         {show ? <div
-            onClick={e => day.status !== 'rest' && !book ? setModal(<Book {...props} item={item} day={day} specialist={specialist} />) : void (0)}
+            onClick={e => day.status !== 'rest' && !book ? setModal(<Book {...props} date={day.date} time={item.time} specialist={specialist} />) : void (0)}
             className={`overflow-hidden relative ${day.status !== 'rest' ? 'cursor-pointer' : ''} ${book ? `row-span-${Math.ceil(book.duration / 5)}` : ``} border-l px-px leading-tight py-px flex flex-col items-center justify-center border-violet-500 border-b border-b-dashed border-violet-500 ${book ? `${timestatuses.find(ts => ts.code === `active`).color}` : `${timestatuses.find(ts => ts.code === day.status).color}`}`}>
 
             {book ? <>
@@ -43,8 +47,6 @@ const SpecialistOption = (props) => {
 export default (props) => {
 
     const { pagetitle, specialist, week, weeks, patient, branch, specialists, schedule } = props
-
-    console.log(schedule)
 
     const currentWeek = weeks.find(item => item.value == week)
     const [openWeeks, setOpenWeeks] = useState(false)
@@ -137,7 +139,7 @@ export default (props) => {
                 </div>
                 <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr]`}>
                     <div className={`h-8`}></div>
-                    {schedule[0].days.map(day => <div key={day} className={`h-8 border-l border-violet-500`}></div>)}
+                    {schedule[0].days.map((day, ddx) => <div key={ddx} className={`h-8 border-l border-violet-500`}></div>)}
                 </div>
                 <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr] leading-tight border-violet-500`}>
                     {schedule.map((item, tdx) => <React.Fragment key={tdx}>
@@ -145,7 +147,7 @@ export default (props) => {
                             <div className={`absolute px-3 bg-white -translate-y-full`}>{item.time}</div>
                             <div>&nbsp;<br />&nbsp;</div>
                         </div>
-                        {item.days.map(day => <Day {...props} key={day} day={day} item={item} currentWeek={currentWeek} specialist={specialist} />)}
+                        {item.days.map((day, ddx) => <Day {...props} key={ddx} day={day} item={item} currentWeek={currentWeek} specialist={specialist} />)}
                     </React.Fragment>)}
                 </div>
                 <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr] leading-tight`}>
@@ -153,7 +155,7 @@ export default (props) => {
                         <div className={`absolute px-3 bg-white -translate-y-full`}>19:30</div>
                         <div>&nbsp;<br />&nbsp;</div>
                     </div>
-                    {schedule[0].days.map(day => <div key={day} className={`h-8`}></div>)}
+                    {schedule[0].days.map((day, ddx) => <div key={ddx} className={`h-8`}></div>)}
                 </div>
             </div>
 

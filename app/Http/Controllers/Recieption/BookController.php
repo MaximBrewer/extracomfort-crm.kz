@@ -113,9 +113,11 @@ class BookController extends Controller
 
         $this->getCommonData($data);
         $data['specialists'] = DirectionSpecialist::collection($direction->specialists()
-            ->with(['booksSpecialist' => function (HasMany $hasMany) use ($date) {
-                $hasMany->where('date', $date);
-            }])
+            ->with([
+                'booksSpecialist' => function (HasMany $hasMany) use ($date) {
+                    $hasMany->where('date', $date);
+                }
+            ])
             ->get());
         $data['pagetitle'] = 'Расписание направления';
         $data['patient'] = $patient;
@@ -199,10 +201,8 @@ class BookController extends Controller
      */
     public function store(BookStoreRequest $request, User $patient, Branch $branch, User $specialist)
     {
-        if (!$specialist->schedule || $specialist->schedule === "null") {
-            $specialist->schedule = User::getDayArray();
-            $specialist->save();
-        }
+        $shedule = $specialist->schedules()->where('branch_id', $branch->id)->first();
+
         if (!$request->date) {
             $date = Carbon::createFromDate($request->year . "-01-01 00:00:00");
             $date->addWeeks($request->week - 1);
@@ -224,14 +224,10 @@ class BookController extends Controller
         ];
 
         try {
-            DB::transaction(function () use ($request, $date, $data, $specialist) {
+            DB::transaction(function () use ($request, $date, $data, $shedule) {
                 for ($i = 0; ceil($i < ($request->duration / 5)); ++$i) {
                     $sdate = (new Carbon($date))->addMinutes($i * 5);
-                    $times = array_filter($specialist->schedule, function ($item) use ($sdate) {
-                        return ($sdate->format('H:i') == $item['time']);
-                    });
-                    $status = reset($times)['days'][$sdate->format('w') - 1];
-                    if ($status === 'rest') {
+                    if ($shedule->datetimes()->where('datetime', $sdate)->first()->status === 'rest') {
                         DB::rollBack();
                         return redirect()->back()->withErrors(['duration' => 'Выходной!']);
                     }
@@ -254,5 +250,7 @@ class BookController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function update(BookUpdateRequest $request, Book $book, User $patient, Branch $branch, User $specialist) {}
+    public function update(BookUpdateRequest $request, Book $book, User $patient, Branch $branch, User $specialist)
+    {
+    }
 }

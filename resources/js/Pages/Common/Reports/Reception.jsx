@@ -10,6 +10,26 @@ export default (props) => {
         results = { data: [] }
     } = props
 
+
+
+    const getFirst = () => {
+        let sum = 0;
+        results.data.map(result => sum += result.first)
+        return sum;
+    }
+
+    const getRepeat = () => {
+        let sum = 0;
+        results.data.map(result => sum += result.repeat)
+        return sum;
+    }
+
+    const getTotal = () => {
+        let sum = 0;
+        results.data.map(result => sum += result.total)
+        return sum;
+    }
+
     return (
         <AuthenticatedLayout
             scrollpage={true}
@@ -53,6 +73,14 @@ export default (props) => {
                                 </tr>
                             </Fragment>)}
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <Td><span className='font-bold'>Итого:</span></Td>
+                                <Td>{getFirst()}</Td>
+                                <Td>{getRepeat()}</Td>
+                                <Td>{getTotal()}</Td>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div> : <></>}
             </div >

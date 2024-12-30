@@ -37,24 +37,27 @@ export default (props) => {
                             <Th rowSpan={1}>ФИО пациента</Th>
                             <Th rowSpan={1}>оказанные услуги</Th>
                             <Th rowSpan={1}>стоимость услуги</Th>
+                            <Th rowSpan={1}>оплачено в кассу</Th>
                         </tr>
                     </thead>
                     <tbody>
                         {results.data.map((direction, ddx) => <Fragment key={ddx}>
                             {direction.specialists && direction.specialists.length && direction.specialists.filter(el => el.books.length).length ? <>
-                                <tr><Th colSpan={4} className={`text-left`}><strong>{direction.title}</strong></Th></tr>
+                                <tr><Th colSpan={5} className={`text-left`}><strong>{direction.title}</strong></Th></tr>
                                 {direction.specialists.map((specialist, sdx) => <Fragment key={sdx}>
-                                    {specialist.books.length ? <><tr><Th colSpan={4} className={`text-left`}><strong>{specialist.fullName}</strong></Th></tr>
+                                    {specialist.books.length ? <><tr><Th colSpan={5} className={`text-left`}><strong>{specialist.fullName}</strong></Th></tr>
                                         {specialist.books.map((book, bdx) => <tr key={bdx}>
                                             <Td>{book.date}</Td>
                                             <Td>{book.patient}</Td>
                                             <Td>{book.service}</Td>
+                                            <Td>{book.sum}</Td>
                                             <Td>{book.sum}</Td>
                                         </tr>)}
                                         <tr>
                                             <Td><strong>итого по специалисту:</strong> </Td>
                                             <Td>{specialist.books.length}</Td>
                                             <Td></Td>
+                                            <Td>{sum(specialist.books)}</Td>
                                             <Td>{sum(specialist.books)}</Td>
                                         </tr>
                                     </> : <></>}

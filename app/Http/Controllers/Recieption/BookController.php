@@ -95,7 +95,7 @@ class BookController extends Controller
         $data['week'] = $week;
         $data['year'] = $year;
         $data['weeks'] = $weeks;
-        return Inertia::render('Recieption/Book/Branch/Specialist', $data);
+        return Inertia::render('Common/Book/Branch/Specialist', $data);
     }
 
     /**

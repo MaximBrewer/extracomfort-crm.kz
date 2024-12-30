@@ -41,7 +41,7 @@ class BookController extends Controller
         $data['branch'] = $branch;
         $data['week'] = Carbon::now()->startOfWeek()->format('W');
         $data['specialists'] = Specialist::with('directions')->get();
-        return Inertia::render('Recieption/Book/Branch/Index', $data);
+        return Inertia::render('Common/Book/Branch/Index', $data);
     }
 
     /**

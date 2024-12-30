@@ -12,21 +12,14 @@ export default (props) => {
 
 
 
-    const getFirst = () => {
+    const count = (v, id) => {
         let sum = 0;
-        results.data.map(result => sum += result.first)
-        return sum;
-    }
-
-    const getRepeat = () => {
-        let sum = 0;
-        results.data.map(result => sum += result.repeat)
-        return sum;
-    }
-
-    const getTotal = () => {
-        let sum = 0;
-        results.data.map(result => sum += result.total)
+        for (let dir of results.data) {
+            if (!id || id === dir.id)
+                for (let spec of dir.specialists) {
+                    sum += spec[v]
+                }
+        }
         return sum;
     }
 
@@ -67,18 +60,18 @@ export default (props) => {
                                     </tr>)}
                                 <tr>
                                     <Td><span className='font-bold'>Итого по подразделению:</span></Td>
-                                    <Td>{dir.first}</Td>
-                                    <Td>{dir.repeat}</Td>
-                                    <Td>{dir.total}</Td>
+                                    <Td>{count(`first`, dir.id)}</Td>
+                                    <Td>{count(`repeat`, dir.id)}</Td>
+                                    <Td>{count(`total`, dir.id)}</Td>
                                 </tr>
                             </Fragment>)}
                         </tbody>
                         <tfoot>
                             <tr>
                                 <Td><span className='font-bold'>Итого:</span></Td>
-                                <Td>{getFirst()}</Td>
-                                <Td>{getRepeat()}</Td>
-                                <Td>{getTotal()}</Td>
+                                <Td>{count(`first`)}</Td>
+                                <Td>{count(`repeat`)}</Td>
+                                <Td>{count(`total`)}</Td>
                             </tr>
                         </tfoot>
                     </table>

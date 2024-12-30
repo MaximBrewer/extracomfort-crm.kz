@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Recieption\Specialists;
+namespace App\Http\Controllers\Common\Specialists;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SpecialistTizer;
@@ -23,12 +23,11 @@ class ScheduleController extends Controller
     {
         $data['branches'] = ResourcesBranch::collection(Branch::all());
         $data['pagetitle'] = "Расписание специалиста $specialist->fullName";
-        $schedule = $specialist->getSchedule($branch);
         $data['specialist'] = $specialist;
-        $data['schedule'] = $schedule;
+        $data['schedule'] = $specialist->getSchedule($branch);
         $data['branch'] = $branch;
         $data['startOfWeek'] = (new Carbon)->startOfWeek()->format("Y-m-d");
-        return Inertia::render('Recieption/Specialist/Schedule', $data);
+        return Inertia::render('Common/Specialist/Schedule', $data);
     }
 
     /**

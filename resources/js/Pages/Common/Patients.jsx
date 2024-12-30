@@ -11,7 +11,7 @@ import { useState } from 'react';
 
 export default (props) => {
 
-    const { pagetitle, patients, request = {} } = props
+    const { auth, pagetitle, patients, request = {} } = props
 
     const { setModal, age } = useLayout();
 
@@ -21,7 +21,7 @@ export default (props) => {
 
     const submit = (e) => {
         e.preventDefault()
-        get(route('recieption.patients'))
+        get(route(`${auth.user.role.name}.patients`))
     }
 
     return (
@@ -31,7 +31,7 @@ export default (props) => {
             heading={
                 <div className={`flex space-x-4 items-center`}>
                     <h1 className="font-semibold text-3xl text-gray-800 leading-tight">{pagetitle}</h1>
-                    <Link href={route(`recieption.patient.create`)} className={`text-blue-400 underline text-xl hover:no-underline`}>Новый пациент</Link>
+                    <Link href={route(`${auth.user.role.name}.patient.create`)} className={`text-blue-400 underline text-xl hover:no-underline`}>Новый пациент</Link>
                 </div>
             }
         >
@@ -44,7 +44,7 @@ export default (props) => {
                 </div>
             </form>
             <div className={`shadow-bb rounded-lg bg-white py-5 px-6 overflow-y-auto`}>
-                {patients.data.map((patient, pdx) => <Link href={route(`recieption.patient.card`, {
+                {patients.data.map((patient, pdx) => <Link href={route(`${auth.user.role.name}.patient.card`, {
                     patient: patient.id
                 })} key={pdx} className={`flex space-x-3 items-center mb-5 p-5 rounded-lg bg-blue-50 hover:bg-white hover:shadow-block`} preserveState>
                     <div className={`w-[70%]`}>

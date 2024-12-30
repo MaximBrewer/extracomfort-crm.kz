@@ -89,6 +89,7 @@ class BookController extends Controller
         $data['specialists'] = Specialist::with('directions')->get();
         $data['pagetitle'] = 'Расписание специалиста';
         $data['specialist'] = new ResourcesSpecialist($specialist);
+        $data['schedule'] = $specialist->getSchedule($branch, $startOfWeek, $endOfWeek);
         $data['patient'] = $patient;
         $data['branch'] = $branch;
         $data['week'] = $week;

@@ -22,7 +22,7 @@ class Schedule extends Model
         parent::boot();
         static::addGlobalScope('with', function (Builder $builder) {
             $builder->with('datetimes', function (HasMany $builder) {
-                $builder->where('datetime', '>', now()->startOfWeek())->where('datetime', '<', now()->startOfWeek()->addWeeks(4))->orderBy('datetime');
+                $builder->orderBy('datetime');
             });
         });
     }

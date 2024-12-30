@@ -21,9 +21,9 @@ const Day = (props) => {
 
     return <>
         {show ? <div
-            onClick={e => item.days[day] !== 'rest' && !book ? setModal(<Book {...props} item={item} day={day} specialist={specialist} />) : void (0)}
-            className={`overflow-hidden relative ${item.days[day] !== 'rest' ? 'cursor-pointer' : ''} ${book ? `row-span-${Math.ceil(book.duration / 5)}` : ``} border-l px-px leading-tight py-px flex flex-col items-center justify-center border-violet-500 border-b border-b-dashed border-violet-500 ${book ? `${timestatuses.find(ts => ts.code === `active`).color}` : `${timestatuses.find(ts => ts.code === item.days[day]).color}`}`}>
-            {/* <div className='absolute'>{day}</div> */}
+            onClick={e => day.status !== 'rest' && !book ? setModal(<Book {...props} item={item} day={day} specialist={specialist} />) : void (0)}
+            className={`overflow-hidden relative ${day.status !== 'rest' ? 'cursor-pointer' : ''} ${book ? `row-span-${Math.ceil(book.duration / 5)}` : ``} border-l px-px leading-tight py-px flex flex-col items-center justify-center border-violet-500 border-b border-b-dashed border-violet-500 ${book ? `${timestatuses.find(ts => ts.code === `active`).color}` : `${timestatuses.find(ts => ts.code === day.status).color}`}`}>
+
             {book ? <>
                 <div className={`text-center w-full whitespace-nowrap text-ellipsis overflow-hidden`}>{book.patient.fio}</div>
                 <div className={`text-center w-full whitespace-nowrap text-ellipsis overflow-hidden`}>{book.patient.phone ? book.patient.phone : book.patient.email}</div>
@@ -42,7 +42,9 @@ const SpecialistOption = (props) => {
 
 export default (props) => {
 
-    const { pagetitle, specialist, week, weeks, patient, branch, specialists } = props
+    const { pagetitle, specialist, week, weeks, patient, branch, specialists, schedule } = props
+
+    console.log(schedule)
 
     const currentWeek = weeks.find(item => item.value == week)
     const [openWeeks, setOpenWeeks] = useState(false)
@@ -135,6 +137,33 @@ export default (props) => {
                 </div>
                 <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr]`}>
                     <div className={`h-8`}></div>
+                    {schedule[0].days.map(day => <div key={day} className={`h-8 border-l border-violet-500`}></div>)}
+                </div>
+                <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr] leading-tight border-violet-500`}>
+                    {schedule.map((item, tdx) => <React.Fragment key={tdx}>
+                        <div className={`relative flex items-center justify-center border-t border-dashed`}>
+                            <div className={`absolute px-3 bg-white -translate-y-full`}>{item.time}</div>
+                            <div>&nbsp;<br />&nbsp;</div>
+                        </div>
+                        {item.days.map(day => <Day {...props} key={day} day={day} item={item} currentWeek={currentWeek} specialist={specialist} />)}
+                    </React.Fragment>)}
+                </div>
+                <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr] leading-tight`}>
+                    <div className={`relative flex items-center justify-center`}>
+                        <div className={`absolute px-3 bg-white -translate-y-full`}>19:30</div>
+                        <div>&nbsp;<br />&nbsp;</div>
+                    </div>
+                    {schedule[0].days.map(day => <div key={day} className={`h-8`}></div>)}
+                </div>
+            </div>
+
+            {/* <div className='overflow-y-auto'>
+                <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr] bg-slate-100 text-center sticky top-0 z-10`}>
+                    <div className={``}></div>
+                    {currentWeek.days.map((weekday, wdx) => <div key={wdx} className={`p-5 border-l ${weekday.today ? `bg-violet-500 text-white` : ``} border-violet-500 capitalize`}>{weekday.title}</div>)}
+                </div>
+                <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr]`}>
+                    <div className={`h-8`}></div>
                     {[0, 1, 2, 3, 4, 5, 6].map(day => <div key={day} className={`h-8 border-l border-violet-500`}></div>)}
                 </div>
                 <div className={`grid grid-cols-[5.25rem_1fr_1fr_1fr_1fr_1fr_1fr_1fr] leading-tight border-violet-500`}>
@@ -153,7 +182,7 @@ export default (props) => {
                     </div>
                     {[0, 1, 2, 3, 4, 5, 6].map(day => <div key={day} className={`h-8`}></div>)}
                 </div>
-            </div>
+            </div> */}
         </div >
         <div className={`grid grid-cols-5 gap-4 text-sm`}>
             {timestatuses.map((ts, tdx) => <div key={tdx} className={`flex items-center`}>

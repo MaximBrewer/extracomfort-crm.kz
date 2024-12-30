@@ -157,23 +157,21 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     Route::get('search/patients', [Common\SearchController::class, 'patients'])->name('search.patients');
     Route::get('search/consultants', [Common\SearchController::class, 'consultants'])->name('search.consultants');
 
-    Route::get('patients', Recieption\PatientsController::class)->name('patients');
+    Route::get('patients', Common\PatientsController::class)->name('patients');
 
     Route::group(['prefix' => 'patient', 'as' => 'patient.'], function () {
-        Route::get('create', [Recieption\PatientsController::class, 'create'])->name('create');
-        Route::get('edit/{patient}', [Recieption\PatientsController::class, 'edit'])->name('edit');
-        Route::post('patient', [Recieption\PatientsController::class, 'store'])->name('store');
-        Route::patch('topup/{patient}', [Recieption\PatientsController::class, 'topup'])->name('topup');
-        Route::patch('withdraw/{patient}', [Recieption\PatientsController::class, 'withdraw'])->name('withdraw');
-        Route::patch('{patient}', [Recieption\PatientsController::class, 'update'])->name('update');
-        Route::get('card/{patient}', [Recieption\PatientsController::class, 'card'])->name('card');
+        Route::get('create', [Common\PatientsController::class, 'create'])->name('create');
+        Route::get('edit/{patient}', [Common\PatientsController::class, 'edit'])->name('edit');
+        Route::post('patient', [Common\PatientsController::class, 'store'])->name('store');
+        Route::patch('topup/{patient}', [Common\PatientsController::class, 'topup'])->name('topup');
+        Route::patch('withdraw/{patient}', [Common\PatientsController::class, 'withdraw'])->name('withdraw');
+        Route::patch('{patient}', [Common\PatientsController::class, 'update'])->name('update');
+        Route::get('card/{patient}', [Common\PatientsController::class, 'card'])->name('card');
     });
 
-
-    Route::get('{branch}/specialists', Recieption\SpecialistsController::class)->name('specialists');
-
-    Route::get('{branch}/specialist/{specialist}/schedule', Recieption\Specialists\ScheduleController::class)->name('specialist.schedule');
-    Route::patch('{branch}/specialist/{specialist}/schedule', [Recieption\Specialists\ScheduleController::class, 'update'])->name('specialist.schedule.update');
+    Route::get('{branch}/specialists', Common\SpecialistsController::class)->name('specialists');
+    Route::get('{branch}/specialist/{specialist}/schedule', Common\Specialists\ScheduleController::class)->name('specialist.schedule');
+    Route::patch('{branch}/specialist/{specialist}/schedule', [Common\Specialists\ScheduleController::class, 'update'])->name('specialist.schedule.update');
 
     Route::get('book/{patient}/{branch}', [Recieption\BookController::class, 'branch'])->name('book.branch');
     Route::get('book/{patient}/{branch}/direction/{direction}/{date}', [Recieption\BookController::class, 'direction'])->name('book.direction');
@@ -216,20 +214,22 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
 Route::group(['prefix' => 'nurse', 'as' => 'nurse.', 'middleware' => ['auth', 'nurse']], function () {
     Route::get('{branch}/timetable/{date?}', [Nurse\TimetableController::class, 'index'])->name('timetable');
     Route::get('{branch}/reminders/{date?}', [Nurse\RemindersController::class, 'index'])->name('reminders');
-    Route::get('patients', Nurse\PatientsController::class)->name('patients');
-    Route::get('patient/create', [Nurse\PatientsController::class, 'create'])->name('patient.create');
-    Route::get('patient/edit/{patient}', [Nurse\PatientsController::class, 'edit'])->name('patient.edit');
-    Route::post('patient', [Nurse\PatientsController::class, 'store'])->name('patients.store');
-    Route::patch('patient/topup/{patient}', [Nurse\PatientsController::class, 'topup'])->name('patient.topup');
-    Route::patch('patient/withdraw/{patient}', [Nurse\PatientsController::class, 'withdraw'])->name('patient.withdraw');
 
-    Route::patch('patient/{patient}', [Nurse\PatientsController::class, 'update'])->name('patients.update');
-    Route::get('patient/card/{patient}', [Nurse\PatientsController::class, 'card'])->name('patient.card');
-    Route::get('{branch}/specialists', Nurse\SpecialistsController::class)->name('specialists');
-    Route::get('finance', Nurse\FinanceController::class)->name('finance');
+    Route::get('patients', Common\PatientsController::class)->name('patients');
 
-    Route::get('{branch}/specialist/{specialist}/schedule', [Nurse\SpecialistsController::class, 'schedule'])->name('specialist.schedule');
-    Route::patch('{branch}/specialist/{specialist}/schedule', [Nurse\SpecialistsController::class, 'updateSchedule'])->name('specialist.schedule.update');
+    Route::group(['prefix' => 'patient', 'as' => 'patient.'], function () {
+        Route::get('create', [Common\PatientsController::class, 'create'])->name('create');
+        Route::get('edit/{patient}', [Common\PatientsController::class, 'edit'])->name('edit');
+        Route::post('patient', [Common\PatientsController::class, 'store'])->name('store');
+        Route::patch('topup/{patient}', [Common\PatientsController::class, 'topup'])->name('topup');
+        Route::patch('withdraw/{patient}', [Common\PatientsController::class, 'withdraw'])->name('withdraw');
+        Route::patch('{patient}', [Common\PatientsController::class, 'update'])->name('update');
+        Route::get('card/{patient}', [Common\PatientsController::class, 'card'])->name('card');
+    });
+
+    Route::get('{branch}/specialists', Common\SpecialistsController::class)->name('specialists');
+    Route::get('{branch}/specialist/{specialist}/schedule', Common\Specialists\ScheduleController::class)->name('specialist.schedule');
+    Route::patch('{branch}/specialist/{specialist}/schedule', [Common\Specialists\ScheduleController::class, 'update'])->name('specialist.schedule.update');
 
     Route::get('book/{patient}/{branch}', [Nurse\BookController::class, 'branch'])->name('book.branch');
     Route::get('book/{patient}/{branch}/direction/{direction}/{date}', [Nurse\BookController::class, 'direction'])->name('book.direction');

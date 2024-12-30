@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Recieption;
+namespace App\Http\Controllers\Common;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SpecialistTizer;
@@ -24,6 +24,6 @@ class SpecialistsController extends Controller
         $data['pagetitle'] = 'Специалисты';
         $data['branch'] = $branch;
         $data['specialists'] = SpecialistTizer::collection(User::where('role_id', 4)->with('directions')->paginate(1000));
-        return Inertia::render('Recieption/Specialists', $data);
+        return Inertia::render('Common/Specialists', $data);
     }
 }

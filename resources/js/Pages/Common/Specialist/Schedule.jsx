@@ -201,6 +201,10 @@ export default (props) => {
                         <div className={`p-5 border-l border-b border-violet-500 w-[56rem] shrink-0`}>+1 неделя</div>
                         <div className={`p-5 border-l border-b border-violet-500 w-[56rem] shrink-0`}>+2 недели</div>
                         <div className={`p-5 border-l border-b border-violet-500 w-[56rem] shrink-0`}>+3 недели</div>
+                        <div className={`p-5 border-l border-b border-violet-500 w-[56rem] shrink-0`}>+4 недели</div>
+                        <div className={`p-5 border-l border-b border-violet-500 w-[56rem] shrink-0`}>+5 недель</div>
+                        <div className={`p-5 border-l border-b border-violet-500 w-[56rem] shrink-0`}>+6 недель</div>
+                        <div className={`p-5 border-l border-b border-violet-500 w-[56rem] shrink-0`}>+7 недель</div>
                     </div>
                     <div className={`inline-flex bg-slate-100 sticky top-0 z-20`}>
                         <div className={`w-24 shrink-0`}>&nbsp;</div>

@@ -8,9 +8,11 @@ use App\Http\Requests\PatientStoreRequest;
 use App\Http\Requests\PatientUpdateRequest;
 use App\Http\Resources\Direction as ResourcesDirection;
 use App\Http\Resources\Locality as ResourcesLocality;
+use App\Http\Resources\Patient;
 use App\Http\Resources\User as ResourcesUser;
 use App\Models\Direction;
 use App\Models\Locality;
+use App\Models\Patient as ModelsPatient;
 use App\Models\User;
 use App\Traits\Balance;
 use Illuminate\Http\Request;
@@ -34,7 +36,7 @@ class PatientsController extends Controller
         if ($request->get('q'))
             $users->whereFullText('searchcontent', $request->get('q'));
         $data['patients'] = ResourcesUser::collection($users->paginate(50)->appends($request->only(['q'])));
-        return Inertia::render(ucwords(Auth::user()->role->name) . '/Patients', $data);
+        return Inertia::render('Common/Patients', $data);
     }
 
     /**
@@ -46,7 +48,7 @@ class PatientsController extends Controller
         $this->getCommonData($data);
         $data['pagetitle'] = 'Новый пациент';
         $data['patient'] = null;
-        return Inertia::render(ucwords(Auth::user()->role->name) . '/Patient/Form', $data);
+        return Inertia::render('Common/Patient/Form', $data);
     }
 
     /**
@@ -74,7 +76,7 @@ class PatientsController extends Controller
         $this->getCommonData($data);
         $data['patient'] = $patient;
         $data['pagetitle'] = 'Карточка пациента';
-        return Inertia::render(ucwords(Auth::user()->role->name) . '/Patient/Card', $data);
+        return Inertia::render('Common/Patient/Card', $data);
     }
 
     /**
@@ -86,7 +88,7 @@ class PatientsController extends Controller
         $this->getCommonData($data);
         $data['pagetitle'] = 'Редактирование пациента';
         $data['patient'] = $patient;
-        return Inertia::render(ucwords(Auth::user()->role->name) . '/Patient/Form', $data);
+        return Inertia::render('Common/Patient/Form', $data);
     }
 
 
@@ -105,13 +107,14 @@ class PatientsController extends Controller
     /**
      * Common data for crud.
      */
-    protected function getCommonData(&$data)
+    private function getCommonData(&$data)
     {
         $data['genders'] = [
             [
                 'value' => 'male',
                 'label' => 'Мужской',
-            ], [
+            ],
+            [
                 'value' => 'female',
                 'label' => 'Женский'
             ]

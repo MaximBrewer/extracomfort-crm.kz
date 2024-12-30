@@ -14,6 +14,8 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -320,35 +322,52 @@ class User extends Authenticatable
     /**
      * The users that belong to the role.
      */
-    public function getSchedule(Branch $branch)
+    public function getSchedule(Branch $branch, $startDate = null, $endDate = null)
     {
         $schedule = $this->schedules()->firstOrCreate([
             'branch_id' => $branch->id,
         ]);
 
-        $lastDay = $schedule->datetimes()->where([
-            'datetime' => now()->startOfWeek()->addDays(27)->addHours(9),
-        ])->first();
+        $startDate = $startDate ?: now()->startOfWeek();
+        $endDate = $endDate ?: now()->startOfWeek()->addDays(55)->endOfDay();
+
+        $lastDay = $schedule->datetimes()->where(
+            'datetime',
+            (new Carbon($endDate))->startOfDay()->addHours(9)
+        )->first();
 
         if (!$lastDay) {
-            $end = now()->startOfWeek()->addDays(28);
-            $date = now()->startOfWeek();
-            $date->addHours(9);
-            do {
-                $schedule->datetimes()->firstOrCreate([
-                    'datetime' => $date,
-                ], [
-                    'status' => 'free'
-                ]);
-                $date->addMinutes(5);
-                if ($date->format('H:i') === "19:35") {
-                    $date->addDay()->startOfDay()->addHours(9);
-                }
-            } while ($date < $end);
+            try {
+                DB::transaction(function () use ($schedule, $startDate, $endDate) {
+                    $date = new Carbon($startDate);
+                    $end = new Carbon($endDate);
+
+                    $date->addHours(9);
+                    do {
+                        $schedule->datetimes()->firstOrCreate([
+                            'datetime' => $date,
+                        ], [
+                            'status' => 'free'
+                        ]);
+                        $date->addMinutes(5);
+                        if ($date->format('H:i') === "19:35") {
+                            $date->addDay()->startOfDay()->addHours(9);
+                        }
+                    } while ($date < $end);
+                });
+            } catch (\Throwable $exception) {
+                Log::info($exception->getMessage());
+            }
         }
 
         $times = [];
-        foreach ($schedule->datetimes as $time) {
+
+        $datetimes = $schedule->datetimes()
+            ->where('datetime', '>=', $startDate)
+            ->where('datetime', '<=', $endDate)
+            ->get();
+
+        foreach ($datetimes as $time) {
             if (!isset($times[$time->datetime->format('H:i')]))
                 $times[$time->datetime->format('H:i')] = [
                     'time' => $time->datetime->format('H:i'),
@@ -364,6 +383,7 @@ class User extends Authenticatable
             $time['days'] = array_values($time['days']);
         }
         $times = array_values($times);
+
 
         return $times;
     }

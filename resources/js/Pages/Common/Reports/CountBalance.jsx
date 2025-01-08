@@ -2,6 +2,7 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Fragment } from 'react';
 import { Th, Td, Navigate } from './Components';
 import Filter from './Filter';
+import moment from 'moment';
 
 export default (props) => {
 
@@ -10,19 +11,17 @@ export default (props) => {
         results = { data: [] }
     } = props
 
-    const getQuantity = () => {
-        let quantity = 0;
-        results.data.map(result => result.categories.map(cetagory => cetagory.services.map(service => quantity += service.quantity)))
-        return quantity;
-    }
-
     const getSum = () => {
         let sum = 0;
-        results.data.map(result => result.categories.map(cetagory => cetagory.services.map(service => sum += service.sum)))
+        results.data.map(result => result.books.map(book => sum += book.payments.length ? book.payments[0].sum : 0))
         return sum;
     }
 
-    console.log(results)
+    const rSum = (r) => {
+        let sum = 0;
+        r.map(book => sum += book.payments.length ? book.payments[0].sum : 0)
+        return sum;
+    }
 
     return (
         <AuthenticatedLayout
@@ -39,27 +38,28 @@ export default (props) => {
                         <thead>
                             <tr>
                                 <Th rowSpan={1}>№</Th>
+                                <Th rowSpan={1}>дата</Th>
+                                <Th rowSpan={1}>ФИО пациента</Th>
                                 <Th rowSpan={1}>услуга</Th>
-                                <Th rowSpan={1}>цена</Th>
-                                <Th rowSpan={1}>количество полученных услуг</Th>
-                                <Th rowSpan={1}>сумма c учетом скидки</Th>
+                                <Th rowSpan={1}>специалист</Th>
+                                <Th rowSpan={1}>сумма</Th>
                             </tr>
                         </thead>
                         <tbody>
                             {results.data.map((result, rdx) => <Fragment key={rdx}>
-                                {result.sum ? <>
-                                    <tr><Th colSpan={5}>{result.title}</Th></tr>
-                                    {result.categories ? result.categories.map((cetagory, cdx) => <Fragment key={cdx}>{cetagory.services.map((service, sdx) => service.quantity ? <tr key={sdx}>
-                                        <Td>{service.id}</Td>
-                                        <Td>{service.title}</Td>
-                                        <Td className={`text-center`}>{service.price}</Td>
-                                        <Td className={`text-center`}>{service.quantity}</Td>
-                                        <Td className={`text-center`}>{service.sum}</Td>
-                                    </tr> : '')}</Fragment>) : <></>}
+                                {rSum(result.books) > 0 ? <>
+                                    <tr><Th colSpan={6} className={`text-left`}><span className='font-bold text-sm'>{result.title}</span></Th></tr>
+                                    {result.books ? result.books.map((book, cdx) => <tr key={cdx}>
+                                        <Td>{1 + cdx}</Td>
+                                        <Td>{book.date} {book.time}</Td>
+                                        <Td className={`text-left`}>{book.patient.fio}</Td>
+                                        <Td className={`text-left`}>{book.service.title}</Td>
+                                        <Td className={`text-left`}>{book.specialist.fio}</Td>
+                                        <Td className={`text-center`}>{book.payments.length ? book.payments[0].sum : ``}</Td>
+                                    </tr>) : <></>}
                                     <tr>
-                                        <Td colSpan={3} className={`text-right font-bold text-sm`}>Итого:</Td>
-                                        <Td colSpan={1} className={`text-center`}>{result.quantity}</Td>
-                                        <Td colSpan={1} className={`text-center`}>{result.sum}</Td>
+                                        <Td colSpan={5} className={`text-right font-bold text-sm`}>Итого:</Td>
+                                        <Td colSpan={1} className={`text-center`}>{rSum(result.books)}</Td>
                                     </tr>
                                 </> : <>
                                 </>}
@@ -67,8 +67,7 @@ export default (props) => {
                         </tbody>
                         <tfoot>
                             <tr>
-                                <Td colSpan={3} className={`text-right font-bold text-sm`}>Итого по филиалу:</Td>
-                                <Td colSpan={1} className={`text-center`}>{getQuantity()}</Td>
+                                <Td colSpan={5} className={`text-right font-bold text-sm`}>Итого по филиалу:</Td>
                                 <Td colSpan={1} className={`text-center`}>{getSum()}</Td>
                             </tr>
                         </tfoot>

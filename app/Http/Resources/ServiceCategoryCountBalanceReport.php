@@ -2,13 +2,12 @@
 
 namespace App\Http\Resources;
 
+use App\Models\Book;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-use App\Models\Book;
-use Illuminate\Contracts\Database\Eloquent\Builder;
-
-class CountBalanceReport extends JsonResource
+class ServiceCategoryCountBalanceReport extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,15 +18,14 @@ class CountBalanceReport extends JsonResource
     {
         global $filter;
 
+
         $books = null;
-        $direction = $this;
 
         if ($filter['start'] && $filter['end']) {
 
-            $books = Book::whereRaw('start=time')
-                ->whereHas('payments', function ($query) {
-                    $query->where('sum', '>', 0);
-                })
+            $books = Book::whereHas('service', function ($query) {
+                $query->where('direction_id', $this->id);
+            })->where('')->whereRaw('start=time')
                 ->where('date', '>=', $filter['start'])->where('date', '<=', $filter['end'])
                 ->where('status', 'completed')
                 ->where('branch_id', $filter['branch']);
@@ -37,18 +35,22 @@ class CountBalanceReport extends JsonResource
                 $books = $books->where('patient_id', $filter['patient']);
             if (!empty($filter['service']))
                 $books = $books->whereIn('service_id', $filter['service']);
-            $books = $books->whereHas('service', function (Builder $query) use ($direction) {
-                $query->whereHas('category', function (Builder $query) use ($direction) {
-                    $query->where('direction_id', $direction->id);
+            if (!empty($filter['direction'])) {
+                $direction = $filter['direction'];
+                $books = $books->whereHas('service', function (Builder $query) use ($direction) {
+                    $query->whereHas('category', function (Builder $query) use ($direction) {
+                        $query->whereIn('direction_id', $direction);
+                    });
                 });
-            });
+            }
         }
+
 
         return [
             'id' => $this->id,
+            'sort' => $this->sort,
             'title' => $this->title,
-            'books' => BookRecieption::collection($books->get()),
-            'quantity' => $this->quantity,
+            'books' => $books,
             'sum' => $this->sum,
         ];
     }

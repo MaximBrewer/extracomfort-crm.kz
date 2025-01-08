@@ -27,6 +27,7 @@ class FisioBookStoreRequest extends FormRequest
             'time' => 'required',
             'patient' => 'required',
             'service' => 'required',
+            'fservice' => 'required',
         ];
     }
 

@@ -148,6 +148,7 @@ export default (props) => {
                                     <div className={`text-sm w-[40%]`}>
                                         <div className={`font-medium`}>{book.specialist ? book.specialist.fio : ``}</div>
                                         <div className={`text-violet-500 font-medium`}>{book.service ? book.service.title : ``}</div>
+                                        {book.comment ? <div className={`text-sm my-2`}>{book.comment}</div> : <></>}
                                     </div>
                                     <div className={`text-sm w-[20%] flex justify-end -my-3`}>
                                         <div className={`pr-5`}>

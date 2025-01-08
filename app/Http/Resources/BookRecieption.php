@@ -17,6 +17,7 @@ class BookRecieption extends JsonResource
         return [
             'id' => $this->id,
             'start' => $this->start,
+            'comment' => $this->comment,
             'status' => $this->status,
             'duration' => $this->duration,
             'date' => $this->date,

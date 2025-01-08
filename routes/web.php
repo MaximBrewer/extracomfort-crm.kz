@@ -187,8 +187,8 @@ Route::group(['prefix' => 'recieption', 'as' => 'recieption.', 'middleware' => [
     // Route::patch('reminder/{reminder}/status', [Recieption\ReminderController::class, 'status'])->name('reminder.status');
     // Route::post('reminder/{reminder}/payment', [Recieption\ReminderController::class, 'payment'])->name('reminder.payment');
 
-    Route::get('{branch}/fisio/{date?}', [Recieption\FisioController::class, 'index'])->name('fisio.index');
-    Route::post('{branch}/fisio/{date?}', [Recieption\FisioController::class, 'book'])->name('fisio.books.store');
+    Route::get('{branch}/fisio/{date?}', [Common\FisioController::class, 'index'])->name('fisio.index');
+    Route::post('{branch}/fisio/{date?}', [Common\FisioController::class, 'book'])->name('fisio.books.store');
 
     Route::resource('notifications', Recieption\NotificationController::class);
 
@@ -226,6 +226,9 @@ Route::group(['prefix' => 'nurse', 'as' => 'nurse.', 'middleware' => ['auth', 'n
         Route::patch('{patient}', [Common\PatientsController::class, 'update'])->name('update');
         Route::get('card/{patient}', [Common\PatientsController::class, 'card'])->name('card');
     });
+
+    Route::get('{branch}/fisio/{date?}', [Common\FisioController::class, 'index'])->name('fisio.index');
+    Route::post('{branch}/fisio/{date?}', [Common\FisioController::class, 'book'])->name('fisio.books.store');
 
     Route::get('{branch}/specialists', Common\SpecialistsController::class)->name('specialists');
     Route::get('{branch}/specialist/{specialist}/schedule', Common\Specialists\ScheduleController::class)->name('specialist.schedule');

@@ -15,23 +15,23 @@ import Select from 'react-select'
 
 export default (props) => {
 
-    const { pagetitle = ``, fisioCategories, date, books, branch, branches, auth, prevDate, nextDate, dateText } = props
+    const { pagetitle = ``, fisioCategories, date, books, branch, branches, auth, prevDate, nextDate, dateText, direction } = props
 
     const BookTizer = ({ time, service }) => {
 
-        let book = books.data.find(book => book.service_id === service.id && book.time === time && book.date === date && book.branch_id === branch.id && !book.second)
-        let book2 = books.data.find(book => book.service_id === service.id && book.time === time && book.date === date && book.branch_id === branch.id && book.second)
+        let book = books.data.find(book => book.fservice_id === service.id && book.time === time && book.date === date && book.branch_id === branch.id && !book.second)
+        let book2 = books.data.find(book => book.fservice_id === service.id && book.time === time && book.date === date && book.branch_id === branch.id && book.second)
 
         return <>
             <div>
                 {book ? <div>{book.patient.lastname}</div> : <>
-                    <PrimaryButton size="xs" className='' onClick={e => setModal(<FisioBook service={service} date={date} time={time} branch={branch} />)}>записать</PrimaryButton>
+                    <PrimaryButton size="xs" className='' onClick={e => setModal(<FisioBook auth={auth} service={service} date={date} time={time} branch={branch} direction={direction} />)}>записать</PrimaryButton>
                 </>}
             </div>
             <div className="mt-0.5">
                 {category.double ? <>
                     {book2 ? <div>{book2.patient.lastname}</div> : <>
-                        <SecondaryButton size="xs" className='' onClick={e => setModal(<FisioBook service={service} date={date} time={time} branch={branch} second={true} />)}>записать</SecondaryButton>
+                        <SecondaryButton size="xs" className='' onClick={e => setModal(<FisioBook auth={auth} service={service} date={date} time={time} branch={branch} second={true} direction={direction} />)}>записать</SecondaryButton>
                     </>}
                 </> : <></>}
             </div>
@@ -72,7 +72,7 @@ export default (props) => {
                 {pagetitle}
             </h1>
                 <div className={`flex capitalize rounded-lg bg-blue-50 overflow-hidden transition flex items-center justify-between min-w-[285px]`}>
-                    <Link href={route(`recieption.fisio.index`, {
+                    <Link href={route(`${auth.user.role.name}.fisio.index`, {
                         branch: branch.id,
                         date: prevDate
                     })}
@@ -80,7 +80,7 @@ export default (props) => {
                         <ArrowLeft className={`w-2 h-auto`} />
                     </Link>
                     <span>{dateText}</span>
-                    <Link href={route(`recieption.fisio.index`, {
+                    <Link href={route(`${auth.user.role.name}.fisio.index`, {
                         branch: branch.id,
                         date: nextDate
                     })}
@@ -109,16 +109,16 @@ export default (props) => {
                         </a>
                         {open ? <ul className={`absolute top-full left-0 w-full rounded-lg bg-blue-50`}>
                             {branches.data.map((m, mdx) => <li key={mdx}>
-                                <Link href={route(`recieption.fisio.index`, { branch: m.id })}
+                                <Link href={route(`${auth.user.role.name}.fisio.index`, { branch: m.id })}
                                     className={`block px-4 py-2 hover:text-violet-500`}
                                     onClick={e => setOpen(false)}>{m.title}</Link>
                             </li>)}
                         </ul> : ``}
                     </div>
                 </div>
-                <div className={`shadow-bb rounded-lg bg-white py-5 px-4 overflow-y-auto flex flex-col`}>
-                    {category ? <table className={`border-collapse table-auto w-full text-sm`}>
-                        <thead>
+                <div className={`shadow-bb rounded-lg bg-white px-4 overflow-y-auto flex flex-col`}>
+                    {category ? <table className={`border-collapse table-auto w-full text-sm relative`}>
+                        <thead className='sticky top-0 bg-white z-10'>
                             <tr>
                                 <td className="border py-1 px-2">Время</td>
                                 {category.services.map((s, sdx) => <td key={sdx} className="border py-1 px-2 text-center">{s.title}</td>)}

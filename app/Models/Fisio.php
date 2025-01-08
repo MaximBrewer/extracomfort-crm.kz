@@ -13,7 +13,15 @@ class Fisio extends Model
 {
     use HasFactory;
     protected $fillable = [
-        'date', 'time', 'service_id', 'branch_id', 'patient_id', 'recieption_id', 'second'
+        'date',
+        'time',
+        'service_id',
+        'branch_id',
+        'patient_id',
+        'recieption_id',
+        'second',
+        'comment',
+        'fservice_id'
     ];
     /**
      * Default sort by created_at desc.
@@ -33,7 +41,7 @@ class Fisio extends Model
     protected function date(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => Carbon::parse($value)->format('d.m.Y')
+            get: fn($value) => Carbon::parse($value)->format('d.m.Y')
         );
     }
     /**
@@ -42,7 +50,7 @@ class Fisio extends Model
     protected function time(): Attribute
     {
         return Attribute::make(
-            get: fn ($value) => substr($value, 0, 5)
+            get: fn($value) => substr($value, 0, 5)
         );
     }
     /**

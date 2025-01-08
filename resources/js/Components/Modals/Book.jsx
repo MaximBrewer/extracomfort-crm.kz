@@ -40,7 +40,8 @@ export default (props) => {
         year: year,
         day: day,
         week: week,
-        date: date
+        date: date,
+        comment: ``
     });
 
     const [categories, setcategories] = useState(props.categories ? props.categories : [])
@@ -190,6 +191,16 @@ export default (props) => {
             {data.service ? <div className={`text-center`}>
                 Стоимость: {data.service.price} ₸
             </div> : <></>}
+
+            <div className={`mb-4`}>
+                <InputLabel htmlFor="comment" value="Комментарий" color={`text-gray-200`} weight={`normal`} />
+                <textarea
+                    className="pl-4 pr-5 py-2.5 bg-gray-50 border-0 w-full rounded-lg text-black text-sm"
+                    onChange={(e) => setData('comment', e.target.value)}
+                    value={data.comment} />
+                <InputError message={errors.comment} className="mt-2"
+                />
+            </div>
 
             <div className={`text-center`}>
                 <InputError message={errors.message} className="mt-2" />

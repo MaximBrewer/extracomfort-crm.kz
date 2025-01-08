@@ -216,6 +216,7 @@ class BookController extends Controller
             'time' => $date->format("H:i:s"),
             'start' => $date->format("H:i:s"),
             'service_id' => $request->service,
+            'comment' => $request->comment,
             'duration' => $request->duration,
             'branch_id' => $request->branch->id,
             'patient_id' => $patient->id,

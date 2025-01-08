@@ -15,7 +15,20 @@ use Illuminate\Support\Carbon;
 class Book extends Model
 {
     use HasFactory;
-    protected $fillable = ['date', 'status', 'time', 'service_id', 'branch_id', 'patient_id', 'specialist_id', 'recieption_id', 'duration', 'start', 'canceled'];
+    protected $fillable = [
+        'date',
+        'status',
+        'time',
+        'service_id',
+        'branch_id',
+        'patient_id',
+        'specialist_id',
+        'recieption_id',
+        'duration',
+        'start',
+        'canceled',
+        'comment'
+    ];
 
     /**
      * Get the parent imageable model (user or post).

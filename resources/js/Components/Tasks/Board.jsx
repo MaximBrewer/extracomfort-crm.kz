@@ -7,7 +7,6 @@ import CardsContainer from './Cards/CardsContainer';
 import CustomDragLayer from './CustomDragLayer';
 import { useTasks } from '@/Contexts/TasksContext';
 import { useForm } from '@inertiajs/react';
-import { Inertia } from '@inertiajs/inertia';
 
 export default (props) => {
 

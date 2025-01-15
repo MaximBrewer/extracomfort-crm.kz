@@ -1,7 +1,6 @@
 
 import ArrowDown from '@/Icons/ArrowDown';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Inertia } from '@inertiajs/inertia';
 import { Head, Link } from '@inertiajs/react';
 import { useEffect, useState } from 'react';
 import timestatuses from '@/data/timestatuses';

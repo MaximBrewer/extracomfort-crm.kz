@@ -5,7 +5,6 @@ import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import History from '@/Components/Menu/History';
 import Spec from '@/Components/Menu/Spec';
 import Finance from '@/Components/Menu/Finance';
-import Bell from '@/Components/Menu/Bell';
 import Profile from '@/Components/Menu/Profile';
 import Patients from '@/Components/Menu/Patients';
 import SecondaryButton from '@/Components/SecondaryButton';

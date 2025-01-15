@@ -1,54 +1,16 @@
 
 import { useLayout } from '@/Contexts/LayoutContext';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
-import { Link, useForm } from "@inertiajs/react";
+import { Link } from "@inertiajs/react";
 import ChevronDown from '@/Components/ChevronDown';
 import genders from '@/data/genders';
-import { useInView } from 'react-hook-inview';
-import { Inertia } from '@inertiajs/inertia';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 
 export default (props) => {
 
-    const { pagetitle, patient, auth } = props
+    const { appointments, pagetitle, patient } = props
 
-    const [appointments, setAppointments] = useState(props.appointments)
-    const [books, setBooks] = useState(props.appointments)
-
-    const loadAppointments = () => {
-        Inertia.get(route('specialist.patient.card', {
-            patient: patient.data.id,
-            ap: 1 + appointments.meta.current_page,
-            ab: books.meta.current_page,
-        }), {
-            only: ['appointments'],
-            preserveState: true,
-            preserveScroll: true,
-            onSuccess: (props) => {
-                setAppointments(prev => ({
-                    data: [...prev.data, props.appointments.data],
-                    meta: props.appointments.meta
-                }))
-            }
-        })
-    }
-
-    // useEffect(() => {
-    //     loadAppointments()
-    // }, [])
-
-    const [apRef, apInView] = useInView(
-        {
-            onEnter: () => {
-                // if (!appointments.meta.current_page || appointments.meta.current_page < appointments.meta.last_page) loadAppointments()
-            },
-        },
-        [],
-    )
-
-    const { priceFormat, setModal, moment } = useLayout();
+    const { moment } = useLayout();
 
     return (
         <AuthenticatedLayout
@@ -121,7 +83,6 @@ export default (props) => {
                         </Link>
                     </li>)}
                 </ul>
-                {!appointments.meta.current_page || appointments.meta.current_page < appointments.meta.last_page ? <button ref={apRef}>Загрузить еще</button> : <></>}
             </div>
         </AuthenticatedLayout>
     );

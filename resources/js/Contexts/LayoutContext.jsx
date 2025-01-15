@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useMemo, useRef } from "react";
 import PropTypes from "prop-types";
-import { Inertia } from "@inertiajs/inertia";
 import numberFormat from "./numberFormat"
 import moment from 'moment';
 import ru from "./moment.ru"
@@ -72,12 +71,6 @@ const LayoutProvider = (props) => {
     }
 
     const [location, setLocation] = useState(window.document.location)
-
-    Inertia.on('finish', (event) => {
-    })
-
-    Inertia.on('start', (event) => {
-    })
 
     return <LayoutContext.Provider
         value={{

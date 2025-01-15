@@ -9,7 +9,7 @@
         "beyondcode/laravel-websockets": "^1.14",
         "bigperson/exchange1c": "^1.2",
         "guzzlehttp/guzzle": "^7.2",
-        "inertiajs/inertia-laravel": "^0.6.3",
+        "inertiajs/inertia-laravel": "^2.0",
         "jenssegers/date": "^4.0",
         "kalnoy/nestedset": "^6.0",
         "laravel/framework": "^10.0",

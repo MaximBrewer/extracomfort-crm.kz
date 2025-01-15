@@ -1,6 +1,6 @@
 <?php
 
-namespace Altynbek07\Exchange1C;
+namespace App\Providers;
 
 use Altynbek07\Exchange1C\Interfaces\EventDispatcherInterface;
 use Altynbek07\Exchange1C\Interfaces\ModelBuilderInterface;

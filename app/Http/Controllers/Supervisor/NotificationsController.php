@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Inertia\Inertia;
 
-class RemindersController extends Controller
+class NotificationsController extends Controller
 {
     /**
      * Handle the incoming request.

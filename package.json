@@ -19,8 +19,7 @@
     },
     "dependencies": {
         "@babel/plugin-proposal-decorators": "^7.23.2",
-        "@inertiajs/inertia": "^0.11.1",
-        "@inertiajs/react": "^1.2.0",
+        "@inertiajs/react": "^2.0.1",
         "@tailwindcss/typography": "^0.5.10",
         "axios": "^1.7.9",
         "date-fns": "^2.30.0",
